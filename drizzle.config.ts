@@ -11,6 +11,7 @@ const dbCredentials = {
   password: process.env.POSTGRES_PASSWORD!,
 
   /* NOTE: Alternative approach */
+  // url: process.env.POSTGRES_URL!,
 };
 
 const client = postgres(dbCredentials);
@@ -21,7 +22,4 @@ export default defineConfig({
   out: './drizzle',
   dialect: 'postgresql',
   dbCredentials,
-  migrations: {
-    prefix: 'timestamp',
-  },
 });
