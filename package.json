@@ -10,7 +10,8 @@
     "migration:generate": "drizzle-kit generate",
     "migration:apply": "drizzle-kit migrate",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "db:seed": "npx tsx ./drizzle/seed.ts"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
