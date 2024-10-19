@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { DirectoryOrgType } from "../types";
+import { DirectoryOrgType } from "../../../app/types";
 
 export default function DirectoryOrg({
   logo_url,
@@ -8,9 +8,9 @@ export default function DirectoryOrg({
   industry_tags,
 }: DirectoryOrgType) {
   return (
-    <div className="border-border bg-card hover:bg-cardHover flex w-full cursor-pointer flex-col items-center rounded-lg border p-6 shadow-lg shadow-gray-300 transition duration-300 ease-in-out sm:flex-row dark:shadow-gray-800">
+    <div className="flex w-full cursor-pointer flex-col items-center rounded-lg border border-border bg-card p-6 shadow-lg shadow-gray-300 transition duration-300 ease-in-out hover:bg-cardHover sm:flex-row dark:shadow-gray-800">
       {/* Organization Logo */}
-      <div className="dark:from-logoGradientFrom dark:via-logoGradientVia dark:to-logoGradientTo mb-4 h-36 w-36 flex-shrink-0 rounded-lg p-2 sm:mb-0 sm:mr-4 sm:h-32 sm:w-32 dark:bg-gradient-to-r">
+      <div className="mb-4 h-36 w-36 flex-shrink-0 rounded-lg p-2 sm:mb-0 sm:mr-4 sm:h-32 sm:w-32 dark:bg-gradient-to-r dark:from-logoGradientFrom dark:via-logoGradientVia dark:to-logoGradientTo">
         <Image
           src={logo_url}
           alt={`${name} logo`}

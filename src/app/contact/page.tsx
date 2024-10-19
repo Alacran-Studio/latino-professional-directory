@@ -1,4 +1,4 @@
-import { Input, TextArea, Button } from "@/components";
+import { Input, TextArea, Button } from "@/components/common";
 
 export default function Page() {
   return (
