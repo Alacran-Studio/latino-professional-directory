@@ -38,16 +38,18 @@ export default function Page() {
           </form>
           <div className="mt-10 flex w-full flex-col items-center lg:w-5/12">
             <h2 className="font-semibold md:text-3xl">LPDD</h2>
-            <p className="mt-10 font-medium md:text-base">
+            <p className="mt-4 font-medium md:text-base">
               This website was built with the intention to provide useful
               resources to professionals in all industries. The intention is to
               provide a list of organizations that foster the growth and
               development of young Latine professionals, specifically targeted
-              within the Chicagoland community. The Latine community is a
-              vibrant ecosystem of industry professionals that prioritize
-              community connection and resource sharing. Providing a platform
-              for Latine professionals to connect, learn, and grow is the
-              mission of the CLPDD.
+              within the Chicagoland community.
+            </p>
+            <p className="mt-4 font-medium md:text-base">
+              The Latine community is a vibrant ecosystem of industry
+              professionals that prioritize community connection and resource
+              sharing. Providing a platform for Latine professionals to connect,
+              learn, and grow is the mission of the CLPDD.
             </p>
           </div>
         </div>
