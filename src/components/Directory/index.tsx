@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import DirectoryOrg from "./DirectoryOrg";
-import mockDirectoryData from "../../app/mock/mock-directory";
-import { Industry } from "../../app/types";
+import mockDirectoryData from "@/app/mock/mock-directory";
+import { Industry } from "@/app/types";
 
 import Filter from "./Filter";
 // import SearchBar from "./search-bar";

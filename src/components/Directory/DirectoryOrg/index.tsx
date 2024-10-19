@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { DirectoryOrgType } from "../../../app/types";
+import { DirectoryOrgType } from "@/app/types";
 
 export default function DirectoryOrg({
   logo_url,

@@ -1,5 +1,5 @@
 import { Lexend } from "next/font/google";
-import Button from "../../app/ui/common/button";
+import Button from "@/app/ui/common/button";
 
 const lexend = Lexend({
   weight: ["400", "500", "600"],

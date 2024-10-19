@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { Industry } from "../../../app/types";
+import { Industry } from "@/app/types";
 import "./checkbox.css";
 import FilterIcon from "@/components/common/icons/Filter";
 import XIcon from "@/components/common/icons/X";
