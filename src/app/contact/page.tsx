@@ -5,16 +5,17 @@ export default function Page() {
   return (
     <main id="contact-page" className="flex flex-col p-8 md:pl-32 md:pr-32">
       <div className="title">
-        <h1 className="text-4xl font-bold leading-10">
+        <h1 className="font-bold leading-10 md:text-2xl">
           Let’s talk about your organization
         </h1>
-        <h2 className="font-bold">
-          We are always looking to add organizations to our directory.
+        <h2 className="pt-4 font-bold md:text-base">
+          We are always looking to add organizations to our directory. Fill out
+          this short form and someone from our team will reach out!
         </h2>
       </div>
       <div className="flex flex-col-reverse md:justify-between lg:flex-row">
         <form className="w-full lg:w-6/12">
-          <div className="mt-11 flex flex-col justify-between lg:flex-row">
+          <div className="mt-10 flex flex-col justify-between lg:flex-row">
             <Input label="First Name" className="w-full lg:mr-4" />
             <Input label="Last Name" className="mt-5 w-full lg:ml-4 lg:mt-0" />
           </div>
@@ -24,16 +25,16 @@ export default function Page() {
           <Button type="submit" className="mt-8 h-12 w-full">
             Submit
           </Button>
-          <p className="mt-8 text-base font-semibold text-white">
+          <p className="mt-8 font-semibold text-white md:text-base">
             {"By submitting this form, I agree to the "}
             <a href="#" style={{ color: "#4951DB" }}>
               privacy policy.
             </a>
           </p>
         </form>
-        <div className="mt-11 flex w-full flex-col items-center lg:w-5/12">
-          <h2 className="text-3xl font-semibold">LPDD</h2>
-          <p className="mt-10 text-xl font-medium">
+        <div className="mt-10 flex w-full flex-col items-center lg:w-5/12">
+          <h2 className="font-semibold md:text-3xl">LPDD</h2>
+          <p className="mt-10 font-medium md:text-base">
             This website was built with the intention to provide useful
             resources to professionals in all industries. The intention is to
             provide a list of organizations that foster the growth and
