@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { Industry } from "../../../app/types";
-import "./styles/checkbox.css";
+import "./checkbox.css";
 
 interface FilterProps {
   industries: Industry[];

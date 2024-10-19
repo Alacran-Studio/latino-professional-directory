@@ -1,7 +1,6 @@
-import Image from "next/image";
 import HomeHero from "../components/HomeHero/HomeHero";
 import IntroSection from "../components/IntroSection/IntroSection";
-import Directory from "../components/Directory/directory";
+import Directory from "../components/Directory";
 
 export default function Home() {
   return (
