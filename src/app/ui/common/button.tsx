@@ -4,12 +4,12 @@ interface ButtonProps {
   href: string;
   title: string;
 }
-
+// DEPRECATED. USE `@/components/common/Button` INSTEAD.
 export default function Button({ href, title }: ButtonProps) {
   return (
     <Link
       href={href}
-      className="rounded-full border-2 border-slate-900 px-5 py-1 text-sm font-normal text-slate-900 sm:border-4 sm:px-8 sm:py-4 sm:text-2xl dark:border-white dark:text-white"
+      className="rounded-xl bg-blue-500 px-4 py-2 text-sm text-white transition-all duration-200 hover:bg-blue-600 sm:px-8 sm:py-4 sm:text-2xl"
     >
       {title}
     </Link>

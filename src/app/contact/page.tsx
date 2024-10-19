@@ -26,7 +26,7 @@ export default function Page() {
             <Input label="Email" className="mt-5" />
             <Input label="Organization Name" className="mt-5" />
             <TextArea label="Message" className="mt-5" />
-            <Button type="submit" className="mt-8 h-12 w-full">
+            <Button type="submit" className="mt-8 w-full">
               Submit
             </Button>
             <p className="mt-8 font-semibold text-white md:text-base">

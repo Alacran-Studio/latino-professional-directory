@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import NavLinks from "./NavLinks/nav-links";
+import NavLinks from "./NavLinks";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Image from "next/image";

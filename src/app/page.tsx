@@ -1,5 +1,5 @@
-import HomeHero from "../components/HomeHero/HomeHero";
-import IntroSection from "../components/IntroSection/IntroSection";
+import HomeHero from "../components/HomeHero";
+import IntroSection from "../components/IntroSection";
 import Directory from "../components/Directory";
 
 export default function Home() {

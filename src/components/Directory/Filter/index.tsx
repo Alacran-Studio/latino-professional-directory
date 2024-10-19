@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import { Industry } from "../../../app/types";
 import "./checkbox.css";
 import FilterIcon from "@/components/common/icons/Filter";
+import XIcon from "@/components/common/icons/X";
 
 interface FilterProps {
   industries: Industry[];
@@ -74,20 +75,7 @@ export default function Filter({
             isIndustryDropdownOpen ? "opacity-100" : "opacity-0"
           }`}
         >
-          {/* X Icon SVG */}
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2 2L11 11M20 20L11 11M11 11L20 2M11 11L2 20"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-          </svg>
+          <XIcon></XIcon>
         </div>
       </button>
 
@@ -103,20 +91,7 @@ export default function Filter({
             className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
           >
             <span>{industry}</span>
-            {/* X Icon SVG */}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 22 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M2 2L11 11M20 20L11 11M11 11L20 2M11 11L2 20"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-            </svg>
+            <XIcon></XIcon>
           </button>
         ))}
       </div>
