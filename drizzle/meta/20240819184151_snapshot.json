@@ -1,6 +1,6 @@
 {
-  "id": "9aabd96c-c95a-4ff3-a45f-9db9014609a3",
-  "prevId": "a2f45111-2adb-4955-a856-ed902dc7fa35",
+  "id": "6dda87e2-44c0-43b6-9880-b25a4da658f6",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -144,8 +144,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "website_url": {
-          "name": "website_url",
+        "website": {
+          "name": "website",
           "type": "text",
           "primaryKey": false,
           "notNull": true

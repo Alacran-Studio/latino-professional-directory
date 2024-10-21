@@ -1,9 +1,52 @@
 {
-  "id": "5392d994-d14c-43e0-b91c-5abbe37906df",
-  "prevId": "a2f45111-2adb-4955-a856-ed902dc7fa35",
+  "id": "dfdcb9bc-4d69-43e2-81c1-e6b655917e17",
+  "prevId": "6dda87e2-44c0-43b6-9880-b25a4da658f6",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "lpdd.events": {
+      "name": "events",
+      "schema": "lpdd",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "event_url": {
+          "name": "event_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "events_organization_id_organizations_id_fk": {
+          "name": "events_organization_id_organizations_id_fk",
+          "tableFrom": "events",
+          "tableTo": "organizations",
+          "schemaTo": "lpdd",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "lpdd.organization_contacts": {
       "name": "organization_contacts",
       "schema": "lpdd",
