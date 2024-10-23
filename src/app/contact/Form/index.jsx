@@ -28,7 +28,7 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="w-full lg:w-1/2">
+    <section className="mt-4 w-full lg:mt-0 lg:w-1/2">
       {(status === null || status === "pending") && (
         <form
           method="POST"
