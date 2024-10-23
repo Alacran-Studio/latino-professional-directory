@@ -4,8 +4,7 @@ interface ButtonProps {
   href: string;
   title: string;
 }
-// DEPRECATED. USE `@/components/common/Button` INSTEAD.
-export default function Button({ href, title }: ButtonProps) {
+export default function LinkButton({ href, title }: ButtonProps) {
   return (
     <Link
       href={href}
