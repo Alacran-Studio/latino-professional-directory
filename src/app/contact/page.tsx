@@ -16,17 +16,31 @@ export default function Page() {
           </h2>
         </div>
         <div className="flex flex-col-reverse md:justify-between lg:flex-row">
-          <form className="w-full lg:w-6/12">
+          <form
+            method="POST"
+            name="contact-form"
+            className="w-full lg:w-6/12"
+            data-netlify="true"
+          >
             <div className="mt-10 flex flex-col justify-between lg:flex-row">
-              <Input label="First Name" className="w-full lg:mr-4" />
               <Input
+                name="first-name"
+                label="First Name"
+                className="w-full lg:mr-4"
+              />
+              <Input
+                name="last-name"
                 label="Last Name"
                 className="mt-5 w-full lg:ml-4 lg:mt-0"
               />
             </div>
-            <Input label="Email" className="mt-5" />
-            <Input label="Organization Name" className="mt-5" />
-            <TextArea label="Message" className="mt-5" />
+            <Input name="email" label="Email" className="mt-5" />
+            <Input
+              name="organization-name"
+              label="Organization Name"
+              className="mt-5"
+            />
+            <TextArea name="message" label="Message" className="mt-5" />
             <Button type="submit" className="mt-8 w-full">
               Submit
             </Button>
