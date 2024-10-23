@@ -22,7 +22,7 @@ input[type="checkbox"]:checked::before {
   left: 0px;
   width: 12px;
   height: 12px;
-  background-image: url("../icons/checkmark.svg");
+  background-image: url("./icons/checkmark.svg");
   background-size: contain;
   background-repeat: no-repeat;
 }

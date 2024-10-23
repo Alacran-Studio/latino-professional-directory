@@ -1,4 +1,4 @@
-import { Input, TextArea, Button } from "@/components";
+import { Input, TextArea, Button } from "@/components/common";
 import Image from "next/image";
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
           <h1 className="font-bold leading-10 md:text-2xl">
             Let’s talk about your organization
           </h1>
-          <h2 className="pt-4 font-bold md:text-base">
+          <h2 className="pt-4 md:w-1/2 md:text-base">
             We are always looking to add organizations to our directory. Fill
             out this short form and someone from our team will reach out!
           </h2>
@@ -27,7 +27,7 @@ export default function Page() {
             <Input label="Email" className="mt-5" />
             <Input label="Organization Name" className="mt-5" />
             <TextArea label="Message" className="mt-5" />
-            <Button type="submit" className="mt-8 h-12 w-full">
+            <Button type="submit" className="mt-8 w-full">
               Submit
             </Button>
             <p className="mt-8 font-semibold text-white md:text-base">

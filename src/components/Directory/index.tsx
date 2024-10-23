@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import DirectoryOrg from "./directory-org";
-import mockDirectoryData from "../mock/mock-directory";
-import { Industry } from "../types";
+import DirectoryOrg from "./DirectoryOrg";
+import mockDirectoryData from "@/app/mock/mock-directory";
+import { Industry } from "@/app/types";
 
-import Filter from "./filter";
+import Filter from "./Filter";
 // import SearchBar from "./search-bar";
 
 export default function Directory() {
@@ -16,7 +16,7 @@ export default function Directory() {
   );
 
   return (
-    <section className="mb-4 flex flex-col items-center pt-8 pb-4">
+    <section className="mb-4 flex flex-col items-center pb-4 pt-8">
       <h1 className="pb-8 text-center text-lg font-semibold sm:text-4xl">
         Directory
       </h1>

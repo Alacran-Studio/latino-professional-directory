@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import LinkedInIcon from "../ui/common/LinkedInIcon";
-
+import LinkedInIcon from "@/components/common/icons/LinkedIn";
 const teamMembers = [
   {
     name: "Jorge Viramontes",
