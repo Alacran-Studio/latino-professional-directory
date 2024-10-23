@@ -5,13 +5,11 @@ import { useState } from "react";
 
 export default function ContactForm() {
   const [status, setStatus] = useState(null);
-  const [error, setError] = useState(null);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
       setStatus("pending");
-      setError(null);
       const myForm = event.target;
       const formData = new FormData(myForm);
       const res = await fetch("/__forms.html", {
@@ -23,22 +21,20 @@ export default function ContactForm() {
         setStatus("ok");
       } else {
         setStatus("error");
-        setError(`${res.status} ${res.statusText}`);
       }
     } catch (e) {
       setStatus("error");
-      setError(`${e}`);
     }
   };
 
   return (
-    <section className="w-full">
+    <section className="w-full lg:w-1/2">
       {(status === null || status === "pending") && (
         <form
           method="POST"
           name="contact"
           onSubmit={handleFormSubmit}
-          className="lg:w-6/12"
+          className="w-full"
           data-netlify="true"
         >
           <input type="hidden" name="form-name" value="contact" />
@@ -89,7 +85,7 @@ function StatusMessage({ status }) {
   if (!status || status === "pending") return null;
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center lg:w-6/12">
+    <div className="flex h-full w-full flex-col items-center justify-center lg:w-1/2">
       <div className="flex">
         {status === "ok" && <SuccessIcon className="mb-4" />}
         {status === "error" && <ErrorIcon className="mb-4" />}
