@@ -1,5 +1,5 @@
-import { Input, TextArea, Button } from "@/components/common";
 import Image from "next/image";
+import ContactForm from "@/app/contact/Form";
 
 export default function Page() {
   return (
@@ -16,41 +16,7 @@ export default function Page() {
           </h2>
         </div>
         <div className="flex flex-col-reverse md:justify-between lg:flex-row">
-          <form
-            method="POST"
-            name="contact-form"
-            className="w-full lg:w-6/12"
-            data-netlify="true"
-          >
-            <div className="mt-10 flex flex-col justify-between lg:flex-row">
-              <Input
-                name="first-name"
-                label="First Name"
-                className="w-full lg:mr-4"
-              />
-              <Input
-                name="last-name"
-                label="Last Name"
-                className="mt-5 w-full lg:ml-4 lg:mt-0"
-              />
-            </div>
-            <Input name="email" label="Email" className="mt-5" />
-            <Input
-              name="organization-name"
-              label="Organization Name"
-              className="mt-5"
-            />
-            <TextArea name="message" label="Message" className="mt-5" />
-            <Button type="submit" className="mt-8 w-full">
-              Submit
-            </Button>
-            <p className="mt-8 font-semibold text-white md:text-base">
-              {"By submitting this form, I agree to the "}
-              <a href="#" style={{ color: "#4951DB" }}>
-                privacy policy.
-              </a>
-            </p>
-          </form>
+          <ContactForm></ContactForm>
           <div className="mt-10 flex w-full flex-col items-center lg:w-5/12">
             <Image
               src="/logo.svg"
