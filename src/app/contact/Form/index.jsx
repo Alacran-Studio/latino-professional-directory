@@ -85,7 +85,7 @@ function StatusMessage({ status }) {
   if (!status || status === "pending") return null;
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center lg:w-1/2">
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="flex">
         {status === "ok" && <SuccessIcon className="mb-4" />}
         {status === "error" && <ErrorIcon className="mb-4" />}
