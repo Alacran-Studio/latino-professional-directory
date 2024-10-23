@@ -1,8 +1,9 @@
 import { Input, TextArea, Button } from "@/components/common";
+import Image from "next/image";
 
 export default function Page() {
   return (
-    <main className="relative flex min-h-screen flex-col bg-[url('/skyline.jpg')] bg-cover bg-center bg-no-repeat p-8 md:pl-32 md:pr-32">
+    <main className="relative flex min-h-screen flex-col bg-black bg-[url('/skyline.jpg')] bg-cover bg-center bg-no-repeat p-8 md:px-32">
       <div className="absolute inset-0 bg-white/50 dark:bg-black/50"></div>
       <div className="relative z-10">
         <div className="title">
@@ -37,7 +38,12 @@ export default function Page() {
             </p>
           </form>
           <div className="mt-10 flex w-full flex-col items-center lg:w-5/12">
-            <h2 className="font-semibold md:text-3xl">LPDD</h2>
+            <Image
+              src="/logo.svg"
+              width={40}
+              height={40}
+              alt="Logo for Latiné Professional Development Directory"
+            />
             <p className="mt-4 font-medium md:text-base">
               This website was built with the intention to provide useful
               resources to professionals in all industries. The intention is to
