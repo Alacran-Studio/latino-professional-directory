@@ -61,9 +61,9 @@ const AboutPage = () => {
         }}
       />
       <h2 className="mb-5 text-center text-3xl">Meet Our Team</h2>
-      <div className="grid gap-20 gap-y-0 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {teamMembers.map((member, index) => (
-          <div key={index} className="flex w-64 flex-col">
+          <div key={index} className="mx-auto flex w-64 flex-col">
             <Image
               src={member.image}
               alt={member.name}
