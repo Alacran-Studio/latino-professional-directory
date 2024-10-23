@@ -39,7 +39,7 @@ export default function ContactForm() {
       className="w-full lg:w-6/12"
       data-netlify="true"
     >
-      <input type="hidden" name="form-name" value="contact-form" />
+      <input type="hidden" name="form-name" value="contact" />
 
       <div className="mt-10 flex flex-col justify-between lg:flex-row">
         <Input
