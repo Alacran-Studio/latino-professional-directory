@@ -1,5 +1,5 @@
 import { Lexend } from "next/font/google";
-import Button from "@/app/ui/common/button";
+import LinkButton from "@/components/common/LinkButton"
 
 const lexend = Lexend({
   weight: ["400", "500", "600"],
@@ -18,7 +18,7 @@ export default function IntroSection() {
       <h2 className="mx-4 mb-4 mt-2 text-lg font-semibold sm:mx-auto sm:mb-10 sm:mt-4 sm:max-w-3xl sm:text-4xl">
         Fostering The Growth And Development Of Latiné Professionals
       </h2>
-      <Button href="/about" title="Learn More"></Button>
+      <LinkButton href="/about" title="Learn More"></LinkB>
     </section>
   );
 }
