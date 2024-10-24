@@ -21,11 +21,55 @@ Before using Drizzle, ensure that you have correctly configured your environment
 ```
 POSTGRES_HOST=your-postgres-host
 POSTGRES_DATABASE=your-database-name
+POSTGRES_PORT=5432
 POSTGRES_USER=your-database-user
 POSTGRES_PASSWORD=your-database-password
 ```
 
 These variables are used to establish a connection with the PostgreSQL database.
+
+<details>
+<summary>⚠️  Need help?</summary>
+
+After installing PostgreSQL, you may not know the values for some of the
+variables mentioned above. It's also possible that you don't have a PostgreSQL
+user, password, nor database setup.
+
+To setup these values, you can run the following commands to attach to your
+local fresh PostgreSQL installation and run some SQL commands to create the
+role, password, and database with the proper permissions setup.
+
+**Connect to your fresh PostgreSQL installation**
+
+```sh
+psql postgres
+```
+
+**Create the role (user) with a password**
+
+```sql
+CREATE ROLE lpdd WITH LOGIN PASSWORD 'lpdd';
+```
+
+**Add the CREATEDB attribute to your new role**
+
+```sql
+ALTER ROLE lpdd CREATEDB;
+```
+
+**Create the database**
+
+```sql
+CREATE DATABASE lpdd;
+```
+
+**Add the privileges on the `lpdd` database to the the `lpdd` role**
+
+```sql
+GRANT ALL PRIVILEGES ON DATABASE lpdd TO lpdd;
+```
+
+</details>
 
 ## Running Migrations
 
