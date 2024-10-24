@@ -30,7 +30,7 @@ export default function NavLinks() {
   const inactiveClasses = "text-white";
 
   return (
-    <div className="flex">
+    <div className="hidden md:flex">
       {links.map(({ name, href }) => {
         const isActiveLink = pathname === href;
 

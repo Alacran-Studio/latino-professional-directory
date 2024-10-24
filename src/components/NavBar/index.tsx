@@ -5,6 +5,7 @@ import NavLinks from "./NavLinks";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { FullBrand } from "@/components/common/FullBrand";
+import { MenuButton } from "@/components/NavBar/MenuButton";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -20,6 +21,7 @@ export default function NavBar() {
         <FullBrand />
       </Link>
       <NavLinks />
+      <MenuButton />
     </nav>
   );
 }
