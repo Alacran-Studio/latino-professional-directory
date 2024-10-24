@@ -16,7 +16,7 @@ export default function Page() {
           </h2>
         </div>
         <div className="flex flex-col-reverse md:justify-between lg:flex-row">
-          <ContactForm></ContactForm>
+          <ContactForm />
           <div className="mt-10 flex w-full flex-col items-center lg:w-5/12">
             <Image
               src="/logo.svg"
