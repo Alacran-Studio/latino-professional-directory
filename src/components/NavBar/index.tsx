@@ -4,7 +4,7 @@ import Link from "next/link";
 import NavLinks from "./NavLinks";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import Image from "next/image";
+import { FullBrand } from "@/components/common/FullBrand";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -17,13 +17,7 @@ export default function NavBar() {
   return (
     <nav className={navClasses}>
       <Link href="/" className="mr-12 flex items-center">
-        <Image
-          src="/logo.svg"
-          width={40}
-          height={40}
-          alt="Logo for Latiné Professional Development Directory"
-        />
-        <p className="text-xl tracking-tighter text-white">LPDD</p>
+        <FullBrand />
       </Link>
       <NavLinks />
     </nav>
