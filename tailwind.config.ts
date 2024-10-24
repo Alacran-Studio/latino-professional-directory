@@ -82,7 +82,7 @@ const config: Config = {
   	}
   },
   plugins: [require("tailwindcss-animate")],
-  darkMode: ["media", "class"],
+  darkMode: "media",
 };
 
 export default config;
