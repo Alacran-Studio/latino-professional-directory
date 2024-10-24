@@ -16,7 +16,7 @@ export default function Directory() {
   );
 
   return (
-    <section className="mb-4 flex flex-col items-center pb-4 pt-8">
+    <section className="mb-4 flex w-10/12 flex-col items-center pb-4 pt-8">
       <h1 className="pb-8 text-center text-lg font-semibold sm:text-4xl">
         Directory
       </h1>
