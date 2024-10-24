@@ -7,7 +7,7 @@ export const MenuButton = () => {
   const { toggleSidebar } = useSidebar();
   return (
     <button className="md:hidden" onClick={toggleSidebar}>
-      <MenuIcon width={30} height={30} className="text-nav-foreground" />
+      <MenuIcon width={30} height={30} className="text-white" />
     </button>
   );
 };
