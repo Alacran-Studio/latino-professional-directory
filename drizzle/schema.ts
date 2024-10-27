@@ -19,3 +19,19 @@ export const OrganizationContacts = lpddSchema.table("organization_contacts", {
     () => OrganizationsTable.id
   ),
 });
+
+export const IndustriesTable = lpddSchema.table("industries", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+});
+
+export const OrganizationIndustries = lpddSchema.table(
+  "organization_industries",
+  {
+    id: serial("id").primaryKey(),
+    organization_id: integer("organization_id").references(
+      () => OrganizationsTable.id
+    ),
+    industry_id: integer("industry_id").references(() => IndustriesTable.id),
+  }
+);
