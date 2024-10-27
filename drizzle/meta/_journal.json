@@ -27,7 +27,14 @@
       "idx": 3,
       "version": "7",
       "when": 1730065118827,
-      "tag": "20241027213838_flippant_owl",
+      "tag": "20241027213838_simplify_organizations_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1730066386675,
+      "tag": "20241027215946_add_industry_table",
       "breakpoints": true
     }
   ]
