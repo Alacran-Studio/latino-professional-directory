@@ -22,6 +22,13 @@
       "when": 1724093158043,
       "tag": "20240819184558_drop_events_table",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1730065118827,
+      "tag": "20241027213838_flippant_owl",
+      "breakpoints": true
     }
   ]
 }

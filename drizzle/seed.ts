@@ -1,5 +1,5 @@
 import "./envConfig";
-import { OrganizationsTable } from "@/lib/schema";
+import { OrganizationsTable } from "./schema";
 import { db } from "@/lib/drizzleClient";
 import { techqueria_org } from "./seed-data";
 
