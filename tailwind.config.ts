@@ -83,6 +83,12 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        cardHover: "var(--card-hover)",
+
+        brand: "var(--brand-color)",
+        accent: "var(--accent-color)",
+        primary: "var(--primary-color)",
+        // secondary: "var(--secondary-color)",
       },
     },
   },
