@@ -9,7 +9,6 @@ const mockDirectoryData: DirectoryOrgType[] = [
       "Techqueria is the largest global community of Latinx professionals in tech.",
     industry_tags: [Industry.Tech],
     locations: ["Chicago", "New York", "Los Angeles", "+4 more"],
-    latino_serving: true,
     affinities: ["Latino"],
   },
   {
@@ -20,7 +19,6 @@ const mockDirectoryData: DirectoryOrgType[] = [
       "ALPFA provides leadership development and career opportunities for Latinx professionals.",
     industry_tags: [Industry.ProfessionalServices, Industry.Finance],
     locations: ["Chicago", "New York", "+2 more"],
-    latino_serving: true,
     affinities: ["Latino", "Professional Services"],
   },
   {

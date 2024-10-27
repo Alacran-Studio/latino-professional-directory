@@ -12,7 +12,6 @@ export interface DirectoryOrgType {
   description: string;
   industry_tags: Industry[];
   locations: string[];
-  latino_serving: boolean;
   affinities: string[];
 }
 
@@ -29,6 +28,10 @@ export enum Industry {
 export enum Affinity {
   LatinoServing = "Latino-serving",
   WomenServing = "Women-serving",
-  Startups = "Startups",
   LGBTQ = "LGBTQ+",
+}
+
+export enum Category {
+  Networking = "Networking",
+  Startups = "Startups",
 }

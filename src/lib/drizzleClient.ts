@@ -1,5 +1,5 @@
-import "./drizzle/envConfig";
-import { defineConfig } from "drizzle-kit";
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 const dbCredentials = {
   host: process.env.POSTGRES_HOST!,
@@ -9,9 +9,5 @@ const dbCredentials = {
   password: process.env.POSTGRES_PASSWORD!,
 };
 
-export default defineConfig({
-  schema: './drizzle/schema.ts',
-  out: './drizzle',
-  dialect: 'postgresql',
-  dbCredentials,
-});
+const client = postgres(dbCredentials);
+export const db = drizzle(client);
