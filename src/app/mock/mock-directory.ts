@@ -29,7 +29,6 @@ const mockDirectoryData: DirectoryOrgType[] = [
       "1871 is a tech hub providing resources to help entrepreneurs build successful businesses.",
     industry_tags: [Industry.Tech, Industry.VentureCapital],
     locations: ["Chicago"],
-    latino_serving: false,
     affinities: ["Tech", "Women-serving", "Latino Programming"],
   },
 ];

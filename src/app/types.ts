@@ -10,9 +10,7 @@ export interface DirectoryOrgType {
   name: string;
   logo_url: string;
   description: string;
-  industry_tags: Industry[];
-  locations: string[];
-  affinities: string[];
+  website_url: string;
 }
 
 export enum Industry {

@@ -1,0 +1,2 @@
+ALTER TABLE "lpdd"."organizations" ADD CONSTRAINT "organizations_name_unique" UNIQUE("name");--> statement-breakpoint
+ALTER TABLE "lpdd"."organizations" ADD CONSTRAINT "organizations_website_url_unique" UNIQUE("website_url");

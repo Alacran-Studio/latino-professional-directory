@@ -36,6 +36,13 @@
       "when": 1730066386675,
       "tag": "20241027215946_add_industry_table",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1730134800726,
+      "tag": "20241028170000_add-unique-to-org-names",
+      "breakpoints": true
     }
   ]
 }
