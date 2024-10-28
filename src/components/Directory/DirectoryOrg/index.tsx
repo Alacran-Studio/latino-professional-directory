@@ -5,7 +5,7 @@ export default function DirectoryOrg({
   logo_url,
   name,
   description,
-  industry_tags,
+  // industry_tags,
 }: DirectoryOrgType) {
   return (
     <div className="flex w-full cursor-pointer flex-col items-center rounded-lg border border-border bg-card p-6 shadow-lg shadow-gray-300 transition duration-300 ease-in-out hover:bg-cardHover sm:flex-row dark:shadow-gray-800">
@@ -26,7 +26,7 @@ export default function DirectoryOrg({
         <p className="text-sm text-gray-600 md:text-base dark:text-gray-400">
           {description}
         </p>
-        <div className="mt-1 flex flex-wrap gap-2 text-sm">
+        {/* <div className="mt-1 flex flex-wrap gap-2 text-sm">
           {industry_tags.map((industry_tag, index) => (
             <div
               key={index}
@@ -35,7 +35,7 @@ export default function DirectoryOrg({
               <span>{industry_tag}</span>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

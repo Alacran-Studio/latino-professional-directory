@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
-import { Industry } from "@/app/types";
+import { DirectoryOrgType, Industry } from "@/app/types";
 
 import Filter from "./Filter";
 // import SearchBar from "./search-bar";
@@ -9,7 +9,7 @@ import Filter from "./Filter";
 export default function Directory() {
   const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
   const [selectedIndustries, setSelectedIndustries] = useState<Industry[]>([]);
-  const [organizations, setOrganizations] = useState([]);
+  const [organizations, setOrganizations] = useState<DirectoryOrgType[]>([]);
 
   const industries: Industry[] = Object.values(Industry).sort((a, b) =>
     a.localeCompare(b)
@@ -20,10 +20,6 @@ export default function Directory() {
       try {
         const response = await fetch("/api/organizations?page=1&limit=10");
         const data = await response.json();
-        console.log(
-          "Successfully made service call to API endpoint and here's the data: ",
-          data
-        );
         if (!response.ok) throw new Error(data.error || "Failed to fetch data");
 
         setOrganizations(data.organizations);
@@ -54,20 +50,19 @@ export default function Directory() {
         </div>
 
         <div className="grid gap-4">
-          <p>Work in progress</p>
-          {/* {organizations
+          {organizations
             .filter((org) => {
               if (selectedIndustries.length === 0) {
                 return true;
               }
 
-              return org.industry_tags.some((tag) =>
-                selectedIndustries.includes(tag)
-              );
+              // return org.industry_tags.some((tag) =>
+              //   selectedIndustries.includes(tag)
+              // );
             })
             .map((org) => (
               <DirectoryOrg key={org.id} {...org} />
-            ))} */}
+            ))}
         </div>
       </div>
     </section>

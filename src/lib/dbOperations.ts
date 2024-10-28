@@ -3,7 +3,6 @@ import { OrganizationsTable } from "../../drizzle/schema";
 
 export async function fetchOrganizations(page: number, limit: number) {
   const from = (page - 1) * limit;
-  const to = from + limit;
 
   const orgs = await db
     .select()

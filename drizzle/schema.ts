@@ -4,10 +4,10 @@ export const lpddSchema = pgSchema("lpdd");
 
 export const OrganizationsTable = lpddSchema.table("organizations", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+  name: text("name").notNull().unique(),
   logo_url: text("logo_url"),
   description: text("description"),
-  website_url: text("website_url").notNull(),
+  website_url: text("website_url").notNull().unique(),
 });
 
 export const OrganizationContacts = lpddSchema.table("organization_contacts", {
