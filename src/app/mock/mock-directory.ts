@@ -7,9 +7,7 @@ const mockDirectoryData: DirectoryOrgType[] = [
     logo_url: "/org-logos/techqueria/techqueria-logo.png",
     description:
       "Techqueria is the largest global community of Latinx professionals in tech.",
-    industry_tags: [Industry.Tech],
-    locations: ["Chicago", "New York", "Los Angeles", "+4 more"],
-    affinities: ["Latino"],
+    website_url: "https://techqueria.org/",
   },
   {
     id: 2,
@@ -17,19 +15,15 @@ const mockDirectoryData: DirectoryOrgType[] = [
     logo_url: "/org-logos/alpfa/alpfa-logo.png",
     description:
       "ALPFA provides leadership development and career opportunities for Latinx professionals.",
-    industry_tags: [Industry.ProfessionalServices, Industry.Finance],
-    locations: ["Chicago", "New York", "+2 more"],
-    affinities: ["Latino", "Professional Services"],
+    website_url: "https://alpfa.org/",
   },
   {
-    id: 6,
+    id: 3,
     name: "1871",
     logo_url: "/org-logos/1871/1871-logo.png",
     description:
       "1871 is a tech hub providing resources to help entrepreneurs build successful businesses.",
-    industry_tags: [Industry.Tech, Industry.VentureCapital],
-    locations: ["Chicago"],
-    affinities: ["Tech", "Women-serving", "Latino Programming"],
+    website_url: "https://1871.com/",
   },
 ];
 
