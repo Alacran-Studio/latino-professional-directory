@@ -11,22 +11,12 @@ export interface DirectoryOrgType {
   logo_url: string;
   description: string;
   website_url: string;
-  industries: string[];
+  industries: IndustryType[];
 }
 
 export interface IndustryType {
   id: number;
   name: string;
-}
-
-export enum Industry {
-  Tech = "Tech",
-  Healthcare = "Healthcare",
-  Finance = "Finance",
-  ProfessionalServices = "Professional Services",
-  VentureCapital = "Venture Capital",
-  Cybersecurity = "Cybersecurity",
-  RealEstate = "Real Estate",
 }
 
 export enum Affinity {
