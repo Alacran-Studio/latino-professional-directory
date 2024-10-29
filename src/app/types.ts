@@ -4,6 +4,12 @@ export interface DirectoryOrgType {
   logo_url: string;
   description: string;
   website_url: string;
+  industries: string[];
+}
+
+export interface IndustryType {
+  id: number;
+  name: string;
 }
 
 export enum Industry {
