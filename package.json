@@ -9,7 +9,9 @@
     "lint": "next lint",
     "migration:generate": "drizzle-kit generate",
     "migration:apply": "drizzle-kit migrate",
-    "db:seed": "npx tsx ./drizzle/seed.ts",
+    "db:seed:orgs": "npx tsx ./drizzle/seed/seed-orgs.ts",
+    "db:seed:industries": "npx tsx ./drizzle/seed/seed-industries.ts",
+    "db:seed:org-industries": "npx tsx ./drizzle/seed/seed-org-industries.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
