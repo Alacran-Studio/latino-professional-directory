@@ -1,19 +1,18 @@
 "use client";
 import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
-import { DirectoryOrgType, Industry } from "@/app/types";
+import { DirectoryOrgType, IndustryType } from "@/app/types";
 
 import Filter from "./Filter";
 // import SearchBar from "./search-bar";
 
 export default function Directory() {
   const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
-  const [selectedIndustries, setSelectedIndustries] = useState<Industry[]>([]);
-  const [organizations, setOrganizations] = useState<DirectoryOrgType[]>([]);
-
-  const industries: Industry[] = Object.values(Industry).sort((a, b) =>
-    a.localeCompare(b)
+  const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>(
+    []
   );
+  const [organizations, setOrganizations] = useState<DirectoryOrgType[]>([]);
+  const [industries, setIndustries] = useState<IndustryType[]>([]);
 
   useEffect(() => {
     const fetchOrganizations = async () => {
@@ -27,8 +26,24 @@ export default function Directory() {
         console.error("Error fetching organizations: ", error);
       }
     };
+    const fetchIndustries = async () => {
+      try {
+        const response = await fetch("/api/industries");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Failed to fetch data");
+        console.log("industries from response:", data);
+        const sortedIndustries = data.industries.sort(
+          (a: { name: string }, b: { name: string }) =>
+            a.name.localeCompare(b.name)
+        );
+        setIndustries(sortedIndustries);
+      } catch (error) {
+        console.error("Error fetching organizations: ", error);
+      }
+    };
 
     fetchOrganizations();
+    fetchIndustries();
   }, []);
 
   return (
@@ -56,9 +71,11 @@ export default function Directory() {
                 return true;
               }
 
-              // return org.industry_tags.some((tag) =>
-              //   selectedIndustries.includes(tag)
-              // );
+              return org.industries.some((industry) =>
+                selectedIndustries.some(
+                  (selected) => selected.id === industry.id
+                )
+              );
             })
             .map((org) => (
               <DirectoryOrg key={org.id} {...org} />

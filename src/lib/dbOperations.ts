@@ -19,7 +19,7 @@ export async function fetchOrganizations(
     const industryIds = orgIndustryMappings
       .map((mapping) => mapping.industry_id)
       .filter((id): id is number => id !== null);
-    const industries = await fetchIndustriesData(industryIds);
+    const industries = await fetchIndustries(industryIds);
     const organizationsWithIndustries = mapIndustriesToOrganizations(
       organizations,
       orgIndustryMappings,
@@ -33,7 +33,7 @@ export async function fetchOrganizations(
   }
 }
 
-export async function fetchIndustriesData(
+export async function fetchIndustries(
   industryIds?: number[]
 ): Promise<IndustryType[]> {
   const query = db
@@ -88,13 +88,14 @@ function mapIndustriesToOrganizations(
     ...org,
     industries: industryMappings
       .filter((mapping) => mapping.organization_id === org.id)
-      .map((mapping) => {
+      .map((mapping): IndustryType | null => {
         const industry = industries.find(
           (ind) => ind.id === mapping.industry_id
         );
-        return industry ? industry.name : null;
+        return industry || null;
       })
-      .filter((name) => name !== null), // Remove any nulls
+      .filter((industry): industry is IndustryType => industry !== null),
   }));
+
   return organizationsWithIndustries;
 }
