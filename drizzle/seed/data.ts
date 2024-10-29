@@ -42,3 +42,45 @@ export const directoryOrgs = [
     website_url: "https://www.latinasintech.org/",
   },
 ];
+
+export const directoryIndustries = [
+  {
+    name: "Tech",
+  },
+  {
+    name: "Healthcare",
+  },
+  {
+    name: "Finance",
+  },
+  {
+    name: "Professional Services",
+  },
+  {
+    name: "Venture Capital",
+  },
+  {
+    name: "Education",
+  },
+  {
+    name: "Engineering",
+  },
+  {
+    name: "Real Estate",
+  },
+  {
+    name: "Law",
+  },
+];
+
+export const orgIndustryMappings = [
+  { directoryName: "Techqueria", directoryIndustries: ["Tech"] },
+  {
+    directoryName: "ALPFA",
+    directoryIndustries: ["Finance", "Professional Services"],
+  },
+  { directoryName: "1871", directoryIndustries: ["Tech", "Venture Capital"] },
+  { directoryName: "SHPE", directoryIndustries: ["Engineering", "Tech"] },
+  { directoryName: "Latinas in Nursing", directoryIndustries: ["Healthcare"] },
+  { directoryName: "Latinas in Tech", directoryIndustries: ["Tech"] },
+];
