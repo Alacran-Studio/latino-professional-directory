@@ -31,7 +31,6 @@ export default function Directory() {
         const response = await fetch("/api/industries");
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Failed to fetch data");
-        console.log("industries from response:", data);
         const sortedIndustries = data.industries.sort(
           (a: { name: string }, b: { name: string }) =>
             a.name.localeCompare(b.name)
