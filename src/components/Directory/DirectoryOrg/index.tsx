@@ -17,7 +17,7 @@ export default function DirectoryOrg({
         <Logo src={logo_url} alt={`${name} logo`} width={200} height={200} />
 
         {/* Organization Info */}
-        <div>
+        <div className="ml-4">
           <h3 className="text-xl font-semibold">{name}</h3>
           <p className="text-sm text-gray-600 md:text-base dark:text-gray-400">
             {description}

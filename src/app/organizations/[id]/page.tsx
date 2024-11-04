@@ -16,28 +16,24 @@ export default function Page({ params }: { params: { id: string } }) {
     notFound();
   }
 
+  const locations: string = org.locations.join(", ");
+
   return (
-    <>
-      <h2>Organization Data</h2>
-      <ul>
-        <li>ID: {org?.id}</li>
-        <li>Name: {org?.name}</li>
-        <li>
-          <Logo
-            src={org.logo_url}
-            alt={`${org.name} logo`}
-            width={452}
-            height={288}
-          />
-        </li>
-        <li>Description: {org?.description}</li>
-        <li>
-          Industry Tags: <Tags tags={org.industry_tags} />
-        </li>
-        <li>Locations: {org?.locations}</li>
-        <li>Latino Serving: {org?.latino_serving}</li>
-        <li>Affinities: {org?.affinities}</li>
-      </ul>
-    </>
+    <div className="grid grid-cols-2 gap-3">
+      <div>
+        <Logo
+          src={org.logo_url}
+          alt={`${org.name} logo`}
+          width={452}
+          height={288}
+        />
+      </div>
+      <div>
+        <h2>{org.name}</h2>
+        <Tags tags={org.industry_tags} />
+        <p>Location: {locations}</p>
+      </div>
+      <p>{org.description}</p>
+    </div>
   );
 }

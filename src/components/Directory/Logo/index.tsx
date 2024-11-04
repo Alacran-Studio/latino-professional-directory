@@ -17,7 +17,6 @@ const styles: string = [
   "rounded-lg",
   "p-2",
   "sm:mb-0",
-  "sm:mr-4",
   "sm:h-32",
   "sm:w-32",
   "dark:bg-gradient-to-r",
