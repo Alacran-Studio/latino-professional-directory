@@ -57,10 +57,11 @@ export default function Filter({
 
   return (
     <div className="relative mt-4 md:mt-0 md:w-full">
+      {/* Filter Button */}
       <button
         ref={industryDropdownButtonRef}
         onClick={() => setIsIndustryDropdownOpen(!isIndustryDropdownOpen)}
-        className={`relative flex w-full items-center justify-between bg-brandGold px-4 py-2 transition-all duration-300 ease-out hover:shadow-lg md:h-12 md:w-1/2 dark:text-black ${
+        className={`flex w-full items-center justify-between bg-brandGold px-4 py-2 transition-all duration-300 ease-out hover:shadow-lg md:h-12 md:w-1/2 dark:text-black ${
           isIndustryDropdownOpen
             ? "rounded-t-lg font-semibold"
             : "rounded-lg font-normal"
@@ -79,33 +80,14 @@ export default function Filter({
         </div>
       </button>
 
-      {/* Fixed Height Chip Container */}
-      <div
-        className={`flex h-16 w-full min-w-[300px] flex-wrap gap-2 transition-opacity duration-300 ease-out ${
-          isIndustryDropdownOpen ? "invisible" : "visible"
-        }`}
-      >
-        {selectedIndustries.map((industry: Industry) => (
-          <button
-            key={industry}
-            onClick={() => removeIndustry(industry)}
-            className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
-          >
-            <span>{industry}</span>
-            <XIcon />
-          </button>
-        ))}
-      </div>
-
-      {/* Adjusted Dropdown Menu */}
+      {/* Dropdown Menu */}
       <div
         ref={industryDropdownRef}
-        className={`absolute w-full bg-background transition-all duration-300 ease-out md:w-1/2 ${
+        className={`absolute w-full transform bg-background transition-all duration-300 ease-out md:w-1/2 ${
           isIndustryDropdownOpen
-            ? "max-h-[500px] translate-y-[-4rem] rounded-b-lg border-b border-l border-r border-border p-4 opacity-100 shadow-2xl"
+            ? "max-h-[500px] translate-y-0 rounded-b-lg border-b border-l border-r border-border p-4 opacity-100 shadow-2xl"
             : "max-h-0 translate-y-0 border-none p-0 opacity-0 shadow-none"
         } overflow-hidden`}
-        style={{ top: "100%" }} // Ensure dropdown is positioned below the button
       >
         {industries.map((industry) => (
           <label
@@ -119,6 +101,22 @@ export default function Filter({
             />
             <span>{industry}</span>
           </label>
+        ))}
+      </div>
+
+      {/* Industry Chips Container */}
+      <div
+        className={`mt-4 flex min-h-0 w-full min-w-[300px] flex-wrap gap-x-2 gap-y-4 transition-opacity duration-300 ease-out`}
+      >
+        {selectedIndustries.map((industry: Industry) => (
+          <button
+            key={industry}
+            onClick={() => removeIndustry(industry)}
+            className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
+          >
+            <span>{industry}</span>
+            <XIcon />
+          </button>
         ))}
       </div>
     </div>
