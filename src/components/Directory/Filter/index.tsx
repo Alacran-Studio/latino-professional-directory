@@ -60,14 +60,14 @@ export default function Filter({
       <button
         ref={industryDropdownButtonRef}
         onClick={() => setIsIndustryDropdownOpen(!isIndustryDropdownOpen)}
-        className={`flex w-full items-center justify-between bg-brandGold px-4 py-2 transition-all duration-300 ease-out hover:shadow-lg md:h-12 md:w-1/2 dark:text-black ${
+        className={`relative flex w-full items-center justify-between bg-brandGold px-4 py-2 transition-all duration-300 ease-out hover:shadow-lg md:h-12 md:w-1/2 dark:text-black ${
           isIndustryDropdownOpen
             ? "rounded-t-lg font-semibold"
             : "rounded-lg font-normal"
-        } `}
+        }`}
       >
         <div className="flex items-center">
-          <FilterIcon></FilterIcon>
+          <FilterIcon />
           <span className="ml-2">Filter by Industry</span>
         </div>
         <div
@@ -75,14 +75,15 @@ export default function Filter({
             isIndustryDropdownOpen ? "opacity-100" : "opacity-0"
           }`}
         >
-          <XIcon></XIcon>
+          <XIcon />
         </div>
       </button>
 
+      {/* Fixed Height Chip Container */}
       <div
-        className={`flex w-full flex-wrap gap-2 ${
-          selectedIndustries.length === 0 ? "mt-0" : "mt-4"
-        } ${isIndustryDropdownOpen ? "hidden" : "block"}`}
+        className={`flex h-16 w-full min-w-[300px] flex-wrap gap-2 transition-opacity duration-300 ease-out ${
+          isIndustryDropdownOpen ? "invisible" : "visible"
+        }`}
       >
         {selectedIndustries.map((industry: Industry) => (
           <button
@@ -91,18 +92,20 @@ export default function Filter({
             className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
           >
             <span>{industry}</span>
-            <XIcon></XIcon>
+            <XIcon />
           </button>
         ))}
       </div>
 
+      {/* Adjusted Dropdown Menu */}
       <div
         ref={industryDropdownRef}
-        className={`absolute w-full transform bg-background transition-all duration-300 ease-out md:w-1/2 ${
+        className={`absolute w-full bg-background transition-all duration-300 ease-out md:w-1/2 ${
           isIndustryDropdownOpen
-            ? "max-h-[500px] translate-y-0 rounded-b-lg border-b border-l border-r border-border p-4 opacity-100 shadow-2xl"
+            ? "max-h-[500px] translate-y-[-4rem] rounded-b-lg border-b border-l border-r border-border p-4 opacity-100 shadow-2xl"
             : "max-h-0 translate-y-0 border-none p-0 opacity-0 shadow-none"
         } overflow-hidden`}
+        style={{ top: "100%" }} // Ensure dropdown is positioned below the button
       >
         {industries.map((industry) => (
           <label
@@ -113,7 +116,7 @@ export default function Filter({
               type="checkbox"
               checked={selectedIndustries.includes(industry)}
               onChange={() => handleIndustryChange(industry)}
-            ></input>
+            />
             <span>{industry}</span>
           </label>
         ))}
