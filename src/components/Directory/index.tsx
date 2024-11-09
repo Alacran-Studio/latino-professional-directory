@@ -37,7 +37,7 @@ export default function Directory() {
         );
         setIndustries(sortedIndustries);
       } catch (error) {
-        console.error("Error fetching organizations: ", error);
+        console.error("Error fetching industries: ", error);
       }
     };
 

@@ -57,6 +57,7 @@ export default function Filter({
 
   return (
     <div className="relative mt-4 md:mt-0 md:w-full">
+      {/* Filter Button */}
       <button
         ref={industryDropdownButtonRef}
         onClick={() => setIsIndustryDropdownOpen(!isIndustryDropdownOpen)}
@@ -64,10 +65,10 @@ export default function Filter({
           isIndustryDropdownOpen
             ? "rounded-t-lg font-semibold"
             : "rounded-lg font-normal"
-        } `}
+        }`}
       >
         <div className="flex items-center">
-          <FilterIcon></FilterIcon>
+          <FilterIcon />
           <span className="ml-2">Filter by Industry</span>
         </div>
         <div
@@ -75,27 +76,11 @@ export default function Filter({
             isIndustryDropdownOpen ? "opacity-100" : "opacity-0"
           }`}
         >
-          <XIcon></XIcon>
+          <XIcon />
         </div>
       </button>
 
-      <div
-        className={`flex w-full flex-wrap gap-2 ${
-          selectedIndustries.length === 0 ? "mt-0" : "mt-4"
-        } ${isIndustryDropdownOpen ? "hidden" : "block"}`}
-      >
-        {selectedIndustries.map((industry: IndustryType) => (
-          <button
-            key={industry.id}
-            onClick={() => removeIndustry(industry)}
-            className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
-          >
-            <span>{industry.name}</span>
-            <XIcon></XIcon>
-          </button>
-        ))}
-      </div>
-
+      {/* Dropdown Menu */}
       <div
         ref={industryDropdownRef}
         className={`absolute w-full transform bg-background transition-all duration-300 ease-out md:w-1/2 ${
@@ -116,6 +101,24 @@ export default function Filter({
             ></input>
             <span>{industry.name}</span>
           </label>
+        ))}
+      </div>
+
+      {/* Industry Chips Container */}
+      <div
+        className={`flex w-full flex-wrap gap-2 ${
+          selectedIndustries.length === 0 ? "mt-0" : "mt-4"
+        } ${isIndustryDropdownOpen ? "hidden" : "block"}`}
+      >
+        {selectedIndustries.map((industry: IndustryType) => (
+          <button
+            key={industry.id}
+            onClick={() => removeIndustry(industry)}
+            className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
+          >
+            <span>{industry.name}</span>
+            <XIcon />
+          </button>
         ))}
       </div>
     </div>
