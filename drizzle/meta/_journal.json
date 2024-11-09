@@ -57,6 +57,13 @@
       "when": 1731112267454,
       "tag": "20241109003107_add-org-short-description",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1731130397475,
+      "tag": "20241109053317_add-photos-videos-to-org-and-categories-tables",
+      "breakpoints": true
     }
   ]
 }
