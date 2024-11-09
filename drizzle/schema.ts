@@ -1,4 +1,4 @@
-import { integer, pgSchema, pgTable, serial, text } from "drizzle-orm/pg-core";
+import { integer, pgSchema, serial, text } from "drizzle-orm/pg-core";
 
 export const lpddSchema = pgSchema("lpdd");
 
@@ -7,6 +7,7 @@ export const OrganizationsTable = lpddSchema.table("organizations", {
   name: text("name").notNull().unique(),
   logo_url: text("logo_url"),
   description: text("description"),
+  short_description: text("short_description"),
   website_url: text("website_url").notNull().unique(),
 });
 
@@ -33,5 +34,21 @@ export const OrganizationIndustries = lpddSchema.table(
       () => OrganizationsTable.id
     ),
     industry_id: integer("industry_id").references(() => IndustriesTable.id),
+  }
+);
+
+export const AffinitiesTable = lpddSchema.table("affinities", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+});
+
+export const OrganizationAffinities = lpddSchema.table(
+  "organization_affinities",
+  {
+    id: serial("id").primaryKey(),
+    organization_id: integer("organization_id").references(
+      () => OrganizationsTable.id
+    ),
+    affinity_id: integer("affinity_id").references(() => AffinitiesTable.id),
   }
 );
