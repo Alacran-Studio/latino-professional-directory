@@ -8,6 +8,12 @@ const mockDirectoryData: DirectoryOrgType[] = [
     description:
       "Techqueria is the largest global community of Latinx professionals in tech.",
     website_url: "https://techqueria.org/",
+    industries: [
+      {
+        id: 1,
+        name: "Tech",
+      },
+    ],
   },
   {
     id: 2,
@@ -16,6 +22,12 @@ const mockDirectoryData: DirectoryOrgType[] = [
     description:
       "ALPFA provides leadership development and career opportunities for Latinx professionals.",
     website_url: "https://alpfa.org/",
+    industries: [
+      {
+        id: 1,
+        name: "Professional Services",
+      },
+    ],
   },
   {
     id: 3,
@@ -24,6 +36,12 @@ const mockDirectoryData: DirectoryOrgType[] = [
     description:
       "1871 is a tech hub providing resources to help entrepreneurs build successful businesses.",
     website_url: "https://1871.com/",
+    industries: [
+      {
+        id: 1,
+        name: "Tech",
+      },
+    ],
   },
 ];
 
