@@ -43,6 +43,20 @@
       "when": 1730134800726,
       "tag": "20241028170000_add-unique-to-org-names",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1731111568458,
+      "tag": "20241109001928_add-affinities-tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1731112267454,
+      "tag": "20241109003107_add-org-short-description",
+      "breakpoints": true
     }
   ]
 }
