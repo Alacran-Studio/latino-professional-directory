@@ -9,6 +9,8 @@ export const OrganizationsTable = lpddSchema.table("organizations", {
   description: text("description"),
   short_description: text("short_description"),
   website_url: text("website_url").notNull().unique(),
+  photos: text("photos").default("[]"),
+  videos: text("videos").default("[]"),
 });
 
 export const OrganizationContacts = lpddSchema.table("organization_contacts", {
@@ -50,5 +52,21 @@ export const OrganizationAffinities = lpddSchema.table(
       () => OrganizationsTable.id
     ),
     affinity_id: integer("affinity_id").references(() => AffinitiesTable.id),
+  }
+);
+
+export const CategoriesTable = lpddSchema.table("categories", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+});
+
+export const OrganizationCategories = lpddSchema.table(
+  "organization_categories",
+  {
+    id: serial("id").primaryKey(),
+    organization_id: integer("organization_id").references(
+      () => OrganizationsTable.id
+    ),
+    category_id: integer("category_id").references(() => CategoriesTable.id),
   }
 );
