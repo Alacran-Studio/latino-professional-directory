@@ -9,8 +9,8 @@ export const OrganizationsTable = lpddSchema.table("organizations", {
   description: text("description"),
   short_description: text("short_description"),
   website_url: text("website_url").notNull().unique(),
-  photos: text("photos").default("[]"),
-  videos: text("videos").default("[]"),
+  photo_url: text("photo_url"),
+  video_url: text("video_url"),
 });
 
 export const OrganizationContacts = lpddSchema.table("organization_contacts", {
