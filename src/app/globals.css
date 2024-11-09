@@ -59,6 +59,12 @@
 
 body {
   color: var(--foreground-color);
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--background-end-color)
+    )
+    var(--background-start-color);
 }
 
 @layer utilities {
