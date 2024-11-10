@@ -3,14 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --foreground-color: #000000;
+  --foreground: 0 0% 0% / 1;
+  /* Neutral Dark */
   --secondary-text: #4b5563;
   --background-start-color: #ffffff;
   --background-end-color: #8fb8de66;
   --card-color: #f9f9f9;
   --card-hover: #d3e8f2;
   --border-color: #e0e0e0;
-  --brand-gold: #f0d07d;
+  --brand-gold: 43 79% 72% / 1;
 
   --chip-gradient-from: #e6f0fc;
   --chip-gradient-via: #d3e8f2;
@@ -31,7 +32,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-color: #ffffff;
+    --foreground-color: 0 0% 100% / 1;
+    /* Neutral Light */
     --secondary-text: #9ca3af;
     --background-start-color: #121212;
     --background-end-color: #1a1a2e;
