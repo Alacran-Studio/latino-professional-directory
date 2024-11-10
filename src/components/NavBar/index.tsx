@@ -6,8 +6,13 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import { FullBrand } from "@/components/common/FullBrand";
 import { MenuButton } from "@/components/NavBar/MenuButton";
+import { InternalNavigationLinks } from "@/app/types";
 
-export default function NavBar() {
+interface NavBarProps {
+  links: InternalNavigationLinks;
+}
+
+export default function NavBar({ links }: NavBarProps) {
   const pathname = usePathname();
 
   const navClasses = clsx(
@@ -20,7 +25,7 @@ export default function NavBar() {
       <Link href="/" className="mr-12 flex items-center">
         <FullBrand />
       </Link>
-      <NavLinks />
+      <NavLinks links={links} />
       <MenuButton />
     </nav>
   );
