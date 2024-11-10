@@ -12,24 +12,13 @@ import {
 } from "@/components/ui/sidebar";
 import { FullBrand } from "@/components/common/FullBrand";
 import Link from "next/link";
+import { InternalNavigationLinks } from "@/app/types";
 
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "/",
-  },
-  {
-    title: "About",
-    url: "/about",
-  },
-  {
-    title: "Contact",
-    url: "/contact",
-  },
-];
+interface AppSidebarProps {
+  links: InternalNavigationLinks;
+}
 
-export function AppSidebar() {
+export function AppSidebar({ links }: AppSidebarProps) {
   return (
     <Sidebar>
       <SidebarContent>
@@ -42,10 +31,10 @@ export function AppSidebar() {
           <SidebarSeparator className="my-4" />
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {links.map((item) => (
+                <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.url}>{item.title}</Link>
+                    <Link href={item.href}>{item.name}</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

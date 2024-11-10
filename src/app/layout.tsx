@@ -5,6 +5,7 @@ import NavBar from "@/components/NavBar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AppSidebarProvider } from "@/components/AppSidebarProvider";
 import { PropsWithChildren } from "react";
+import { InternalNavigationLinks } from "./types";
 
 const lexend = Lexend({ subsets: ["latin"] });
 
@@ -17,6 +18,29 @@ const Base = ({ children }: PropsWithChildren) => {
     </html>
   );
 };
+
+/**
+ * @description Used to plumb through our internal links across both the
+ * navigation bar and the mobile menu.
+ * */
+const internalLinks: InternalNavigationLinks = [
+  {
+    name: "HOME",
+    href: "/",
+  },
+  {
+    name: "ABOUT",
+    href: "/about",
+  },
+  {
+    name: "CONTACT",
+    href: "/contact",
+  },
+  // {
+  //   name: "LOGIN",
+  //   href: "/login",
+  // },
+];
 
 export const metadata: Metadata = {
   title: "Latiné Professional Development Directory",
@@ -32,9 +56,9 @@ export default function RootLayout({
   return (
     <Base>
       <Providers>
-        <AppSidebar />
+        <AppSidebar links={internalLinks} />
         <div className="flex w-full flex-col">
-          <NavBar />
+          <NavBar links={internalLinks} />
           {children}
         </div>
       </Providers>

@@ -9,7 +9,7 @@ export const FullBrand = () => {
         height={40}
         alt="Logo for Latiné Professional Development Directory"
       />
-      <p className="text-xl tracking-tighter">LPDD</p>
+      <p className="text-xl tracking-tighter text-white">LPDD</p>
     </>
   );
 };

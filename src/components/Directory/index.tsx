@@ -16,11 +16,11 @@ export default function Directory() {
   );
 
   return (
-    <section className="mb-4 flex flex-col items-center pb-4 pt-8">
+    <section className="mb-4 flex w-10/12 flex-col items-center pb-4 pt-8">
       <h1 className="pb-8 text-center text-lg font-semibold sm:text-4xl">
         Directory
       </h1>
-      <div className="min-h-[760px] w-10/12 min-w-[325px] rounded-lg border border-border bg-background p-4 shadow-lg md:min-h-[620px] md:w-3/4 md:min-w-[684px] dark:shadow-gray-800">
+      <div className="min-h-[760px] rounded-lg border border-border bg-background p-4 shadow-lg md:w-full dark:shadow-gray-800">
         <div className="mb-6 md:flex md:gap-x-2">
           <Filter
             industries={industries}

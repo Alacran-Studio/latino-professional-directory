@@ -3,27 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { InternalNavigationLink, InternalNavigationLinks } from "@/app/types";
 
-const links = [
-  {
-    name: "HOME",
-    href: "/",
-  },
-  {
-    name: "ABOUT",
-    href: "/about",
-  },
-  {
-    name: "CONTACT",
-    href: "/contact",
-  },
-  // {
-  //   name: "LOGIN",
-  //   href: "/login",
-  // },
-];
+interface NavLinksProps {
+  links: InternalNavigationLinks;
+}
 
-export default function NavLinks() {
+export default function NavLinks({ links }: NavLinksProps) {
   const pathname = usePathname();
 
   const activeClasses = "text-blue-300 underline scale-95";

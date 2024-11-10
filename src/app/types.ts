@@ -1,3 +1,10 @@
+export interface InternalNavigationLink {
+  name: string;
+  href: string;
+}
+
+export type InternalNavigationLinks = Array<InternalNavigationLink>;
+
 export interface DirectoryOrgType {
   id: number;
   name: string;
