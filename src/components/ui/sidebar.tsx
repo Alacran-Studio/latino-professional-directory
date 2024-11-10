@@ -9,7 +9,12 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
@@ -17,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { ChevronLeftIcon } from "@heroicons/react/outline";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
@@ -207,6 +213,10 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
+            <VisuallyHidden.Root>
+              <SheetTitle>Menu</SheetTitle>
+              <SheetDescription>Mobile Menu</SheetDescription>
+            </VisuallyHidden.Root>
             <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>
