@@ -80,22 +80,6 @@ export default function Filter({
 
       {/* Dropdown Menu */}
       <div
-        className={`flex w-full flex-wrap gap-2 ${selectedIndustries.length === 0 ? "mt-0" : "mt-4"
-          } ${isIndustryDropdownOpen ? "hidden" : "block"}`}
-      >
-        {selectedIndustries.map((industry: IndustryType) => (
-          <button
-            key={industry.id}
-            onClick={() => removeIndustry(industry)}
-            className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
-          >
-            <span>{industry.name}</span>
-            <XIcon></XIcon>
-          </button>
-        ))}
-      </div>
-
-      <div
         ref={industryDropdownRef}
         className={`absolute w-full transform bg-background transition-all duration-300 ease-out md:w-1/2 ${isIndustryDropdownOpen
             ? "max-h-[500px] translate-y-0 rounded-b-lg border-b border-l border-r border-border p-4 opacity-100 shadow-2xl"
