@@ -16,6 +16,9 @@
   --chip-gradient-via: #d3e8f2;
   --chip-gradient-to: #c2dfee;
 
+  --logo-line: #ffffff;
+  --logo-line-mobile: #000000;
+
   /* shadcn */
   --sidebar-background: 0 0% 98%;
   --sidebar-foreground: 240 5.3% 26.1%;
@@ -46,8 +49,10 @@
     --logo-gradient-from: #e0e0e0;
     --logo-gradient-via: #a8a8a8;
     --logo-gradient-to: #3a3a3a;
+    --logo-line-mobile: #ffffff;
 
     /* shadcn */
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -61,9 +66,12 @@
 
 body {
   color: hsl(var(--foreground));
-  background: linear-gradient(to bottom,
+  background: linear-gradient(
+      to bottom,
       transparent,
-      hsl(var(--background-end-color))) hsl(var(--background));
+      hsl(var(--background-end-color))
+    )
+    hsl(var(--background));
 }
 
 @layer utilities {

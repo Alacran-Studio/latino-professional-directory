@@ -34,6 +34,10 @@ const config: Config = {
         logoGradientFrom: "var(--logo-gradient-from)",
         logoGradientVia: "var(--logo-gradient-via)",
         logoGradientTo: "var(--logo-gradient-to)",
+        logo: {
+          line: "var(--logo-line)",
+          mobile: "var(--logo-line-mobile)",
+        },
         cardHover: "hsl(var(--card-hover))",
         popover: {
           DEFAULT: "hsl(var(--popover))",

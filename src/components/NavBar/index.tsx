@@ -23,7 +23,7 @@ export default function NavBar({ links }: NavBarProps) {
   return (
     <nav className={navClasses}>
       <Link href="/" className="mr-12 flex items-center">
-        <FullBrand />
+        <FullBrand fillColor="var(--logo-line)" />
       </Link>
       <NavLinks links={links} />
       <MenuButton />

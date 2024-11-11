@@ -24,8 +24,8 @@ export function AppSidebar({ links }: AppSidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel asChild>
-            <span className="mt-6">
-              <FullBrand />
+            <span className="[&_p]:text-logo-mobile mt-6">
+              <FullBrand fillColor="var(--logo-line-mobile)" />
             </span>
           </SidebarGroupLabel>
           <SidebarSeparator className="my-4" />
