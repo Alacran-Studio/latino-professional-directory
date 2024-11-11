@@ -3,29 +3,44 @@
 @tailwind utilities;
 
 :root {
-  --foreground-color: #000000;
-  --secondary-text: #4b5563;
-  --background-start-color: #ffffff;
-  --background-end-color: #8fb8de66;
-  --card-color: #f9f9f9;
-  --card-hover: #d3e8f2;
-  --border-color: #e0e0e0;
-  --brand-gold: #f0d07d;
+  --foreground: 0 0% 0% / 1;
+  --secondary-foreground: 210 10% 36% / 1;
+  --background: 0 0% 100% / 1;
+  --background-end-color: 209 54% 72% / 0.4;
+  --card: 0 0% 98% / 1;
+  --card-hover: 204 38% 90% / 1;
+  --border: 0 0% 88% / 1;
+  --brand-gold: 43 79% 72% / 1;
 
   --chip-gradient-from: #e6f0fc;
   --chip-gradient-via: #d3e8f2;
   --chip-gradient-to: #c2dfee;
+
+  --logo-line: #ffffff;
+  --logo-line-mobile: #000000;
+
+  /* shadcn */
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+
+  --radius: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-color: #ffffff;
-    --secondary-text: #9ca3af;
-    --background-start-color: #121212;
-    --background-end-color: #1a1a2e;
-    --card-color: #171717;
-    --card-hover: #2a2a3d;
-    --border-color: #3c3c3c;
+    --foreground: 0 0% 100% / 1;
+    --secondary-foreground: 210 8% 68% / 1;
+    --background: 0 0% 7% / 1;
+    --background-end-color: 210 53% 15% / 1;
+    --card: 0 0% 9% / 1;
+    --card-hover: 240 15% 20% / 1;
+    --border: 0 0% 24% / 1;
 
     --chip-gradient-from: #1e2a4a;
     --chip-gradient-via: #1a1a40;
@@ -34,14 +49,29 @@
     --logo-gradient-from: #e0e0e0;
     --logo-gradient-via: #a8a8a8;
     --logo-gradient-to: #3a3a3a;
+    --logo-line-mobile: #ffffff;
+
+    /* shadcn */
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
 body {
-  color: var(--foreground-color);
-  background: linear-gradient(to bottom,
+  color: hsl(var(--foreground));
+  background: linear-gradient(
+      to bottom,
       transparent,
-      var(--background-end-color)) var(--background-start-color);
+      hsl(var(--background-end-color))
+    )
+    hsl(var(--background));
 }
 
 @layer utilities {
