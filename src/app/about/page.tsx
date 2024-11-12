@@ -82,7 +82,7 @@ const AboutPage = () => {
                   <LinkedInIcon />
                 </a>
               </div>
-              <p className="text-secondary">{member.role}</p>
+              <p className="text-secondary-foreground">{member.role}</p>
             </div>
           </div>
         ))}
