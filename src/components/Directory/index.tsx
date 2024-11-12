@@ -1,19 +1,49 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
-import mockDirectoryData from "@/app/mock/mock-directory";
-import { Industry } from "@/app/types";
+import { DirectoryOrgType, IndustryType } from "@/app/types";
 
 import Filter from "./Filter";
 // import SearchBar from "./search-bar";
 
 export default function Directory() {
   const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
-  const [selectedIndustries, setSelectedIndustries] = useState<Industry[]>([]);
-
-  const industries: Industry[] = Object.values(Industry).sort((a, b) =>
-    a.localeCompare(b)
+  const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>(
+    []
   );
+  const [organizations, setOrganizations] = useState<DirectoryOrgType[]>([]);
+  const [industries, setIndustries] = useState<IndustryType[]>([]);
+
+  useEffect(() => {
+    const fetchOrganizations = async () => {
+      try {
+        const response = await fetch("/api/organizations?page=1&limit=10");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Failed to fetch data");
+
+        setOrganizations(data.organizations);
+      } catch (error) {
+        console.error("Error fetching organizations: ", error);
+      }
+    };
+    const fetchIndustries = async () => {
+      try {
+        const response = await fetch("/api/industries");
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Failed to fetch data");
+        const sortedIndustries = data.industries.sort(
+          (a: { name: string }, b: { name: string }) =>
+            a.name.localeCompare(b.name)
+        );
+        setIndustries(sortedIndustries);
+      } catch (error) {
+        console.error("Error fetching industries: ", error);
+      }
+    };
+
+    fetchOrganizations();
+    fetchIndustries();
+  }, []);
 
   return (
     <section className="mb-4 flex w-10/12 flex-col items-center pb-4 pt-8">
@@ -34,14 +64,16 @@ export default function Directory() {
         </div>
 
         <div className="grid gap-4">
-          {mockDirectoryData
+          {organizations
             .filter((org) => {
               if (selectedIndustries.length === 0) {
                 return true;
               }
 
-              return org.industry_tags.some((tag) =>
-                selectedIndustries.includes(tag)
+              return org.industries.some((industry) =>
+                selectedIndustries.some(
+                  (selected) => selected.id === industry.id
+                )
               );
             })
             .map((org) => (
