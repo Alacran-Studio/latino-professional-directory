@@ -1,39 +1,27 @@
-"use client";
-
-import mockDirectoryData from "@/app/mock/mock-directory";
+import * as React from "react";
+import { fetchOrganization } from "@/lib/dbOperations";
+import { DirectoryOrgType } from "@/app/types";
 import { notFound } from "next/navigation";
-import Logo from "@/components/Directory/Logo";
-import Tags from "@/components/Directory/Tags";
 
-export default function Page({ params }: { params: { id: string } }) {
-  const id: number = +params.id;
+interface PageProps {
+  id: string;
+}
 
-  const org = mockDirectoryData.find((org) => {
-    return org.id == id;
-  });
+export default async function Page({ params }: { params: Promise<PageProps> }) {
+  const id = (await params).id;
+  const org: DirectoryOrgType = await fetchOrganization(+id);
 
-  if (undefined === org) {
+  if (undefined == org) {
     notFound();
   }
 
-  const locations: string = org.locations.join(", ");
+  const { name, description, short_description, website_url, industries } = org;
 
   return (
     <div className="grid grid-cols-2 gap-3">
-      <div>
-        <Logo
-          src={org.logo_url}
-          alt={`${org.name} logo`}
-          width={452}
-          height={288}
-        />
-      </div>
-      <div>
-        <h2>{org.name}</h2>
-        <Tags tags={org.industry_tags} />
-        <p>Location: {locations}</p>
-      </div>
-      <p>{org.description}</p>
+      <h2>{name}</h2>
+      <p>{description}</p>
+      <p>{short_description}</p>
     </div>
   );
 }

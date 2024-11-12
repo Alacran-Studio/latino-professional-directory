@@ -4,7 +4,7 @@ import {
   OrganizationIndustries,
   OrganizationsTable,
 } from "../../drizzle/schema";
-import { inArray } from "drizzle-orm";
+import { inArray, eq } from "drizzle-orm";
 import { DirectoryOrgType, IndustryType } from "@/app/types";
 
 export async function fetchOrganizations(
@@ -29,6 +29,29 @@ export async function fetchOrganizations(
     return organizationsWithIndustries;
   } catch (error) {
     console.error("Error in fetchOrganizations:", error);
+    throw error;
+  }
+}
+
+export async function fetchOrganization(
+  organizationId: number,
+): Promise<DirectoryOrgType> {
+  try {
+    const organization = await fetchOrganizationData(organizationId);
+    const orgIndustryMappings = await fetchOrgIndustryMappings(organization);
+    const industryIds = orgIndustryMappings
+      .map((mapping) => mapping.industry_id)
+      .filter((id): id is number => id !== null);
+    const industries = await fetchIndustries(industryIds);
+    const organizationWithIndustries = mapIndustriesToOrganizations(
+      organization,
+      orgIndustryMappings,
+      industries
+    ).find(o => o !== undefined);
+    console.log("Organization:", organizationWithIndustries);
+    return organizationWithIndustries;
+  } catch (error) {
+    console.error("Error in fetchOrganization:", error);
     throw error;
   }
 }
@@ -61,6 +84,12 @@ async function fetchOrganizationsData(offset: number, limit: number) {
     .offset(offset)
     .limit(limit);
   return organizations;
+}
+
+async function fetchOrganizationData(id: number) {
+  return await db.select()
+    .from(OrganizationsTable)
+    .where(eq(OrganizationsTable.id, id));
 }
 
 // Helper to fetch organization industry mappings

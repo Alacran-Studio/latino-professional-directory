@@ -10,6 +10,7 @@ export interface DirectoryOrgType {
   name: string;
   logo_url: string;
   description: string;
+  short_description: string;
   website_url: string;
   industries: IndustryType[];
 }
