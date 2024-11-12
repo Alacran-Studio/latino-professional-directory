@@ -4,9 +4,15 @@ import Link from "next/link";
 import NavLinks from "./NavLinks";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import Image from "next/image";
+import { FullBrand } from "@/components/common/FullBrand";
+import { MenuButton } from "@/components/NavBar/MenuButton";
+import { InternalNavigationLinks } from "@/app/types";
 
-export default function NavBar() {
+interface NavBarProps {
+  links: InternalNavigationLinks;
+}
+
+export default function NavBar({ links }: NavBarProps) {
   const pathname = usePathname();
 
   const navClasses = clsx(
@@ -17,15 +23,10 @@ export default function NavBar() {
   return (
     <nav className={navClasses}>
       <Link href="/" className="mr-12 flex items-center">
-        <Image
-          src="/logo.svg"
-          width={40}
-          height={40}
-          alt="Logo for Latiné Professional Development Directory"
-        />
-        <p className="text-xl tracking-tighter text-white">LPDD</p>
+        <FullBrand fillColor="var(--logo-line)" />
       </Link>
-      <NavLinks />
+      <NavLinks links={links} />
+      <MenuButton />
     </nav>
   );
 }
