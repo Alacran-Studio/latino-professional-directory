@@ -17,10 +17,12 @@ Drizzle ORM is a lightweight TypeScript ORM that provides a clean and type-safe 
 ## Setting Up Drizzle
 
 > [!IMPORTANT]
-> These instructions for setting up your database from scratch after you
-> installed PostgreSQL via Homebrew.
+> These instructions are for setting up your database from scratch after you
+> installed PostgreSQL via Homebrew. If you're using something like Supabase,
+> please make your `.env` file reflect those values instead.
 
-Before using Drizzle, ensure that you have correctly configured your environment variables in the `.env.local` file:
+Before using Drizzle, ensure that you have correctly configured your environment
+variables in the `.env` file:
 
 ```
 POSTGRES_HOST=localhost
