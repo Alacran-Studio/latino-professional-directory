@@ -1,5 +1,6 @@
 import { DirectoryOrgType } from "@/app/types";
 import Logo from "@/components/Directory/Logo";
+import Tags from "@/components/Directory/Tags";
 
 export default function DirectoryOrg({
   logo_url,
@@ -19,14 +20,7 @@ export default function DirectoryOrg({
           {description}
         </p>
         <div className="mt-1 flex flex-wrap gap-2 text-sm">
-          {industries.map((industry, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 items-center space-x-2 rounded-full bg-blue-50 px-3 py-1 text-xs dark:bg-blue-900"
-            >
-              <span>{industry.name}</span>
-            </div>
-          ))}
+          <Tags tags={industries} />
         </div>
       </div>
     </div>
