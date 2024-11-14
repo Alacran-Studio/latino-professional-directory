@@ -11,7 +11,7 @@ export default function IntroSection() {
     <section
       className={`flex w-full flex-col items-center pt-8 text-center md:pt-10 ${lexend.className}`}
     >
-      <p className="mx-6 text-xs font-medium text-secondary sm:text-2xl">
+      <p className="mx-6 text-xs font-medium text-secondary-foreground sm:text-2xl">
         We strive to provide a comprehensive and updated list of organizations
         that are dedicated to
       </p>
