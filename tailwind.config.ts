@@ -16,7 +16,7 @@ const config: Config = {
       colors: {
         foreground: "hsl(var(--foreground))",
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
+          DEFAULT: "var(--secondary-color)",
           foreground: "hsl(var(--secondary-foreground))",
         },
         background: "hsl(var(--background))",
@@ -52,7 +52,7 @@ const config: Config = {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
+          DEFAULT: "var(--accent-color)",
           foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
@@ -83,6 +83,12 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        cardHover: "var(--card-hover)",
+
+        brand: "var(--brand-color)",
+        accent: "var(--accent-color)",
+        primary: "var(--primary-color)",
+        // secondary: "var(--secondary-color)",
       },
     },
   },

@@ -30,6 +30,11 @@
   --sidebar-ring: 217.2 91.2% 59.8%;
 
   --radius: 0.5rem;
+
+  --brand-color: #12263a;
+  --primary-color: #2d56b2;
+  --secondary-color: #8fb8de;
+  --accent-color: #f0d07d;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -61,6 +66,11 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --brand-color: #0a131f;
+    --primary-color: #315dc4;
+    --secondary-color: #367dbf;
+    --accent-color: #dba41a;
   }
 }
 
