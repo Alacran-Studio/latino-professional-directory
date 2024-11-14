@@ -16,19 +16,25 @@ Drizzle ORM is a lightweight TypeScript ORM that provides a clean and type-safe 
 
 ## Setting Up Drizzle
 
-Before using Drizzle, ensure that you have correctly configured your environment variables in the `.env.local` file:
+> [!IMPORTANT]
+> These instructions are for setting up your database from scratch after you
+> installed PostgreSQL via Homebrew. If you're using something like Supabase,
+> please make your `.env` file reflect those values instead.
+
+Before using Drizzle, ensure that you have correctly configured your environment
+variables in the `.env` file:
 
 ```
-POSTGRES_HOST=your-postgres-host
-POSTGRES_DATABASE=your-database-name
+POSTGRES_HOST=localhost
+POSTGRES_DATABASE=lpdd
 POSTGRES_PORT=5432
-POSTGRES_USER=your-database-user
-POSTGRES_PASSWORD=your-database-password
+POSTGRES_USER=lpdd
+POSTGRES_PASSWORD=lpdd
 ```
 
 These variables are used to establish a connection with the PostgreSQL database.
 
-<details>
+<details open>
 <summary>⚠️  Need help?</summary>
 
 After installing PostgreSQL, you may not know the values for some of the
@@ -71,6 +77,13 @@ GRANT ALL PRIVILEGES ON DATABASE lpdd TO lpdd;
 
 </details>
 
+After setting up your database and `.env` file correctly, run the following
+commands to migrate your database and seed the database.
+
+```sh
+npm run migration:apply db:seed
+```
+
 ## Running Migrations
 
 Drizzle ORM supports database migrations, allowing you to apply schema changes in a controlled manner.
@@ -85,12 +98,12 @@ npm run migration:generate --name <migration-name>
 
 Replace `<migration-name>` with a descriptive name for the migration, such as `add-users-table` or `modify-email-column`. This command will generate a new migration file in the `migrations/` directory.
 
-### 2. Deploy Migrations
+### 2. Apply Migrations
 
 Once a migration has been generated, you can apply it to the database using the following npm script:
 
 ```
-npm run migration:deploy
+npm run migration:apply
 ```
 
 This command will execute all pending migrations in the correct order, ensuring that your database schema is up to date.
