@@ -13,6 +13,8 @@
   --brand-gold: 43 79% 72% / 1;
   --primary: 222 60% 44% / 1;
   --primary-hover: 222 60% 34% / 1;
+  --neutral-dark: 0 0% 0% / 1;
+  --neutral-light: 0 0% 100% / 1;
 
   --chip-gradient-from: #e6f0fc;
   --chip-gradient-via: #d3e8f2;

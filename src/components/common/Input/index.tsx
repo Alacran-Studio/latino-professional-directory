@@ -13,7 +13,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {...props}
         id={id}
         ref={ref}
-        className="h-12 rounded-md border-2 border-gray-300 pl-2 dark:bg-gray-800"
+        className="text-neutralDark bg-neutralLight h-12 rounded-md border-2 border-gray-300 pl-2"
       />
     );
 
