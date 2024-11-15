@@ -12,7 +12,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {...props}
         id={id}
         ref={ref}
-        className="h-40 rounded-md border-2 border-gray-300 pl-2 text-black dark:bg-gray-800 dark:text-white"
+        className="h-40 rounded-md border-2 border-gray-300 pl-2 dark:bg-gray-800"
       />
     );
 
@@ -20,10 +20,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
 
     return (
       <div className={`flex flex-col ${className}`}>
-        <label
-          htmlFor={id}
-          className="mb-2 font-bold text-black dark:text-white"
-        >
+        <label htmlFor={id} className="mb-2 font-bold">
           {label}
         </label>
         {textArea}
