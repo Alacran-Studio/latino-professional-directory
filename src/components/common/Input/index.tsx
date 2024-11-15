@@ -13,6 +13,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {...props}
         id={id}
         ref={ref}
+        g
         className="h-12 rounded-md border-2 border-gray-300 pl-2 dark:bg-gray-800"
       />
     );
@@ -21,7 +22,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className={`flex flex-col ${className}`}>
-        <label htmlFor={id} className="font-bolds mb-2">
+        <label htmlFor={id} className="mb-2 font-bold">
           {label}
         </label>
         {textField}
