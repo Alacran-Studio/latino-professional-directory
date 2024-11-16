@@ -16,7 +16,7 @@ const config: Config = {
       colors: {
         foreground: "var(--foreground)",
         secondary: {
-          DEFAULT: "var(--secondary-color)",
+          DEFAULT: "var(--secondary)",
           foreground: "var(--secondary-foreground)",
         },
         background: "var(--background)",
@@ -26,7 +26,7 @@ const config: Config = {
         },
         border: "var(--border)",
         gradientStart: "var(--background)",
-        gradientEnd: "var(--background-end-color)",
+        gradientEnd: "var(--background-end)",
         brandGold: "var(--brand-gold)",
         neutralDark: "var(--neutral-dark)",
         neutralLight: "hsl(var(--neutral-light",
@@ -55,7 +55,7 @@ const config: Config = {
           foreground: "var(--muted-foreground)",
         },
         accent: {
-          DEFAULT: "var(--accent-color)",
+          DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
         },
         destructive: {
@@ -88,10 +88,10 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
         cardHover: "var(--card-hover)",
 
-        brand: "var(--brand-color)",
-        accent: "var(--accent-color)",
-        primary: "var(--primary-color)",
-        // secondary: "var(--secondary-color)",
+        brand: "var(--brand)",
+        accent: "var(--accent)",
+        primary: "var(--primary)",
+        // secondary: "var(--secondary)",
       },
     },
   },

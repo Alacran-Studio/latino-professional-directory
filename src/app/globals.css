@@ -6,7 +6,7 @@
   --foreground: hsl(0 0% 0% / 1);
   --secondary-foreground: hsl(210 10% 36% / 1);
   --background: hsl(0 0% 100% / 1);
-  --background-end-color: hsl(209 54% 72% / 0.4);
+  --background-end: hsl(209 54% 72% / 0.4);
   --card: hsl(0 0% 98% / 1);
   --card-hover: hsl(204 38% 90% / 1);
   --border: hsl(0 0% 88% / 1);
@@ -35,10 +35,9 @@
 
   --radius: 0.5rem;
 
-  --brand-color: hsl(210deg 53% 15%);
-  --primary-color: hsl(222deg 60% 44%);
-  --secondary-color: hsl(209deg 54% 72%);
-  --accent-color: hsl(43deg 79% 72%);
+  --brand: hsl(210deg 53% 15%);
+  --secondary: hsl(209deg 54% 72%);
+  --accent: hsl(43deg 79% 72%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,7 +45,7 @@
     --foreground: hsl(0 0% 100% / 1);
     --secondary-foreground: hsl(210 8% 68% / 1);
     --background: hsl(0 0% 7% / 1);
-    --background-end-color: hsl(210 53% 15% / 1);
+    --background-end: hsl(210 53% 15% / 1);
     --card: hsl(0 0% 9% / 1);
     --card-hover: hsl(240 15% 20% / 1);
     --border: hsl(0 0% 24% / 1);
@@ -71,20 +70,16 @@
     --sidebar-border: hsl(240 3.7% 15.9%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
-    --brand-color: hsl(214deg 51% 8%);
-    --primary-color: hsl(222deg 60% 48%);
-    --secondary-color: hsl(209deg 56% 48%);
-    --accent-color: hsl(43deg 79% 48%);
+    --brand: hsl(214deg 51% 8%);
+    --primary: hsl(222deg 60% 48%);
+    --secondary: hsl(209deg 56% 48%);
+    --accent: hsl(43deg 79% 48%);
   }
 }
 
 body {
   color: var(--foreground);
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      var(--background-end-color)
-    )
+  background: linear-gradient(to bottom, transparent, var(--background-end))
     var(--background);
 }
 
