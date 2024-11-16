@@ -12,12 +12,12 @@
   --border: hsl(0 0% 88% / 1);
   --brand-gold: hsl(43 79% 72% / 1);
 
-  --chip-gradient-from: #e6f0fc;
-  --chip-gradient-via: #d3e8f2;
-  --chip-gradient-to: #c2dfee;
+  --chip-gradient-from: hsl(213deg 79% 95%);
+  --chip-gradient-via: hsl(199deg 54% 89%);
+  --chip-gradient-to: hsl(200deg 56% 85%);
 
-  --logo-line: #ffffff;
-  --logo-line-mobile: #000000;
+  --logo-line: hsl(0deg 0% 100%);
+  --logo-line-mobile: hsl(0deg 0% 0%);
 
   /* shadcn */
   --sidebar-background: hsl(0 0% 98%);
@@ -31,10 +31,10 @@
 
   --radius: 0.5rem;
 
-  --brand-color: #12263a;
-  --primary-color: #2d56b2;
-  --secondary-color: #8fb8de;
-  --accent-color: #f0d07d;
+  --brand-color: hsl(210deg 53% 15%);
+  --primary-color: hsl(222deg 60% 44%);
+  --secondary-color: hsl(209deg 54% 72%);
+  --accent-color: hsl(43deg 79% 72%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,14 +47,14 @@
     --card-hover: hsl(240 15% 20% / 1);
     --border: hsl(0 0% 24% / 1);
 
-    --chip-gradient-from: #1e2a4a;
-    --chip-gradient-via: #1a1a40;
-    --chip-gradient-to: #2c2c80;
+    --chip-gradient-from: hsl(224deg 42% 20%);
+    --chip-gradient-via: hsl(240deg 42% 18%);
+    --chip-gradient-to: hsl(240deg 49% 34%);
 
-    --logo-gradient-from: #e0e0e0;
-    --logo-gradient-via: #a8a8a8;
-    --logo-gradient-to: #3a3a3a;
-    --logo-line-mobile: #ffffff;
+    --logo-gradient-from: hsl(0deg 0% 88%);
+    --logo-gradient-via: hsl(0deg 0% 66%);
+    --logo-gradient-to: hsl(0deg 0% 23%);
+    --logo-line-mobile: hsl(0deg 0% 100%);
 
     /* shadcn */
 
@@ -67,10 +67,10 @@
     --sidebar-border: hsl(240 3.7% 15.9%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
-    --brand-color: #0a131f;
-    --primary-color: #315dc4;
-    --secondary-color: #367dbf;
-    --accent-color: #dba41a;
+    --brand-color: hsl(214deg 51% 8%);
+    --primary-color: hsl(222deg 60% 48%);
+    --secondary-color: hsl(209deg 56% 48%);
+    --accent-color: hsl(43deg 79% 48%);
   }
 }
 
