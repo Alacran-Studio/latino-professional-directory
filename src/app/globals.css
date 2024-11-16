@@ -49,6 +49,9 @@
     --card: hsl(0 0% 9% / 1);
     --card-hover: hsl(240 15% 20% / 1);
     --border: hsl(0 0% 24% / 1);
+    --brand-gold: hsl(43 79% 42% / 1);
+    --primary: hsl(222 60% 24% / 1);
+    --primary-hover: hsl(222 60% 14% / 1);
 
     --chip-gradient-from: hsl(224deg 42% 20%);
     --chip-gradient-via: hsl(240deg 42% 18%);
