@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --foreground: 0 0% 0% / 1;
-  --secondary-foreground: 210 10% 36% / 1;
-  --background: 0 0% 100% / 1;
-  --background-end-color: 209 54% 72% / 0.4;
-  --card: 0 0% 98% / 1;
-  --card-hover: 204 38% 90% / 1;
-  --border: 0 0% 88% / 1;
-  --brand-gold: 43 79% 72% / 1;
+  --foreground: hsl(0 0% 0% / 1);
+  --secondary-foreground: hsl(210 10% 36% / 1);
+  --background: hsl(0 0% 100% / 1);
+  --background-end-color: hsl(209 54% 72% / 0.4);
+  --card: hsl(0 0% 98% / 1);
+  --card-hover: hsl(204 38% 90% / 1);
+  --border: hsl(0 0% 88% / 1);
+  --brand-gold: hsl(43 79% 72% / 1);
 
   --chip-gradient-from: #e6f0fc;
   --chip-gradient-via: #d3e8f2;
@@ -20,14 +20,14 @@
   --logo-line-mobile: #000000;
 
   /* shadcn */
-  --sidebar-background: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
+  --sidebar-background: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
   --radius: 0.5rem;
 
@@ -39,13 +39,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: 0 0% 100% / 1;
-    --secondary-foreground: 210 8% 68% / 1;
-    --background: 0 0% 7% / 1;
-    --background-end-color: 210 53% 15% / 1;
-    --card: 0 0% 9% / 1;
-    --card-hover: 240 15% 20% / 1;
-    --border: 0 0% 24% / 1;
+    --foreground: hsl(0 0% 100% / 1);
+    --secondary-foreground: hsl(210 8% 68% / 1);
+    --background: hsl(0 0% 7% / 1);
+    --background-end-color: hsl(210 53% 15% / 1);
+    --card: hsl(0 0% 9% / 1);
+    --card-hover: hsl(240 15% 20% / 1);
+    --border: hsl(0 0% 24% / 1);
 
     --chip-gradient-from: #1e2a4a;
     --chip-gradient-via: #1a1a40;
@@ -58,14 +58,14 @@
 
     /* shadcn */
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: hsl(240 5.9% 10%);
+    --sidebar-foreground: hsl(240 4.8% 95.9%);
+    --sidebar-primary: hsl(224.3 76.3% 48%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(240 3.7% 15.9%);
+    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+    --sidebar-border: hsl(240 3.7% 15.9%);
+    --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
     --brand-color: #0a131f;
     --primary-color: #315dc4;
@@ -75,13 +75,13 @@
 }
 
 body {
-  color: hsl(var(--foreground));
+  color: var(--foreground);
   background: linear-gradient(
       to bottom,
       transparent,
-      hsl(var(--background-end-color))
+      var(--background-end-color)
     )
-    hsl(var(--background));
+    var(--background);
 }
 
 @layer utilities {
