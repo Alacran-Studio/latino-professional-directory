@@ -12,7 +12,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {...props}
         id={id}
         ref={ref}
-        className="h-40 rounded-md border-2 border-gray-300 pl-2"
+        className="text-neutralDark bg-neutralLight h-40 rounded-md border-2 border-gray-300 pl-2 pt-1"
       />
     );
 

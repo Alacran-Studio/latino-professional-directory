@@ -28,6 +28,8 @@ const config: Config = {
         gradientStart: "var(--background)",
         gradientEnd: "var(--background-end-color)",
         brandGold: "var(--brand-gold)",
+        neutralDark: "var(--neutral-dark)",
+        neutralLight: "hsl(var(--neutral-light",
         chipGradientFrom: "var(--chip-gradient-from)",
         chipGradientVia: "var(--chip-gradient-via)",
         chipGradientTo: "var(--chip-gradient-to)",
@@ -46,6 +48,7 @@ const config: Config = {
         primary: {
           DEFAULT: "var(--primary)",
           foreground: "var(--primary-foreground)",
+          hover: "var(--primary-hover)",
         },
         muted: {
           DEFAULT: "var(--muted)",
