@@ -3,79 +3,87 @@
 @tailwind utilities;
 
 :root {
-  --foreground: 0 0% 0% / 1;
-  --secondary-foreground: 210 10% 36% / 1;
-  --background: 0 0% 100% / 1;
-  --background-end-color: 209 54% 72% / 0.4;
-  --card: 0 0% 98% / 1;
-  --card-hover: 204 38% 90% / 1;
-  --border: 0 0% 88% / 1;
-  --brand-gold: 43 79% 72% / 1;
-  --primary: 222 60% 44% / 1;
-  --primary-hover: 222 60% 34% / 1;
-  --neutral-dark: 0 0% 0% / 1;
-  --neutral-light: 0 0% 100% / 1;
+  --foreground: hsl(0 0% 0% / 1);
+  --secondary-foreground: hsl(210 10% 36% / 1);
+  --background: hsl(0 0% 100% / 1);
+  --background-end: hsl(209 54% 72% / 0.4);
+  --card: hsl(0 0% 98% / 1);
+  --card-hover: hsl(204 38% 90% / 1);
+  --border: hsl(0 0% 88% / 1);
+  --brand-gold: hsl(43 79% 72% / 1);
+  --primary: hsl(222 60% 44% / 1);
+  --primary-hover: hsl(222 60% 34% / 1);
+  --neutral-dark: hsl(0 0% 0% / 1);
+  --neutral-light: hsl(0 0% 100% / 1);
 
-  --chip-gradient-from: #e6f0fc;
-  --chip-gradient-via: #d3e8f2;
-  --chip-gradient-to: #c2dfee;
+  --chip-gradient-from: hsl(213deg 79% 95%);
+  --chip-gradient-via: hsl(199deg 54% 89%);
+  --chip-gradient-to: hsl(200deg 56% 85%);
 
-  --logo-line: #ffffff;
-  --logo-line-mobile: #000000;
+  --logo-line: hsl(0deg 0% 100%);
+  --logo-line-mobile: hsl(0deg 0% 0%);
 
   /* shadcn */
-  --sidebar-background: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
+  --sidebar-background: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
   --radius: 0.5rem;
+
+  --brand: hsl(210deg 53% 15%);
+  --secondary: hsl(209deg 54% 72%);
+  --accent: hsl(43deg 79% 72%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: 0 0% 100% / 1;
-    --secondary-foreground: 210 8% 68% / 1;
-    --background: 0 0% 7% / 1;
-    --background-end-color: 210 53% 15% / 1;
-    --card: 0 0% 9% / 1;
-    --card-hover: 240 15% 20% / 1;
-    --border: 0 0% 24% / 1;
+    --foreground: hsl(0 0% 100% / 1);
+    --secondary-foreground: hsl(210 8% 68% / 1);
+    --background: hsl(0 0% 7% / 1);
+    --background-end: hsl(210 53% 15% / 1);
+    --card: hsl(0 0% 9% / 1);
+    --card-hover: hsl(240 15% 20% / 1);
+    --border: hsl(0 0% 24% / 1);
+    --brand-gold: hsl(43 79% 42% / 1);
+    --primary: hsl(222 60% 24% / 1);
+    --primary-hover: hsl(222 60% 14% / 1);
 
-    --chip-gradient-from: #1e2a4a;
-    --chip-gradient-via: #1a1a40;
-    --chip-gradient-to: #2c2c80;
+    --chip-gradient-from: hsl(224deg 42% 20%);
+    --chip-gradient-via: hsl(240deg 42% 18%);
+    --chip-gradient-to: hsl(240deg 49% 34%);
 
-    --logo-gradient-from: #e0e0e0;
-    --logo-gradient-via: #a8a8a8;
-    --logo-gradient-to: #3a3a3a;
-    --logo-line-mobile: #ffffff;
+    --logo-gradient-from: hsl(0deg 0% 88%);
+    --logo-gradient-via: hsl(0deg 0% 66%);
+    --logo-gradient-to: hsl(0deg 0% 23%);
+    --logo-line-mobile: hsl(0deg 0% 100%);
 
     /* shadcn */
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: hsl(240 5.9% 10%);
+    --sidebar-foreground: hsl(240 4.8% 95.9%);
+    --sidebar-primary: hsl(224.3 76.3% 48%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(240 3.7% 15.9%);
+    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+    --sidebar-border: hsl(240 3.7% 15.9%);
+    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+    --brand: hsl(214deg 51% 8%);
+    --primary: hsl(222deg 60% 48%);
+    --secondary: hsl(209deg 56% 48%);
+    --accent: hsl(43deg 79% 48%);
   }
 }
 
 body {
-  color: hsl(var(--foreground));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      hsl(var(--background-end-color))
-    )
-    hsl(var(--background));
+  color: var(--foreground);
+  background: linear-gradient(to bottom, transparent, var(--background-end))
+    var(--background);
 }
 
 @layer utilities {
