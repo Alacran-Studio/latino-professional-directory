@@ -7,6 +7,7 @@ import TrophyIcon from "@/components/About/icons/Values/Trophy";
 import { useIsMobile } from "@/hooks/use-mobile";
 import SchoolIcon from "../../icons/Values/School";
 import HandshakeIcon from "../../icons/Values/Handshake";
+import Paragraph from "@/components/common/Paragraph";
 
 interface Props {
   cards: CardType[];
@@ -64,7 +65,7 @@ export default function Cards({ cards }: Props) {
         >
           <Header2 className="mb-2">{card.title}</Header2>
           {card.icon && getIcon(card.icon)}
-          <p>{card.description}</p>
+          <Paragraph>{card.description}</Paragraph>
         </div>
       ))}
     </div>
