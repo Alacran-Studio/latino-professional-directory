@@ -4,7 +4,7 @@ import MeetOurTeam from "@/components/About/MeetOurTeam";
 
 const AboutPage = () => {
   return (
-    <main className="p-5">
+    <main className="p-7">
       <div
         className="absolute inset-0 -z-10 bg-no-repeat"
         style={{

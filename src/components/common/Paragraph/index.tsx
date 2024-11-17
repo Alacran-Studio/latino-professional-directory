@@ -9,7 +9,7 @@ export default function Paragraph({
 }) {
   return (
     <p
-      className={`decoration-none text-base font-medium leading-none tracking-normal ${className}`}
+      className={`decoration-none text-[14px] font-medium leading-snug tracking-normal ${className}`}
     >
       {children}
     </p>
