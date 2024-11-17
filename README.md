@@ -49,5 +49,5 @@ NOTE: More details [here](drizzle/README.md)
 ### UI Components
 
 We use [shadcn/ui](https://ui.shadcn.com/) for our `<SideBar/> component`.
-Most of the components borrowed from shadcn/ui are contained within `src/components/ui`.
+Most of the components borrowed from shadcn/ui are contained within `src/components/Shadcn/ui`.
 For a more detailed look, check out [this pull request](https://github.com/Alacran-Studio/lpdd/pull/23/files).
