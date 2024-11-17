@@ -62,7 +62,7 @@ export default function Cards({ cards }: Props) {
       {cards.map((card, index) => (
         <div
           key={index}
-          className={`${getBorderClass(card.borderColor)} my-6 flex flex-col items-center rounded-2xl border-[6px] p-6 text-center`}
+          className={`${getBorderClass(card.borderColor)} my-6 flex flex-col items-center rounded-2xl border-4 p-6 text-center md:border-[6px]`}
         >
           <Header2 className="mb-2">{card.title}</Header2>
           {card.icon && getIcon(card.icon)}
