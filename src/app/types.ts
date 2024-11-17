@@ -23,7 +23,7 @@ export interface CardType {
   title: string;
   icon: string;
   description: string;
-  borderColor: string;
+  borderColor: "accent" | "primary" | "brand" | "secondary";
 }
 
 export enum Affinity {
