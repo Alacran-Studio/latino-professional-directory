@@ -1,5 +1,6 @@
 import Header1 from "@/components/common/Header1";
 import Cards from "./Cards";
+import { CardType } from "@/app/types";
 
 const pageContent = {
   heading: "Our Values",
@@ -32,7 +33,7 @@ const pageContent = {
         "We cultivate knowledge and leadership skills that elevate our community.",
       borderColor: "brand",
     },
-  ],
+  ] as CardType[],
 };
 
 export default function OurValuesSection() {
