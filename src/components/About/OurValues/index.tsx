@@ -6,7 +6,7 @@ const pageContent = {
   valueCards: [
     {
       title: "Ambition & Excellence",
-      icon: "",
+      icon: "trophy",
       description:
         "We support driven professionals in reaching their highest potential.",
       borderColor: "secondary",

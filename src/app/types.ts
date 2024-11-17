@@ -20,10 +20,11 @@ export interface IndustryType {
 }
 
 export type BorderColor = "accent" | "primary" | "brand" | "secondary";
+export type IconName = "trophy" | "school" | "handshake" | "group";
 
 export interface CardType {
   title: string;
-  icon: string;
+  icon: IconName;
   description: string;
   borderColor: BorderColor;
 }
