@@ -37,15 +37,16 @@ export default function AboutIntroSection() {
         alt={pageContent.intro_img_1.alt}
         className="mb-6"
       />
-      <p>{pageContent.intro_p_2}</p>
+      <Paragraph className="mb-6">{pageContent.intro_p_2}</Paragraph>
       <Image
         src={pageContent.intro_img_2.url}
         priority={true}
         width={pageContent.intro_img_2.width}
         height={pageContent.intro_img_2.height}
         alt={pageContent.intro_img_2.alt}
+        className="mb-6"
       />
-      <p>{pageContent.intro_p_3}</p>
+      <Paragraph className="mb-6">{pageContent.intro_p_3}</Paragraph>
     </section>
   );
 }
