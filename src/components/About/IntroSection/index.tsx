@@ -1,3 +1,4 @@
+import Header1 from "@/components/common/Header1";
 import Image from "next/image";
 
 const pageContent = {
@@ -25,7 +26,7 @@ const pageContent = {
 export default function AboutIntroSection() {
   return (
     <section>
-      <h1>{pageContent.heading}</h1>
+      <Header1>{pageContent.heading}</Header1>
       <p>{pageContent.intro_p_1}</p>
       <Image
         src={pageContent.intro_img_1.url}
