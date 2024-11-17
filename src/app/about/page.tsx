@@ -1,6 +1,7 @@
 import React from "react";
 import AboutIntroSection from "@/components/About/IntroSection";
 import MeetOurTeam from "@/components/About/MeetOurTeam";
+import OurValuesSection from "@/components/About/OurValues";
 
 const AboutPage = () => {
   return (
@@ -23,6 +24,7 @@ const AboutPage = () => {
       />
 
       <AboutIntroSection />
+      <OurValuesSection />
       <MeetOurTeam />
     </main>
   );
