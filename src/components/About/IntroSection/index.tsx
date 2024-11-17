@@ -26,7 +26,7 @@ const pageContent = {
 export default function AboutIntroSection() {
   return (
     <section>
-      <Header1>{pageContent.heading}</Header1>
+      <Header1 className="mb-8 mt-3 text-center">{pageContent.heading}</Header1>
       <p>{pageContent.intro_p_1}</p>
       <Image
         src={pageContent.intro_img_1.url}
