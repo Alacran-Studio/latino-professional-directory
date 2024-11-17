@@ -19,11 +19,13 @@ export interface IndustryType {
   name: string;
 }
 
+export type BorderColor = "accent" | "primary" | "brand" | "secondary";
+
 export interface CardType {
   title: string;
   icon: string;
   description: string;
-  borderColor: "accent" | "primary" | "brand" | "secondary";
+  borderColor: BorderColor;
 }
 
 export enum Affinity {
