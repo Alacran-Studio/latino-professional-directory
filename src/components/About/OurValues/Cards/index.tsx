@@ -2,6 +2,7 @@
 
 import { BorderColor, CardType, IconName } from "@/app/types";
 import Header2 from "@/components/common/Header2";
+import GroupIcon from "@/components/common/icons/Group";
 import TrophyIcon from "@/components/common/icons/Trophy";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -17,13 +18,20 @@ export default function Cards({ cards }: Props) {
   }
 
   function getIcon(iconName: IconName) {
-    const iconSizeMobile = 36;
+    const iconSizeMobile = 56;
     const iconSizeDesktop = 72;
     if (iconName === "trophy") {
       return (
         <TrophyIcon
           width={isMobile ? iconSizeMobile : iconSizeDesktop}
           height={isMobile ? iconSizeMobile : iconSizeDesktop}
+          className="mb-2"
+        />
+      );
+    } else if (iconName === "group") {
+      return (
+        <GroupIcon
+          width={isMobile ? iconSizeMobile : iconSizeDesktop}
           className="mb-2"
         />
       );

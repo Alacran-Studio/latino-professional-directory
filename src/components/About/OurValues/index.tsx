@@ -13,7 +13,7 @@ const pageContent = {
     },
     {
       title: "Authenticity & Inclusion",
-      icon: "",
+      icon: "group",
       description:
         "We embrace our true selves and ensure everyone has a place at the table.",
       borderColor: "accent",
