@@ -56,6 +56,7 @@ export default function Cards({ cards }: Props) {
 
     return <></>;
   }
+
   return (
     <div className="w-full">
       {cards.map((card, index) => (
