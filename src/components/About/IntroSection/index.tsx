@@ -1,4 +1,5 @@
 import Header1 from "@/components/common/Header1";
+import Paragraph from "@/components/common/Paragraph";
 import Image from "next/image";
 
 const pageContent = {
@@ -25,15 +26,16 @@ const pageContent = {
 
 export default function AboutIntroSection() {
   return (
-    <section>
+    <section className="mb-8">
       <Header1 className="mb-8 mt-3 text-center">{pageContent.heading}</Header1>
-      <p>{pageContent.intro_p_1}</p>
+      <Paragraph className="mb-6">{pageContent.intro_p_1}</Paragraph>
       <Image
         src={pageContent.intro_img_1.url}
         priority={true}
         width={pageContent.intro_img_1.width}
         height={pageContent.intro_img_1.height}
         alt={pageContent.intro_img_1.alt}
+        className="mb-6"
       />
       <p>{pageContent.intro_p_2}</p>
       <Image
