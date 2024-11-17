@@ -20,14 +20,14 @@ const pageContent = {
     },
     {
       title: "Connection & Belonging",
-      icon: "",
+      icon: "handshake",
       description:
         "We create pathways for meaningful relationships that foster confidence and wisdom.",
       borderColor: "primary",
     },
     {
       title: "Learning & Leadership",
-      icon: "",
+      icon: "school",
       description:
         "We cultivate knowledge and leadership skills that elevate our community.",
       borderColor: "brand",
