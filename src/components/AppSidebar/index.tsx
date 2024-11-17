@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarSeparator,
-} from "@/components/ui/sidebar";
+} from "@/components/common/Shadcn/ui/sidebar";
 import { FullBrand } from "@/components/common/FullBrand";
 import Link from "next/link";
 import { InternalNavigationLinks } from "@/app/types";
@@ -24,7 +24,7 @@ export function AppSidebar({ links }: AppSidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel asChild>
-            <span className="[&_p]:text-logo-mobile mt-6">
+            <span className="mt-6 [&_p]:text-logo-mobile">
               <FullBrand fillColor="var(--logo-line-mobile)" />
             </span>
           </SidebarGroupLabel>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useSidebar } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/common/Shadcn/ui/sidebar";
 import { MenuIcon } from "@heroicons/react/outline";
 
 export const MenuButton = () => {

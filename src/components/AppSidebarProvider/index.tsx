@@ -1,5 +1,5 @@
 "use client";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/common/Shadcn/ui/sidebar";
 import { PropsWithChildren, useState } from "react";
 
 export const AppSidebarProvider = ({ children }: PropsWithChildren) => {
