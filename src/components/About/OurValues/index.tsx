@@ -1,4 +1,5 @@
 import Header1 from "@/components/common/Header1";
+import Cards from "./Cards";
 
 const pageContent = {
   heading: "Our Values",
@@ -36,8 +37,9 @@ const pageContent = {
 
 export default function OurValuesSection() {
   return (
-    <section>
+    <section className="mb-8">
       <Header1 className="text-center">{pageContent.heading}</Header1>
+      <Cards cards={pageContent.valueCards} />
     </section>
   );
 }

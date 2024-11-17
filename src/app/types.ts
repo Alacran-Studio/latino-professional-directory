@@ -19,6 +19,13 @@ export interface IndustryType {
   name: string;
 }
 
+export interface CardType {
+  title: string;
+  icon: string;
+  description: string;
+  borderColor: string;
+}
+
 export enum Affinity {
   LatinoServing = "Latino-serving",
   WomenServing = "Women-serving",
