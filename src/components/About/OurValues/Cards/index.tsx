@@ -2,8 +2,8 @@
 
 import { BorderColor, CardType, IconName } from "@/app/types";
 import Header2 from "@/components/common/Header2";
-import GroupIcon from "@/components/common/icons/Group";
-import TrophyIcon from "@/components/common/icons/Trophy";
+import GroupIcon from "@/components/About/icons/Values/Group";
+import TrophyIcon from "@/components/About/icons/Values/Trophy";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Props {

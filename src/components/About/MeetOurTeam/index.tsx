@@ -1,5 +1,5 @@
 import Header1 from "@/components/common/Header1";
-import LinkedInIcon from "@/components/common/icons/LinkedIn";
+import LinkedInIcon from "@/components/About/icons/LinkedIn";
 import Image from "next/image";
 
 const teamMembers = [

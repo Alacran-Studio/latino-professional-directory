@@ -1,8 +1,8 @@
 import { useRef, useEffect } from "react";
 import { IndustryType } from "@/app/types";
 import "./checkbox.css";
-import FilterIcon from "@/components/common/icons/Filter";
-import XIcon from "@/components/common/icons/X";
+import FilterIcon from "@/components/Directory/icons/Filter";
+import XIcon from "@/components/Directory/icons/X";
 
 interface FilterProps {
   industries: IndustryType[];
