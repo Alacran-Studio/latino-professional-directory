@@ -5,6 +5,8 @@ import Header2 from "@/components/common/Header2";
 import GroupIcon from "@/components/About/icons/Values/Group";
 import TrophyIcon from "@/components/About/icons/Values/Trophy";
 import { useIsMobile } from "@/hooks/use-mobile";
+import SchoolIcon from "../../icons/Values/School";
+import HandshakeIcon from "../../icons/Values/Handshake";
 
 interface Props {
   cards: CardType[];
@@ -31,6 +33,20 @@ export default function Cards({ cards }: Props) {
     } else if (iconName === "group") {
       return (
         <GroupIcon
+          width={isMobile ? iconSizeMobile : iconSizeDesktop}
+          className="mb-2"
+        />
+      );
+    } else if (iconName === "school") {
+      return (
+        <SchoolIcon
+          width={isMobile ? iconSizeMobile : iconSizeDesktop}
+          className="mb-2"
+        />
+      );
+    } else if (iconName === "handshake") {
+      return (
+        <HandshakeIcon
           width={isMobile ? iconSizeMobile : iconSizeDesktop}
           className="mb-2"
         />
