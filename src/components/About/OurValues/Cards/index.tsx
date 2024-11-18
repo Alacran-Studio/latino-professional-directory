@@ -23,38 +23,25 @@ export default function Cards({ cards }: Props) {
   function getIcon(iconName: IconName) {
     const iconSizeMobile = 56;
     const iconSizeDesktop = 72;
-    if (iconName === "trophy") {
-      return (
-        <TrophyIcon
-          width={isMobile ? iconSizeMobile : iconSizeDesktop}
-          height={isMobile ? iconSizeMobile : iconSizeDesktop}
-          className="mb-2"
-        />
-      );
-    } else if (iconName === "group") {
-      return (
-        <GroupIcon
-          width={isMobile ? iconSizeMobile : iconSizeDesktop}
-          className="mb-2"
-        />
-      );
-    } else if (iconName === "school") {
-      return (
-        <SchoolIcon
-          width={isMobile ? iconSizeMobile : iconSizeDesktop}
-          className="mb-2"
-        />
-      );
-    } else if (iconName === "handshake") {
-      return (
-        <HandshakeIcon
-          width={isMobile ? iconSizeMobile : iconSizeDesktop}
-          className="mb-2"
-        />
-      );
+    const iconComponents = {
+      [IconName.Trophy]: TrophyIcon,
+      [IconName.School]: SchoolIcon,
+      [IconName.Handshake]: HandshakeIcon,
+      [IconName.Group]: GroupIcon,
+    };
+
+    const IconComponent = iconComponents[iconName];
+
+    if (!IconComponent) {
+      return <></>;
     }
 
-    return <></>;
+    return (
+      <IconComponent
+        width={isMobile ? iconSizeMobile : iconSizeDesktop}
+        className="mb-2"
+      />
+    );
   }
 
   return (

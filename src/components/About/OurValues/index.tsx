@@ -1,34 +1,34 @@
 import Header1 from "@/components/common/Header1";
 import Cards from "./Cards";
-import { CardType } from "@/app/types";
+import { CardType, IconName } from "@/app/types";
 
 const pageContent = {
   heading: "Our Values",
   valueCards: [
     {
       title: "Ambition & Excellence",
-      icon: "trophy",
+      icon: IconName.Trophy,
       description:
         "We support driven professionals in reaching their highest potential.",
       borderColor: "secondary",
     },
     {
       title: "Authenticity & Inclusion",
-      icon: "group",
+      icon: IconName.Group,
       description:
         "We embrace our true selves and ensure everyone has a place at the table.",
       borderColor: "accent",
     },
     {
       title: "Connection & Belonging",
-      icon: "handshake",
+      icon: IconName.Handshake,
       description:
         "We create pathways for meaningful relationships that foster confidence and wisdom.",
       borderColor: "primary",
     },
     {
       title: "Learning & Leadership",
-      icon: "school",
+      icon: IconName.School,
       description:
         "We cultivate knowledge and leadership skills that elevate our community.",
       borderColor: "brand",

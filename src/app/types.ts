@@ -20,7 +20,13 @@ export interface IndustryType {
 }
 
 export type BorderColor = "accent" | "primary" | "brand" | "secondary";
-export type IconName = "trophy" | "school" | "handshake" | "group";
+
+export enum IconName {
+  Trophy = "trophy",
+  School = "school",
+  Handshake = "handshake",
+  Group = "group",
+}
 
 export interface CardType {
   title: string;
