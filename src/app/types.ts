@@ -19,7 +19,12 @@ export interface IndustryType {
   name: string;
 }
 
-export type BorderColor = "accent" | "primary" | "brand" | "secondary";
+export enum BorderColor {
+  Accent = "border-accent",
+  Primary = "border-primary",
+  Brand = "border-brand",
+  Secondary = "border-secondary",
+}
 
 export enum IconName {
   Trophy = "trophy",

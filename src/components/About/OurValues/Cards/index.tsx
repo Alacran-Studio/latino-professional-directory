@@ -1,13 +1,14 @@
 "use client";
 
 import { BorderColor, CardType, IconName } from "@/app/types";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Header2 from "@/components/common/Header2";
+import Paragraph from "@/components/common/Paragraph";
+
 import GroupIcon from "@/components/About/icons/Values/Group";
 import TrophyIcon from "@/components/About/icons/Values/Trophy";
-import { useIsMobile } from "@/hooks/use-mobile";
-import SchoolIcon from "../../icons/Values/School";
-import HandshakeIcon from "../../icons/Values/Handshake";
-import Paragraph from "@/components/common/Paragraph";
+import SchoolIcon from "@/components/About/icons/Values/School";
+import HandshakeIcon from "@/components/About/icons/Values/Handshake";
 
 interface Props {
   cards: CardType[];
@@ -15,10 +16,6 @@ interface Props {
 
 export default function Cards({ cards }: Props) {
   const isMobile = useIsMobile();
-
-  function getBorderClass(borderColor: BorderColor): string {
-    return `border-${borderColor}`;
-  }
 
   function getIcon(iconName: IconName) {
     const iconSizeMobile = 56;
@@ -49,7 +46,7 @@ export default function Cards({ cards }: Props) {
       {cards.map((card, index) => (
         <div
           key={index}
-          className={`${getBorderClass(card.borderColor)} my-6 flex flex-col items-center rounded-2xl border-4 p-6 text-center md:border-[6px]`}
+          className={`${card.borderColor} my-6 flex flex-col items-center rounded-2xl border-4 p-6 text-center md:border-[6px]`}
         >
           <Header2 className="mb-2">{card.title}</Header2>
           {card.icon && getIcon(card.icon)}
