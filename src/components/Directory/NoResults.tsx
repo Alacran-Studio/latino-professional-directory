@@ -1,36 +1,28 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import Link from "next/link";
 
 export default function NoResults() {
-  const router = useRouter();
-
-  const handleSubmit = () => {
-    console.log("Button clicked, navigating to /contact");
-    router.push("/contact");
-  };
-
   return (
-    <div className="relative z-10 flex flex-col items-center justify-center space-y-4 p-8 text-center">
+    <div className="relative z-0 flex flex-col items-center justify-center space-y-4 p-8 text-center">
       <Image
         src="/Search.svg"
         alt="No Results Found"
-        width={100}
-        height={100}
+        width={200}
+        height={200}
         className="opacity-75"
       />
-      <h3 className="text-lg font-semibold">No Results Found</h3>
+      <h3 className="text-lg font-semibold">We couldn’t find any results.</h3>
       <p className="text-sm text-gray-500">
-        Try shortening or rephrasing your search.
+        Try a different search or refine your filters.
       </p>
-      <button
-        className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-        onClick={handleSubmit}
+      <Link
+        href="/contact"
+        className="rounded-lg bg-blue-500 px-4 py-2 text-sm text-white transition-all duration-200 hover:bg-blue-600"
       >
         Submit an Organization
-      </button>
+      </Link>
     </div>
   );
 }
