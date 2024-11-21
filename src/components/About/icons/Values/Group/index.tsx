@@ -1,6 +1,7 @@
 const GroupIcon = ({ width = 96, height = 76, className = "" }) => {
   return (
     <svg
+      aria-hidden="true"
       width={width}
       height={height}
       viewBox="0 0 96 76"

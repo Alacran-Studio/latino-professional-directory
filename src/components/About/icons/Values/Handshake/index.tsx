@@ -1,6 +1,7 @@
 const HandshakeIcon = ({ width = 89, height = 80, className = "" }) => {
   return (
     <svg
+      aria-hidden="true"
       width={width}
       height={height}
       viewBox={`0 0 89 80`}

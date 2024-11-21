@@ -6,6 +6,7 @@ const TrophyIcon = ({
 }) => {
   return (
     <svg
+      aria-hidden="true"
       width={width}
       height={height}
       viewBox={`0 0 72 72`}

@@ -1,6 +1,7 @@
 const SchoolIcon = ({ width = 88, height = 72, className = "" }) => {
   return (
     <svg
+      aria-hidden="true"
       width={width}
       height={height}
       viewBox={`0 0 88 72`}
