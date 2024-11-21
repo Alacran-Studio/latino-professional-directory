@@ -83,7 +83,7 @@ export default function Filter({
       {/* Dropdown Menu */}
       <div
         ref={industryDropdownRef}
-        className={`absolute w-full transform bg-background transition-all duration-300 ease-out md:w-1/2 ${
+        className={`absolute z-20 w-full transform bg-background transition-all duration-300 ease-out md:w-1/2 ${
           isIndustryDropdownOpen
             ? "max-h-[500px] translate-y-0 rounded-b-lg border-b border-l border-r border-border p-4 opacity-100 shadow-2xl"
             : "max-h-0 translate-y-0 border-none p-0 opacity-0 shadow-none"

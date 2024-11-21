@@ -4,6 +4,7 @@ import DirectoryOrg from "./DirectoryOrg";
 import { DirectoryOrgType, IndustryType } from "@/app/types";
 
 import Filter from "./Filter";
+import NoResults from "./NoResults";
 // import SearchBar from "./search-bar";
 
 export default function Directory() {
@@ -64,21 +65,31 @@ export default function Directory() {
         </div>
 
         <div className="grid gap-4">
-          {organizations
-            .filter((org) => {
-              if (selectedIndustries.length === 0) {
-                return true;
-              }
+          {organizations.filter((org) => {
+            if (selectedIndustries.length === 0) {
+              return true;
+            }
 
-              return org.industries.some((industry) =>
-                selectedIndustries.some(
-                  (selected) => selected.id === industry.id
-                )
-              );
-            })
-            .map((org) => (
-              <DirectoryOrg key={org.id} {...org} />
-            ))}
+            return org.industries.some((industry) =>
+              selectedIndustries.some((selected) => selected.id === industry.id)
+            );
+          }).length === 0 ? (
+            <NoResults />
+          ) : (
+            organizations
+              .filter((org) => {
+                if (selectedIndustries.length === 0) {
+                  return true;
+                }
+
+                return org.industries.some((industry) =>
+                  selectedIndustries.some(
+                    (selected) => selected.id === industry.id
+                  )
+                );
+              })
+              .map((org) => <DirectoryOrg key={org.id} {...org} />)
+          )}
         </div>
       </div>
     </section>
