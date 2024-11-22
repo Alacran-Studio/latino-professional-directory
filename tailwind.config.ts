@@ -29,7 +29,7 @@ const config: Config = {
         gradientEnd: "var(--background-end)",
         brandGold: "var(--brand-gold)",
         neutralDark: "var(--neutral-dark)",
-        neutralLight: "hsl(var(--neutral-light",
+        neutralLight: "var(--neutral-light)",
         chipGradientFrom: "var(--chip-gradient-from)",
         chipGradientVia: "var(--chip-gradient-via)",
         chipGradientTo: "var(--chip-gradient-to)",
