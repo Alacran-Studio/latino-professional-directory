@@ -42,11 +42,11 @@ export default function Cards({ cards }: Props) {
   }
 
   return (
-    <div className="w-full">
+    <div className="mx-auto grid min-h-screen max-w-[1200px] grid-cols-1 place-items-center gap-6 sm:grid-cols-2 md:gap-0">
       {cards.map((card, index) => (
         <div
           key={index}
-          className={`${card.borderColor} my-6 flex flex-col items-center rounded-2xl border-4 p-6 text-center md:border-[6px]`}
+          className={`${card.borderColor} mx-auto flex flex-col items-center rounded-2xl border-4 p-6 text-center sm:min-h-72 md:min-h-64 md:max-w-[500px] md:border-[6px]`}
         >
           <Header2 className="mb-2">{card.title}</Header2>
           {card.icon && getIcon(card.icon)}

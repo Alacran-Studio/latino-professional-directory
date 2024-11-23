@@ -39,7 +39,7 @@ const pageContent = {
 export default function OurValuesSection() {
   return (
     <section className="mb-8">
-      <Header1 className="text-center">{pageContent.heading}</Header1>
+      <Header1 className="mb-6 text-center">{pageContent.heading}</Header1>
       <Cards cards={pageContent.valueCards} />
     </section>
   );
