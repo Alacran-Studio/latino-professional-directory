@@ -5,12 +5,12 @@ import OurValuesSection from "@/components/About/OurValues";
 
 const AboutPage = () => {
   return (
-    <main className="p-7">
+    <main className="relative p-7">
       <div
         className="absolute inset-0 -z-10 bg-no-repeat"
         style={{
           backgroundImage: "url('/background-art1.svg')",
-          backgroundSize: "35%",
+          backgroundSize: "28%",
           backgroundPosition: "bottom left",
         }}
       />

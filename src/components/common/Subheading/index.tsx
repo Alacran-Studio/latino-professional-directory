@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Paragraph({
+export default function Subheading({
   children,
   className = "",
 }: {
@@ -9,7 +9,7 @@ export default function Paragraph({
 }) {
   return (
     <p
-      className={`decoration-none text-base font-medium leading-snug tracking-normal md:text-lg ${className}`}
+      className={`decoration-none text-lg font-medium leading-snug tracking-normal md:text-2xl ${className}`}
     >
       {children}
     </p>

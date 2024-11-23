@@ -1,5 +1,5 @@
 import Header1 from "@/components/common/Header1";
-import Paragraph from "@/components/common/Paragraph";
+import Subheading from "@/components/common/Subheading";
 import Image from "next/image";
 
 const pageContent = {
@@ -26,13 +26,13 @@ const pageContent = {
 
 export default function AboutIntroSection() {
   return (
-    <section className="mb-8">
-      <div className="sm:flex sm:flex-row-reverse sm:items-start sm:justify-between">
-        <div>
+    <section className="mb-8 sm:px-7 md:px-14">
+      <div className="flex flex-col items-center sm:flex-row-reverse sm:justify-between md:items-start">
+        <div className="sm:w-1/2">
           <Header1 className="mb-8 mt-3 text-center">
             {pageContent.heading}
           </Header1>
-          <Paragraph className="mb-6">{pageContent.intro_p_1}</Paragraph>
+          <Subheading className="mb-6">{pageContent.intro_p_1}</Subheading>
         </div>
         <Image
           src={pageContent.intro_img_1.url}
@@ -40,19 +40,25 @@ export default function AboutIntroSection() {
           width={pageContent.intro_img_1.width}
           height={pageContent.intro_img_1.height}
           alt={pageContent.intro_img_1.alt}
-          className="mb-6 sm:mr-14 sm:flex-shrink-0 sm:object-contain"
+          className="mb-6 w-full sm:mr-7 sm:w-1/2 sm:flex-shrink-0 sm:object-contain md:mr-14 md:max-w-2xl"
         />
       </div>
-      <Paragraph className="mb-6">{pageContent.intro_p_2}</Paragraph>
-      <Image
-        src={pageContent.intro_img_2.url}
-        priority={true}
-        width={pageContent.intro_img_2.width}
-        height={pageContent.intro_img_2.height}
-        alt={pageContent.intro_img_2.alt}
-        className="mb-6"
-      />
-      <Paragraph className="mb-6">{pageContent.intro_p_3}</Paragraph>
+
+      <Subheading className="mb-6">{pageContent.intro_p_2}</Subheading>
+
+      <div className="flex flex-col items-center sm:flex-row-reverse sm:items-start sm:justify-between">
+        <Image
+          src={pageContent.intro_img_2.url}
+          priority={true}
+          width={pageContent.intro_img_2.width}
+          height={pageContent.intro_img_2.height}
+          alt={pageContent.intro_img_2.alt}
+          className="mb-6 sm:ml-7 sm:w-1/2 sm:flex-shrink-0 sm:object-contain md:ml-14 md:max-w-2xl"
+        />
+        <Subheading className="mb-6 sm:w-1/2">
+          {pageContent.intro_p_3}
+        </Subheading>
+      </div>
     </section>
   );
 }
