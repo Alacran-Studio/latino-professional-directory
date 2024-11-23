@@ -56,12 +56,12 @@ export default function Filter({
   };
 
   return (
-    <div className="relative mt-4 md:mt-0 md:w-full">
+    <div className="relative mt-4 sm:w-64 md:mt-0 md:w-80">
       {/* Filter Button */}
       <button
         ref={industryDropdownButtonRef}
         onClick={() => setIsIndustryDropdownOpen(!isIndustryDropdownOpen)}
-        className={`flex w-full items-center justify-between bg-brandGold px-4 py-2 transition-all duration-300 ease-out hover:shadow-lg md:h-12 md:w-1/2 dark:text-black ${
+        className={`flex w-full items-center justify-between bg-brandGold px-4 py-2 transition-all duration-300 ease-out hover:shadow-lg md:h-12 dark:text-black ${
           isIndustryDropdownOpen
             ? "rounded-t-lg font-semibold"
             : "rounded-lg font-normal"
@@ -83,7 +83,7 @@ export default function Filter({
       {/* Dropdown Menu */}
       <div
         ref={industryDropdownRef}
-        className={`absolute w-full transform bg-background transition-all duration-300 ease-out md:w-1/2 ${
+        className={`absolute w-full transform bg-background transition-all duration-300 ease-out ${
           isIndustryDropdownOpen
             ? "max-h-[500px] translate-y-0 rounded-b-lg border-b border-l border-r border-border p-4 opacity-100 shadow-2xl"
             : "max-h-0 translate-y-0 border-none p-0 opacity-0 shadow-none"
