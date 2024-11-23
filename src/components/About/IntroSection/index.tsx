@@ -27,16 +27,22 @@ const pageContent = {
 export default function AboutIntroSection() {
   return (
     <section className="mb-8">
-      <Header1 className="mb-8 mt-3 text-center">{pageContent.heading}</Header1>
-      <Paragraph className="mb-6">{pageContent.intro_p_1}</Paragraph>
-      <Image
-        src={pageContent.intro_img_1.url}
-        priority={true}
-        width={pageContent.intro_img_1.width}
-        height={pageContent.intro_img_1.height}
-        alt={pageContent.intro_img_1.alt}
-        className="mb-6"
-      />
+      <div className="sm:flex sm:flex-row-reverse sm:items-start sm:justify-between">
+        <div>
+          <Header1 className="mb-8 mt-3 text-center">
+            {pageContent.heading}
+          </Header1>
+          <Paragraph className="mb-6">{pageContent.intro_p_1}</Paragraph>
+        </div>
+        <Image
+          src={pageContent.intro_img_1.url}
+          priority={true}
+          width={pageContent.intro_img_1.width}
+          height={pageContent.intro_img_1.height}
+          alt={pageContent.intro_img_1.alt}
+          className="mb-6 sm:mr-14 sm:flex-shrink-0 sm:object-contain"
+        />
+      </div>
       <Paragraph className="mb-6">{pageContent.intro_p_2}</Paragraph>
       <Image
         src={pageContent.intro_img_2.url}
