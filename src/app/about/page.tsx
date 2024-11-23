@@ -18,7 +18,7 @@ const AboutPage = () => {
         className="absolute inset-0 -z-10 bg-no-repeat"
         style={{
           backgroundImage: "url('/background-art2.svg')",
-          backgroundSize: "30%",
+          backgroundSize: "18%",
           backgroundPosition: "right top",
         }}
       />

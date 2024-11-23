@@ -45,7 +45,7 @@ export default function MeetOurTeam() {
   return (
     <section>
       <Header1 className="mb-5 text-center">Meet Our Team</Header1>
-      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
         {teamMembers.map((member, index) => (
           <div key={index} className="mx-auto flex w-64 flex-col">
             <Image
