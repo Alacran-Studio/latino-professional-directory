@@ -17,21 +17,21 @@ const pageContent = {
       icon: IconName.Group,
       description:
         "We embrace our true selves and ensure everyone has a place at the table.",
-      borderColor: BorderColor.Accent,
+      borderColor: BorderColor.Secondary,
     },
     {
       title: "Connection & Belonging",
       icon: IconName.Handshake,
       description:
         "We create pathways for meaningful relationships that foster confidence and wisdom.",
-      borderColor: BorderColor.Primary,
+      borderColor: BorderColor.Secondary,
     },
     {
       title: "Learning & Leadership",
       icon: IconName.School,
       description:
         "We cultivate knowledge and leadership skills that elevate our community.",
-      borderColor: BorderColor.Brand,
+      borderColor: BorderColor.Secondary,
     },
   ] as CardType[],
 };
