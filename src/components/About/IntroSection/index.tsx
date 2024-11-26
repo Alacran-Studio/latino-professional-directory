@@ -31,7 +31,7 @@ const pageContent = {
 
 export default function AboutIntroSection() {
   return (
-    <section className="mb-2 sm:px-7 md:px-14 lg:mx-auto lg:max-w-7xl">
+    <section className="mb-8 sm:px-7 md:px-14 lg:mx-auto lg:mb-16 lg:max-w-7xl">
       <div className="flex flex-col md:flex-row-reverse md:items-end md:justify-between">
         <div className="md:w-1/2">
           <Header1 className="mb-8 mt-3 text-center">
