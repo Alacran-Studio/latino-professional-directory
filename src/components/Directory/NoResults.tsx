@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import LinkButton from "@/components/common/LinkButton";
 
 export default function NoResults() {
   return (
-    <div className="relative z-0 flex flex-col items-center justify-center space-y-4 p-8 text-center">
+    <div className="flex flex-col items-center justify-center space-y-4 p-8 text-center">
       <Image
         src="/Search.svg"
         alt="No Results Found"
@@ -17,12 +17,7 @@ export default function NoResults() {
       <p className="text-sm text-gray-500">
         Try a different search or refine your filters.
       </p>
-      <Link
-        href="/contact"
-        className="rounded-lg bg-blue-500 px-4 py-2 text-sm text-white transition-all duration-200 hover:bg-blue-600"
-      >
-        Submit an Organization
-      </Link>
+      <LinkButton href="/contact" title="Submit an Organization" />
     </div>
   );
 }

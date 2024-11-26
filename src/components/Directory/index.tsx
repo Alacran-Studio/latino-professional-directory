@@ -1,11 +1,11 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
 import { DirectoryOrgType, IndustryType } from "@/app/types";
 
 import Filter from "./Filter";
 import NoResults from "./NoResults";
-// import SearchBar from "./search-bar";
 
 export default function Directory() {
   const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
@@ -27,11 +27,13 @@ export default function Directory() {
         console.error("Error fetching organizations: ", error);
       }
     };
+
     const fetchIndustries = async () => {
       try {
         const response = await fetch("/api/industries");
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Failed to fetch data");
+
         const sortedIndustries = data.industries.sort(
           (a: { name: string }, b: { name: string }) =>
             a.name.localeCompare(b.name)
@@ -45,6 +47,17 @@ export default function Directory() {
     fetchOrganizations();
     fetchIndustries();
   }, []);
+
+  // Filter logic extracted into a single constant
+  const filteredOrganizations = organizations.filter((org) => {
+    if (selectedIndustries.length === 0) {
+      return true;
+    }
+
+    return org.industries.some((industry) =>
+      selectedIndustries.some((selected) => selected.id === industry.id)
+    );
+  });
 
   return (
     <section className="mb-4 flex w-10/12 flex-col items-center pb-4 pt-8">
@@ -60,35 +73,15 @@ export default function Directory() {
             isIndustryDropdownOpen={isIndustryDropdownOpen}
             setIsIndustryDropdownOpen={setIsIndustryDropdownOpen}
           />
-
-          {/* <SearchBar></SearchBar> */}
         </div>
 
         <div className="grid gap-4">
-          {organizations.filter((org) => {
-            if (selectedIndustries.length === 0) {
-              return true;
-            }
-
-            return org.industries.some((industry) =>
-              selectedIndustries.some((selected) => selected.id === industry.id)
-            );
-          }).length === 0 ? (
-            <NoResults />
+          {filteredOrganizations.length === 0 ? (
+            <NoResults /> // Render NoResults if no organizations match the filters
           ) : (
-            organizations
-              .filter((org) => {
-                if (selectedIndustries.length === 0) {
-                  return true;
-                }
-
-                return org.industries.some((industry) =>
-                  selectedIndustries.some(
-                    (selected) => selected.id === industry.id
-                  )
-                );
-              })
-              .map((org) => <DirectoryOrg key={org.id} {...org} />)
+            filteredOrganizations.map((org) => (
+              <DirectoryOrg key={org.id} {...org} />
+            ))
           )}
         </div>
       </div>
