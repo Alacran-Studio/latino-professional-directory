@@ -48,7 +48,6 @@ export default function Directory() {
     fetchIndustries();
   }, []);
 
-  // Filter logic extracted into a single constant
   const filteredOrganizations = organizations.filter((org) => {
     if (selectedIndustries.length === 0) {
       return true;
@@ -77,7 +76,7 @@ export default function Directory() {
 
         <div className="grid gap-4">
           {filteredOrganizations.length === 0 ? (
-            <NoResults /> // Render NoResults if no organizations match the filters
+            <NoResults />
           ) : (
             filteredOrganizations.map((org) => (
               <DirectoryOrg key={org.id} {...org} />
