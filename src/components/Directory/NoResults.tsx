@@ -9,8 +9,8 @@ export default function NoResults() {
       <Image
         src="/Search.svg"
         alt="No Results Found"
-        width={150}
-        height={150}
+        width={133}
+        height={131}
         className="opacity-75"
       />
       <h3 className="text-lg font-semibold">We couldn’t find any results.</h3>
