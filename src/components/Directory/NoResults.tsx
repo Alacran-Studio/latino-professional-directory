@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import LinkButton from "@/components/common/LinkButton";
+import Subheading from "../common/Subheading";
+import Paragraph from "../common/Paragraph";
 
 export default function NoResults() {
   return (
@@ -13,10 +15,10 @@ export default function NoResults() {
         height={131}
         className="opacity-75"
       />
-      <h3 className="text-lg font-semibold">We couldn’t find any results.</h3>
-      <p className="text-sm text-gray-500">
+      <Subheading>We couldn’t find any results.</Subheading>
+      <Paragraph className="text-secondary-foreground">
         Try a different search or refine your filters.
-      </p>
+      </Paragraph>
       <LinkButton
         href="/contact"
         title="Submit an Organization"
