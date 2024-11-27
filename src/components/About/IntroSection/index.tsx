@@ -26,7 +26,7 @@ const pageContent = {
   intro_p_3_1:
     "We offer tools, resources, and opportunities that not only help professionals achieve their goals but also connect with others who share their values and drive.",
   intro_p_3_2:
-    "Whether you're looking to expand your network, grow your skillset, or simply belong to a supportive community, LPDD is here to guide you every step of the way.",
+    "Whether you're looking to expand your network, grow your skill set, or simply belong to a supportive community, LPDD is here to guide you every step of the way.",
 };
 
 export default function AboutIntroSection() {
