@@ -12,6 +12,7 @@ export default function LoadingResults() {
         width={133}
         height={131}
         className="opacity-75"
+        priority
       />
       <Subheading className="text-secondary-foreground">
         Loading Organizations...
