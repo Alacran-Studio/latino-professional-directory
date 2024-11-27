@@ -19,13 +19,6 @@ export interface IndustryType {
   name: string;
 }
 
-export enum BorderColor {
-  Accent = "border-accent",
-  Primary = "border-primary",
-  Brand = "border-brand",
-  Secondary = "border-secondary",
-}
-
 export enum IconName {
   Trophy = "trophy",
   School = "school",
@@ -37,7 +30,7 @@ export interface CardType {
   title: string;
   icon: IconName;
   description: string;
-  borderColor: BorderColor;
+  borderColor: string;
 }
 
 export enum Affinity {
