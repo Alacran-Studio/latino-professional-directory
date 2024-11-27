@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { Lexend } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AppSidebarProvider } from "@/components/AppSidebarProvider";
 import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
-
-const lexend = Lexend({ subsets: ["latin"] });
+import { getLexendFont } from "@/lib/utils";
 
 const Base = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
-      <body className={`min-h-screen ${lexend.className}`}>
+      <body className={`min-h-screen ${getLexendFont()}`}>
         <Providers>{children}</Providers>
       </body>
     </html>

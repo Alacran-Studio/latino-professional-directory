@@ -15,6 +15,9 @@
   --primary-hover: hsl(222 60% 34% / 1);
   --neutral-dark: hsl(0 0% 0% / 1);
   --neutral-light: hsl(0 0% 100% / 1);
+  --brand: hsl(210deg 53% 15%);
+  --secondary: hsl(209deg 54% 72%);
+  --accent: hsl(43deg 79% 72%);
 
   --chip-gradient-from: hsl(213deg 79% 95%);
   --chip-gradient-via: hsl(199deg 54% 89%);
@@ -22,6 +25,8 @@
 
   --logo-line: hsl(0deg 0% 100%);
   --logo-line-mobile: hsl(0deg 0% 0%);
+
+  --radius: 0.5rem;
 
   /* shadcn */
   --sidebar-background: hsl(0 0% 98%);
@@ -32,12 +37,6 @@
   --sidebar-accent-foreground: hsl(240 5.9% 10%);
   --sidebar-border: hsl(220 13% 91%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
-
-  --radius: 0.5rem;
-
-  --brand: hsl(210deg 53% 15%);
-  --secondary: hsl(209deg 54% 72%);
-  --accent: hsl(43deg 79% 72%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -52,6 +51,10 @@
     --brand-gold: hsl(43 79% 42% / 1);
     --primary: hsl(222 60% 24% / 1);
     --primary-hover: hsl(222 60% 14% / 1);
+    --brand: hsl(214deg 51% 8%);
+    --primary: hsl(222deg 60% 48%);
+    --secondary: hsl(209deg 56% 48%);
+    --accent: hsl(43deg 79% 48%);
 
     --chip-gradient-from: hsl(224deg 42% 20%);
     --chip-gradient-via: hsl(240deg 42% 18%);
@@ -63,7 +66,6 @@
     --logo-line-mobile: hsl(0deg 0% 100%);
 
     /* shadcn */
-
     --sidebar-background: hsl(240 5.9% 10%);
     --sidebar-foreground: hsl(240 4.8% 95.9%);
     --sidebar-primary: hsl(224.3 76.3% 48%);
@@ -72,18 +74,12 @@
     --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
     --sidebar-border: hsl(240 3.7% 15.9%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
-
-    --brand: hsl(214deg 51% 8%);
-    --primary: hsl(222deg 60% 48%);
-    --secondary: hsl(209deg 56% 48%);
-    --accent: hsl(43deg 79% 48%);
   }
 }
 
 body {
   color: var(--foreground);
-  background: linear-gradient(to bottom, transparent, var(--background-end))
-    var(--background);
+  background: linear-gradient(to bottom, transparent, var(--background-end)) var(--background);
 }
 
 @layer utilities {

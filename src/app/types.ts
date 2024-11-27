@@ -19,6 +19,20 @@ export interface IndustryType {
   name: string;
 }
 
+export enum IconName {
+  Trophy = "trophy",
+  School = "school",
+  Handshake = "handshake",
+  Group = "group",
+}
+
+export interface CardType {
+  title: string;
+  icon: IconName;
+  description: string;
+  borderColor: string;
+}
+
 export enum Affinity {
   LatinoServing = "Latino-serving",
   WomenServing = "Women-serving",

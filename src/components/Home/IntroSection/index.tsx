@@ -1,15 +1,9 @@
-import { Lexend } from "next/font/google";
 import LinkButton from "@/components/common/LinkButton";
-
-const lexend = Lexend({
-  weight: ["400", "500", "600"],
-  subsets: ["latin"],
-});
 
 export default function IntroSection() {
   return (
     <section
-      className={`flex w-full flex-col items-center pt-8 text-center md:pt-10 ${lexend.className}`}
+      className={`flex w-full flex-col items-center pt-8 text-center md:pt-10`}
     >
       <p className="mx-6 text-xs font-medium text-secondary-foreground sm:text-2xl">
         We strive to provide a comprehensive and updated list of organizations

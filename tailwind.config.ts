@@ -62,6 +62,7 @@ const config: Config = {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",
         },
+        brand: "var(--brand)",
         input: "var(--input)",
         ring: "var(--ring)",
         chart: {
@@ -86,12 +87,13 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+
         cardHover: "var(--card-hover)",
 
         brand: "var(--brand)",
         accent: "var(--accent)",
         primary: "var(--primary)",
-        // secondary: "var(--secondary)",
+        secondary: "var(--secondary)",
       },
     },
   },
