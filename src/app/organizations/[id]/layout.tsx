@@ -3,9 +3,5 @@ export default function OrganizationLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <section className="mb-4 flex flex-col items-center pb-4 pt-8">
-      {children}
-    </section>
-  );
+  return <main className="relative p-7">{children}</main>;
 }

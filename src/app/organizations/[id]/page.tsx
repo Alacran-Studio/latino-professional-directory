@@ -4,6 +4,9 @@ import { DirectoryOrgType } from "@/app/types";
 import { notFound } from "next/navigation";
 import Tags from "@/components/Directory/Tags";
 import Image from "next/image";
+import Header1 from "@/components/common/Header1";
+import Paragraph from "@/components/common/Paragraph";
+import Subheading from "@/components/common/Subheading";
 import { NewTabIcon } from "@/components/ui/icons/NewTabSvg";
 
 interface PageProps {
@@ -18,34 +21,47 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     notFound();
   }
 
-  const { name, description, logo_url, website_url, industries } = org;
+  const {
+    name,
+    description,
+    short_description,
+    logo_url,
+    website_url,
+    industries,
+    photo_url,
+    video_url,
+  } = org;
 
   return (
-    <section className="grid max-w-[1130px] grid-cols-2 gap-x-3 gap-y-10">
-      <div className="col-start-1 h-[288px] max-w-[450px] dark:bg-gradient-to-r dark:from-logoGradientFrom dark:via-logoGradientVia dark:to-logoGradientTo">
-        <Image
-          src={logo_url}
-          alt={`Logo for ${name}`}
-          width={450}
-          height={288}
-          className="h-full w-full rounded-md object-scale-down"
-        />
+    <section className="mb-8 sm:px-7 md:px-14 lg:mx-auto lg:mb-16 lg:max-w-7xl">
+      <div className="flex flex-col md:flex-row-reverse md:items-end md:justify-between">
+        <div className="mb-6 md:w-1/2">
+          <Header1 className="mb-8 mt-3 text-center">{name}</Header1>
+          <Subheading className="mb-6 text-secondary-foreground">
+            {short_description}
+          </Subheading>
+          <Tags tags={industries} className="px-8 py-2 text-lg text-white" />
+          <a
+            className="inline-block h-12 rounded-full bg-primary px-8 py-2 text-lg text-white hover:bg-primary-hover"
+            href={website_url}
+          >
+            <span>
+              Website <NewTabIcon />
+            </span>
+          </a>
+        </div>
+        <div className="h-[288px] w-full max-w-[450px] md:my-auto md:mr-7 md:w-1/2 md:flex-shrink-0 md:object-contain lg:mb-6 lg:mr-14 lg:mt-0 lg:max-w-2xl dark:bg-gradient-to-r dark:from-logoGradientFrom dark:via-logoGradientVia dark:to-logoGradientTo">
+          <Image
+            src={logo_url}
+            alt={`Logo for ${name}`}
+            width={450}
+            height={288}
+            className="h-full w-full rounded-md object-scale-down"
+          />
+        </div>
       </div>
-      <div className="col-start-2">
-        <h2 className="pb-4 text-7xl">{name}</h2>
-        <Tags tags={industries} className="px-8 py-2 text-lg text-white" />
-        <p className="pb-4">Location: worldwide</p>
-        <a
-          className="inline-block h-12 rounded-full bg-primary px-8 py-2 text-lg text-white hover:bg-primary-hover"
-          href={website_url}
-        >
-          <span>
-            Website <NewTabIcon />
-          </span>
-        </a>
-      </div>
-      <div className="col-span-2 text-center">
-        <p>{description}</p>
+      <div className="text-center">
+        <Paragraph className="mb-6">{description}</Paragraph>
       </div>
     </section>
   );
