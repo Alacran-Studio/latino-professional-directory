@@ -34,7 +34,7 @@ export const directoryOrgs = [
   },
   {
     name: "SHPE",
-    logo_url: "/org-logos/shpe/shpe-logo.png",
+    logo_url: "",
     description:
       "The Society of Hispanic Professional Engineers (SHPE) empowers the Hispanic community to achieve its fullest potential in STEM fields. Through mentorship, educational support, and networking, SHPE focuses on cultivating leadership and advancing Hispanic inclusion in engineering and technology.",
     short_description:
@@ -45,7 +45,7 @@ export const directoryOrgs = [
   },
   {
     name: "Latinas in Nursing",
-    logo_url: "/org-logos/latinas-in-nursing/latinas-in-nursing-logo.png",
+    logo_url: "",
     description:
       "Latinas in Nursing strives to increase representation and provide support, mentorship, and professional development for Latina nurses. Their work ensures greater inclusivity and advancement in healthcare through advocacy, training, and community-building initiatives.",
     short_description:
@@ -56,7 +56,7 @@ export const directoryOrgs = [
   },
   {
     name: "Latinas in Tech",
-    logo_url: "/org-logos/latinas-in-tech/latinas-in-tech-logo.png",
+    logo_url: "",
     description:
       "Latinas in Tech is a nonprofit organization connecting and empowering Latina women working in the technology sector. By fostering connections and providing professional development opportunities, they aim to elevate Latina leaders and innovators in tech.",
     short_description:
@@ -67,7 +67,7 @@ export const directoryOrgs = [
   },
   {
     name: "Angeles Investors",
-    logo_url: "/org-logos/angeles-investors/angeles-investors-logo.png",
+    logo_url: "",
     description:
       "Angeles Investors is dedicated to finding, funding, and growing the most promising Hispanic and Latinx ventures. Through capital investment and mentorship, they empower Latiné entrepreneurs to achieve greater success and impact.",
     short_description:
@@ -78,7 +78,7 @@ export const directoryOrgs = [
   },
   {
     name: "Hispanic Alliance for Career Enhancement (HACE)",
-    logo_url: "/org-logos/hace/hace-logo.png",
+    logo_url: "",
     description:
       "HACE works to provide Latiné professionals with meaningful career advancement through mentorship, leadership programs, and corporate partnerships. They strive to create a pipeline of Latiné leaders and ensure diverse representation across industries.",
     short_description:
