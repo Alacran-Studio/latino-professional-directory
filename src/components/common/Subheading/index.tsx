@@ -9,7 +9,7 @@ export default function Subheading({
 }) {
   return (
     <p
-      className={`decoration-none text-lg font-medium leading-snug tracking-normal sm:text-xl lg:text-2xl ${className}`}
+      className={`decoration-none text-2xl font-medium leading-snug tracking-normal sm:text-3xl ${className}`}
     >
       {children}
     </p>
