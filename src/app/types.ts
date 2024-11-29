@@ -9,6 +9,7 @@ export interface DirectoryOrgType {
   id: number;
   name: string;
   logo_url: string;
+  short_description: string;
   description: string;
   website_url: string;
   industries: IndustryType[];
