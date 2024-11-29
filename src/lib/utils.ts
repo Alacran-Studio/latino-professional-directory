@@ -22,3 +22,7 @@ export function getKoulenFontClass() {
 export function getLexendFont() {
   return lexendFont.className;
 }
+
+export function isValidString(value: any): boolean {
+  return typeof value === "string" && value.trim() !== "";
+}
