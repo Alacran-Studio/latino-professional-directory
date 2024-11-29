@@ -10,7 +10,7 @@ export default function Header1({
 }) {
   return (
     <h1
-      className={`${getKoulenFontClass()} decoration-none text-5xl font-normal uppercase leading-none tracking-normal md:text-8xl ${className}`}
+      className={`${getKoulenFontClass()} decoration-none text-4xl font-normal uppercase leading-none tracking-normal md:text-6xl ${className}`}
     >
       {children}
     </h1>

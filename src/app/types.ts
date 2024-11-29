@@ -13,6 +13,8 @@ export interface DirectoryOrgType {
   description: string;
   website_url: string;
   industries: IndustryType[];
+  photo_url: string;
+  video_url: string;
 }
 
 export interface IndustryType {

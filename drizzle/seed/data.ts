@@ -7,8 +7,8 @@ export const directoryOrgs = [
     short_description:
       "Techqueria is a 501(c)(3) nonprofit that serves the largest global community of Latiné professionals in the tech industry.",
     website_url: "https://techqueria.org/",
-    photos: ["/photos/techqueria/photo.jpg"],
-    videos: ["https://youtu.be/KV2LSEK-ABk?si=_RjGAt_RUsw4iZdx"],
+    photo_url: "/photos/techqueria/photo.jpg",
+    video_url: "https://youtu.be/KV2LSEK-ABk?si=_RjGAt_RUsw4iZdx",
   },
   {
     name: "ALPFA",
@@ -18,8 +18,8 @@ export const directoryOrgs = [
     short_description:
       "ALPFA provides leadership development and career opportunities for Latiné professionals.",
     website_url: "https://alpfa.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "1871",
@@ -29,63 +29,63 @@ export const directoryOrgs = [
     short_description:
       "1871 is a tech hub providing resources to help entrepreneurs build successful businesses.",
     website_url: "https://1871.com/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "SHPE",
-    logo_url: "/org-logos/shpe/shpe-logo.png",
+    logo_url: "",
     description:
       "The Society of Hispanic Professional Engineers (SHPE) empowers the Hispanic community to achieve its fullest potential in STEM fields. Through mentorship, educational support, and networking, SHPE focuses on cultivating leadership and advancing Hispanic inclusion in engineering and technology.",
     short_description:
       "The Society of Hispanic Professional Engineers empowers the Hispanic community to realize its fullest potential in STEM careers.",
     website_url: "https://www.shpe.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "Latinas in Nursing",
-    logo_url: "/org-logos/latinas-in-nursing/latinas-in-nursing-logo.png",
+    logo_url: "",
     description:
       "Latinas in Nursing strives to increase representation and provide support, mentorship, and professional development for Latina nurses. Their work ensures greater inclusivity and advancement in healthcare through advocacy, training, and community-building initiatives.",
     short_description:
       "Latinas in Nursing aims to increase representation and provide support, mentorship, and professional growth opportunities for Latina nurses.",
     website_url: "https://www.latinasinnursing.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "Latinas in Tech",
-    logo_url: "/org-logos/latinas-in-tech/latinas-in-tech-logo.png",
+    logo_url: "",
     description:
       "Latinas in Tech is a nonprofit organization connecting and empowering Latina women working in the technology sector. By fostering connections and providing professional development opportunities, they aim to elevate Latina leaders and innovators in tech.",
     short_description:
       "Latinas in Tech connects, supports, and empowers Latina women working in technology.",
     website_url: "https://www.latinasintech.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "Angeles Investors",
-    logo_url: "/org-logos/angeles-investors/angeles-investors-logo.png",
+    logo_url: "",
     description:
       "Angeles Investors is dedicated to finding, funding, and growing the most promising Hispanic and Latinx ventures. Through capital investment and mentorship, they empower Latiné entrepreneurs to achieve greater success and impact.",
     short_description:
       "Angeles Investors supports and funds promising Hispanic and Latinx ventures.",
     website_url: "https://angelesinvestors.com/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "Hispanic Alliance for Career Enhancement (HACE)",
-    logo_url: "/org-logos/hace/hace-logo.png",
+    logo_url: "",
     description:
       "HACE works to provide Latiné professionals with meaningful career advancement through mentorship, leadership programs, and corporate partnerships. They strive to create a pipeline of Latiné leaders and ensure diverse representation across industries.",
     short_description:
       "HACE is dedicated to career advancement for Latiné professionals through mentorship and leadership development.",
     website_url: "https://haceonline.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
 ];
 
