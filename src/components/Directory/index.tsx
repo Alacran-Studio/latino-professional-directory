@@ -84,7 +84,7 @@ export default function Directory() {
         ) : filteredOrganizations.length === 0 ? (
           <NoResults />
         ) : (
-          <div className="grid h-full gap-4">
+          <div className="grid gap-4">
             {filteredOrganizations.map((org) => (
               <DirectoryOrg key={org.id} {...org} />
             ))}
