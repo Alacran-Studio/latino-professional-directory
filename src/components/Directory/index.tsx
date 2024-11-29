@@ -6,6 +6,7 @@ import { DirectoryOrgType, IndustryType } from "@/app/types";
 
 import Filter from "./Filter";
 import NoResults from "./NoResults";
+import LoadingResults from "./LoadingResults";
 
 export default function Directory() {
   const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
@@ -14,38 +15,42 @@ export default function Directory() {
   );
   const [organizations, setOrganizations] = useState<DirectoryOrgType[]>([]);
   const [industries, setIndustries] = useState<IndustryType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchOrganizations = async () => {
+    const fetchOrganizationsAndIndustries = async () => {
       try {
-        const response = await fetch("/api/organizations?page=1&limit=10");
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Failed to fetch data");
+        setIsLoading(true);
+        const [orgResponse, industryResponse] = await Promise.all([
+          fetch("/api/organizations?page=1&limit=10"),
+          fetch("/api/industries"),
+        ]);
 
-        setOrganizations(data.organizations);
-      } catch (error) {
-        console.error("Error fetching organizations: ", error);
-      }
-    };
+        const [orgData, industryData] = await Promise.all([
+          orgResponse.json(),
+          industryResponse.json(),
+        ]);
 
-    const fetchIndustries = async () => {
-      try {
-        const response = await fetch("/api/industries");
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || "Failed to fetch data");
+        if (!orgResponse.ok)
+          throw new Error(orgData.error || "Failed to fetch organizations");
+        if (!industryResponse.ok)
+          throw new Error(industryData.error || "Failed to fetch industries");
 
-        const sortedIndustries = data.industries.sort(
+        const sortedIndustries = industryData.industries.sort(
           (a: { name: string }, b: { name: string }) =>
             a.name.localeCompare(b.name)
         );
+
+        setOrganizations(orgData.organizations);
         setIndustries(sortedIndustries);
       } catch (error) {
-        console.error("Error fetching industries: ", error);
+        console.error("Error fetching data: ", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchOrganizations();
-    fetchIndustries();
+    fetchOrganizationsAndIndustries();
   }, []);
 
   const filteredOrganizations = organizations.filter((org) => {
@@ -74,15 +79,17 @@ export default function Directory() {
           />
         </div>
 
-        <div className="grid gap-4">
-          {filteredOrganizations.length === 0 ? (
-            <NoResults />
-          ) : (
-            filteredOrganizations.map((org) => (
+        {isLoading ? (
+          <LoadingResults />
+        ) : filteredOrganizations.length === 0 ? (
+          <NoResults />
+        ) : (
+          <div className="grid h-full gap-4">
+            {filteredOrganizations.map((org) => (
               <DirectoryOrg key={org.id} {...org} />
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
