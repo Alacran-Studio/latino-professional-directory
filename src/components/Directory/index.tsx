@@ -7,6 +7,7 @@ import { DirectoryOrgType, IndustryType } from "@/app/types";
 import Filter from "./Filter";
 import NoResults from "./NoResults";
 import LoadingResults from "./LoadingResults";
+import Header2 from "../common/Header2";
 
 export default function Directory() {
   const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
@@ -65,9 +66,7 @@ export default function Directory() {
 
   return (
     <section className="mb-4 flex w-10/12 flex-col items-center pb-4 pt-8">
-      <h1 className="pb-8 text-center text-lg font-semibold sm:text-4xl">
-        Directory
-      </h1>
+      <Header2 className="pb-8 text-center">Directory</Header2>
       <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
         <div className="mb-6 md:flex md:gap-x-2">
           <Filter
