@@ -70,15 +70,19 @@ export default function Directory({ className = "" }: { className?: string }) {
     >
       <Header1 className="pb-8 text-center">The Directory</Header1>
       <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
-        <div className="mb-6 md:flex md:gap-x-2">
-          <Filter
-            industries={industries}
-            selectedIndustries={selectedIndustries}
-            setSelectedIndustries={setSelectedIndustries}
-            isIndustryDropdownOpen={isIndustryDropdownOpen}
-            setIsIndustryDropdownOpen={setIsIndustryDropdownOpen}
-          />
-        </div>
+        {isLoading ? (
+          <></>
+        ) : (
+          <div className="mb-6 md:flex md:gap-x-2">
+            <Filter
+              industries={industries}
+              selectedIndustries={selectedIndustries}
+              setSelectedIndustries={setSelectedIndustries}
+              isIndustryDropdownOpen={isIndustryDropdownOpen}
+              setIsIndustryDropdownOpen={setIsIndustryDropdownOpen}
+            />
+          </div>
+        )}
 
         {isLoading ? (
           <LoadingResults />
