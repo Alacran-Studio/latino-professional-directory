@@ -7,8 +7,8 @@ export const directoryOrgs = [
     short_description:
       "Techqueria is a 501(c)(3) nonprofit that serves the largest global community of Latiné professionals in the tech industry.",
     website_url: "https://techqueria.org/",
-    photos: ["/photos/techqueria/photo.jpg"],
-    videos: ["https://youtu.be/KV2LSEK-ABk?si=_RjGAt_RUsw4iZdx"],
+    photo_url: "/photos/techqueria/photo.jpg",
+    video_url: "https://youtu.be/KV2LSEK-ABk?si=_RjGAt_RUsw4iZdx",
   },
   {
     name: "ALPFA",
@@ -18,8 +18,8 @@ export const directoryOrgs = [
     short_description:
       "ALPFA provides leadership development and career opportunities for Latiné professionals.",
     website_url: "https://alpfa.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "1871",
@@ -29,8 +29,8 @@ export const directoryOrgs = [
     short_description:
       "1871 is a tech hub providing resources to help entrepreneurs build successful businesses.",
     website_url: "https://1871.com/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "SHPE",
@@ -40,8 +40,8 @@ export const directoryOrgs = [
     short_description:
       "The Society of Hispanic Professional Engineers empowers the Hispanic community to realize its fullest potential in STEM careers.",
     website_url: "https://www.shpe.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "Latinas in Nursing",
@@ -51,8 +51,8 @@ export const directoryOrgs = [
     short_description:
       "Latinas in Nursing aims to increase representation and provide support, mentorship, and professional growth opportunities for Latina nurses.",
     website_url: "https://www.latinasinnursing.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "Latinas in Tech",
@@ -62,8 +62,8 @@ export const directoryOrgs = [
     short_description:
       "Latinas in Tech connects, supports, and empowers Latina women working in technology.",
     website_url: "https://www.latinasintech.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "Angeles Investors",
@@ -73,8 +73,8 @@ export const directoryOrgs = [
     short_description:
       "Angeles Investors supports and funds promising Hispanic and Latinx ventures.",
     website_url: "https://angelesinvestors.com/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
   {
     name: "Hispanic Alliance for Career Enhancement (HACE)",
@@ -84,8 +84,8 @@ export const directoryOrgs = [
     short_description:
       "HACE is dedicated to career advancement for Latiné professionals through mentorship and leadership development.",
     website_url: "https://haceonline.org/",
-    photos: [],
-    videos: [],
+    photo_url: "",
+    video_url: "",
   },
 ];
 
