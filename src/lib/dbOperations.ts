@@ -34,7 +34,7 @@ export async function fetchOrganizations(
 }
 
 export async function fetchOrganization(
-  organizationId: number,
+  organizationId: number
 ): Promise<DirectoryOrgType> {
   try {
     const organization = await fetchOrganizationData(organizationId);
@@ -47,8 +47,7 @@ export async function fetchOrganization(
       organization,
       orgIndustryMappings,
       industries
-    ).find(o => o !== undefined);
-    console.log("Organization:", organizationWithIndustries);
+    ).find((o) => o !== undefined);
     return organizationWithIndustries;
   } catch (error) {
     console.error("Error in fetchOrganization:", error);
@@ -87,7 +86,8 @@ async function fetchOrganizationsData(offset: number, limit: number) {
 }
 
 async function fetchOrganizationData(id: number) {
-  return await db.select()
+  return await db
+    .select()
     .from(OrganizationsTable)
     .where(eq(OrganizationsTable.id, id));
 }
