@@ -36,10 +36,10 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
   return (
     <section className="mb-8 sm:px-7 md:px-14 lg:mx-auto lg:mb-16 lg:max-w-7xl">
       <div
-        className={`flex flex-col ${isValidString(logo_url) ? "" : "md:flex-row-reverse md:items-end md:justify-between"}`}
+        className={`flex flex-col ${isValidString(logo_url) ? "md:flex-row-reverse md:items-end md:justify-between" : ""}`}
       >
         <div
-          className={`mb-6 ${isValidString(logo_url) ? "md:w-full" : "md:w-1/2"}`}
+          className={`mb-6 ${isValidString(logo_url) ? "md:w-1/2" : "md:w-full"}`}
         >
           <Header1 className="mb-8 mt-3 text-center">{name}</Header1>
           <Subheading className="mb-6 text-secondary-foreground">
@@ -70,7 +70,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
           </div>
         )}
       </div>
-      <div className={`${isValidString(logo_url) ? "" : "text-center"}`}>
+      <div className={`${isValidString(logo_url) ? "text-center" : ""}`}>
         <Paragraph className="mb-6">{description}</Paragraph>
       </div>
     </section>
