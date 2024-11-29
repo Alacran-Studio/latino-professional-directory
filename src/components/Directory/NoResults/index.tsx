@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import LinkButton from "@/components/common/LinkButton";
-import Subheading from "../common/Subheading";
-import Paragraph from "../common/Paragraph";
+import Subheading from "@/components/common/Subheading";
+import Paragraph from "@/components/common/Paragraph";
 
 export default function NoResults() {
   return (
