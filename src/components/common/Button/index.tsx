@@ -10,7 +10,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         {...props} // Spread all the props
         ref={ref} // Forward the ref
-        className={`rounded-xl bg-blue-500 px-4 py-2 text-sm text-white transition-all duration-200 hover:bg-blue-600 sm:px-8 sm:py-4 sm:text-2xl ${props.className}`}
+        className={`rounded-xl bg-primary px-4 py-2 text-neutralLight transition-all duration-200 hover:bg-primary-hover sm:px-8 sm:py-4 sm:text-2xl ${props.className}`}
       >
         {props.children}
       </button>

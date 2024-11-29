@@ -11,7 +11,7 @@ export default function Page() {
       <div className="relative z-10">
         <div className="title">
           <Header1>Let’s talk</Header1>
-          <Subheading className="pt-4 md:w-1/2">
+          <Subheading className="pt-4">
             We are always looking to add organizations to our directory. Fill
             out this short form and someone from our team will reach out!
           </Subheading>
