@@ -9,7 +9,7 @@ export default function Header2({
 }) {
   return (
     <h2
-      className={`text-3xl font-semibold leading-snug sm:text-4xl ${className}`}
+      className={`text-2xl font-semibold leading-snug sm:text-4xl ${className}`}
     >
       {children}
     </h2>
