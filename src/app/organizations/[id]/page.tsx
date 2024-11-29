@@ -8,6 +8,7 @@ import Header1 from "@/components/common/Header1";
 import Paragraph from "@/components/common/Paragraph";
 import Subheading from "@/components/common/Subheading";
 import { NewTabIcon } from "@/components/ui/icons/NewTabSvg";
+import { isValidString } from "@/lib/utils";
 
 interface PageProps {
   id: string;
@@ -34,8 +35,12 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
 
   return (
     <section className="mb-8 sm:px-7 md:px-14 lg:mx-auto lg:mb-16 lg:max-w-7xl">
-      <div className="flex flex-col md:flex-row-reverse md:items-end md:justify-between">
-        <div className="mb-6 md:w-1/2">
+      <div
+        className={`flex flex-col ${isValidString(logo_url) ? "" : "md:flex-row-reverse md:items-end md:justify-between"}`}
+      >
+        <div
+          className={`mb-6 ${isValidString(logo_url) ? "md:w-full" : "md:w-1/2"}`}
+        >
           <Header1 className="mb-8 mt-3 text-center">{name}</Header1>
           <Subheading className="mb-6 text-secondary-foreground">
             {short_description}
@@ -50,17 +55,22 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
             </span>
           </a>
         </div>
-        <div className="h-[288px] w-full max-w-[450px] md:my-auto md:mr-7 md:w-1/2 md:flex-shrink-0 md:object-contain lg:mb-6 lg:mr-14 lg:mt-0 lg:max-w-2xl dark:bg-gradient-to-r dark:from-logoGradientFrom dark:via-logoGradientVia dark:to-logoGradientTo">
-          <Image
-            src={logo_url}
-            alt={`Logo for ${name}`}
-            width={450}
-            height={288}
-            className="h-full w-full rounded-md object-scale-down"
-          />
-        </div>
+
+        {isValidString(logo_url) && (
+          <div
+            className={`h-[288px] w-full max-w-[450px] md:my-auto md:mr-7 md:w-1/2 md:flex-shrink-0 md:object-contain lg:mb-6 lg:mr-14 lg:mt-0 lg:max-w-2xl dark:bg-gradient-to-r dark:from-logoGradientFrom dark:via-logoGradientVia dark:to-logoGradientTo`}
+          >
+            <Image
+              src={logo_url}
+              alt={`Logo for ${name}`}
+              width={450}
+              height={288}
+              className="h-full w-full rounded-md object-scale-down"
+            />
+          </div>
+        )}
       </div>
-      <div className="text-center">
+      <div className={`${isValidString(logo_url) ? "" : "text-center"}`}>
         <Paragraph className="mb-6">{description}</Paragraph>
       </div>
     </section>
