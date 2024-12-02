@@ -19,10 +19,6 @@ const styles: string = [
   "sm:mb-0",
   "sm:h-32",
   "sm:w-32",
-  "dark:bg-gradient-to-r",
-  "dark:from-logoGradientFrom",
-  "dark:via-logoGradientVia",
-  "dark:to-logoGradientTo",
 ].join(" ");
 
 export default function Logo({ src, alt, width, height }: Props) {

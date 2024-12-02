@@ -62,9 +62,6 @@
     --chip-gradient-via: hsl(240deg 42% 18%);
     --chip-gradient-to: hsl(240deg 49% 34%);
 
-    --logo-gradient-from: hsl(0deg 0% 88%);
-    --logo-gradient-via: hsl(0deg 0% 66%);
-    --logo-gradient-to: hsl(0deg 0% 23%);
     --logo-line-mobile: hsl(0deg 0% 100%);
 
     /* shadcn */
@@ -81,7 +78,8 @@
 
 body {
   color: var(--foreground);
-  background: linear-gradient(to bottom, transparent, var(--background-end)) var(--background);
+  background: linear-gradient(to bottom, transparent, var(--background-end))
+    var(--background);
 }
 
 @layer utilities {

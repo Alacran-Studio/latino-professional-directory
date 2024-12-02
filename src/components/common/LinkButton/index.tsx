@@ -12,7 +12,7 @@ export default function LinkButton({
   type = "default",
 }: ButtonProps) {
   let className =
-    "bg-primary text-sm text-white transition-all duration-200 hover:bg-primary-hover";
+    "bg-primary text-white transition-all duration-200 hover:bg-primary-hover";
   className +=
     type === "compact"
       ? " rounded-lg px-3 py-1 sm:px-4 sm:py-2 sm:text-lg"

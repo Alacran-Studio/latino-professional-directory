@@ -1,5 +1,7 @@
 "use client";
 import { Input, TextArea, Button } from "@/components/common";
+import Paragraph from "@/components/common/Paragraph";
+import Subheading from "@/components/common/Subheading";
 
 import { useState } from "react";
 
@@ -89,16 +91,16 @@ function StatusMessage({ status }) {
       <div className="flex">
         {status === "ok" && <SuccessIcon className="mb-4" />}
         {status === "error" && <ErrorIcon className="mb-4" />}
-        <p className="ml-2 text-xl font-semibold">
+        <Subheading className="ml-2">
           {status === "ok" ? "Submitted!" : "Oops!"}
-        </p>
+        </Subheading>
       </div>
 
-      <p className="mt-2">
+      <Paragraph className="mt-2">
         {status === "ok"
           ? "Your response was successfully submitted! Thank you for your interest."
           : "We apologize. Something went wrong, please try again later."}
-      </p>
+      </Paragraph>
     </div>
   );
 }

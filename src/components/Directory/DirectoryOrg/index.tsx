@@ -1,4 +1,6 @@
 import { DirectoryOrgType } from "@/app/types";
+import Paragraph from "@/components/common/Paragraph";
+import Subheading from "@/components/common/Subheading";
 import Link from "next/link";
 import Logo from "@/components/Directory/Logo";
 import Tags from "@/components/Directory/Tags";
@@ -8,7 +10,7 @@ export default function DirectoryOrg({
   id,
   logo_url,
   name,
-  description,
+  short_description,
   industries,
 }: DirectoryOrgType) {
   return (
@@ -21,10 +23,10 @@ export default function DirectoryOrg({
 
         {/* Organization Info */}
         <div className="ml-4">
-          <h3 className="text-xl font-semibold">{name}</h3>
-          <p className="text-sm text-gray-600 md:text-base dark:text-gray-400">
-            {description}
-          </p>
+          <Subheading>{name}</Subheading>
+          <Paragraph className="text-secondary-foreground">
+            {short_description}
+          </Paragraph>
           <Tags tags={industries} className="px-3 py-1" />
         </div>
       </div>

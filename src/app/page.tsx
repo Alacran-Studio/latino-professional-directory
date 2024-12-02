@@ -12,7 +12,7 @@ export default function Home() {
         <p>Placeholder Featured Organizations</p>
       </div> */}
 
-      <Directory></Directory>
+      <Directory className="mt-6"></Directory>
     </main>
   );
 }

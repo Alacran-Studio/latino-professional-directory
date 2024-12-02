@@ -3,6 +3,7 @@ import { IndustryType } from "@/app/types";
 import "./checkbox.css";
 import FilterIcon from "@/components/Directory/icons/Filter";
 import XIcon from "@/components/Directory/icons/X";
+import Paragraph from "@/components/common/Paragraph";
 
 interface FilterProps {
   industries: IndustryType[];
@@ -69,7 +70,7 @@ export default function Filter({
       >
         <div className="flex items-center">
           <FilterIcon />
-          <span className="ml-2">Filter by Industry</span>
+          <Paragraph className="ml-2">Filter by Industry</Paragraph>
         </div>
         <div
           className={`ml-2 transition-opacity duration-300 ease-out ${
@@ -99,7 +100,7 @@ export default function Filter({
               checked={selectedIndustries.includes(industry)}
               onChange={() => handleIndustryChange(industry)}
             ></input>
-            <span>{industry.name}</span>
+            <Paragraph>{industry.name}</Paragraph>
           </label>
         ))}
       </div>
@@ -116,7 +117,7 @@ export default function Filter({
             onClick={() => removeIndustry(industry)}
             className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
           >
-            <span>{industry.name}</span>
+            <Paragraph>{industry.name}</Paragraph>
             <XIcon />
           </button>
         ))}

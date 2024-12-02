@@ -58,7 +58,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
 
         {isValidString(logo_url) && (
           <div
-            className={`h-[288px] w-full max-w-[450px] md:my-auto md:mr-7 md:w-1/2 md:flex-shrink-0 md:object-contain lg:mb-6 lg:mr-14 lg:mt-0 lg:max-w-2xl dark:bg-gradient-to-r dark:from-logoGradientFrom dark:via-logoGradientVia dark:to-logoGradientTo`}
+            className={`h-[288px] w-full max-w-[450px] md:my-auto md:mr-7 md:w-1/2 md:flex-shrink-0 md:object-contain lg:mb-6 lg:mr-14 lg:mt-0 lg:max-w-2xl`}
           >
             <Image
               src={logo_url}
