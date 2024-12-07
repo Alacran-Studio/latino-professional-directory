@@ -1,5 +1,5 @@
-import HomeHero from "@/components/HomeHero";
-import IntroSection from "@/components/IntroSection";
+import HomeHero from "@/components/Home/HomeHero";
+import IntroSection from "@/components/Home/IntroSection";
 import Directory from "@/components/Directory";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
         <p>Placeholder Featured Organizations</p>
       </div> */}
 
-      <Directory></Directory>
+      <Directory className="mt-6"></Directory>
     </main>
   );
 }

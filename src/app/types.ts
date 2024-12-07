@@ -9,26 +9,40 @@ export interface DirectoryOrgType {
   id: number;
   name: string;
   logo_url: string;
+  short_description: string;
   description: string;
-  industry_tags: Industry[];
-  locations: string[];
-  latino_serving: boolean;
-  affinities: string[];
+  website_url: string;
+  industries: IndustryType[];
+  photo_url: string;
+  video_url: string;
 }
 
-export enum Industry {
-  Tech = "Tech",
-  Healthcare = "Healthcare",
-  Finance = "Finance",
-  ProfessionalServices = "Professional Services",
-  VentureCapital = "Venture Capital",
-  Cybersecurity = "Cybersecurity",
-  RealEstate = "Real Estate",
+export interface IndustryType {
+  id: number;
+  name: string;
+}
+
+export enum IconName {
+  Trophy = "trophy",
+  School = "school",
+  Handshake = "handshake",
+  Group = "group",
+}
+
+export interface CardType {
+  title: string;
+  icon: IconName;
+  description: string;
+  borderColor: string;
 }
 
 export enum Affinity {
   LatinoServing = "Latino-serving",
   WomenServing = "Women-serving",
-  Startups = "Startups",
   LGBTQ = "LGBTQ+",
+}
+
+export enum Category {
+  Networking = "Networking",
+  Startups = "Startups",
 }

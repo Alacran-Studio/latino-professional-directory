@@ -4,3 +4,5 @@ node_modules/
 .env
 coverage/
 yarn.lock
+npm-debug.log
+*.swp

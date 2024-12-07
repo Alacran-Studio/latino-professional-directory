@@ -22,6 +22,55 @@
       "when": 1724093158043,
       "tag": "20240819184558_drop_events_table",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1730065118827,
+      "tag": "20241027213838_simplify_organizations_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1730066386675,
+      "tag": "20241027215946_add_industry_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1730134800726,
+      "tag": "20241028170000_add-unique-to-org-names",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1731111568458,
+      "tag": "20241109001928_add-affinities-tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1731112267454,
+      "tag": "20241109003107_add-org-short-description",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1731130397475,
+      "tag": "20241109053317_add-photos-videos-to-org-and-categories-tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1731180619788,
+      "tag": "20241109193019_rename-photo-url-and-video-url",
+      "breakpoints": true
     }
   ]
 }

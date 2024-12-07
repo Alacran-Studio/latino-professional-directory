@@ -1,16 +1,5 @@
-import { Koulen } from "next/font/google";
-import { Lexend } from "next/font/google";
+import { getKoulenFontClass } from "@/lib/utils";
 import Image from "next/image";
-
-const koulen = Koulen({
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const lexendMedium = Lexend({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 export default function HomeHero() {
   return (
@@ -26,13 +15,11 @@ export default function HomeHero() {
         />
       </div>
       <div className="absolute bottom-[15%] left-[5%] mr-[5%] flex flex-col-reverse md:flex-col">
-        <h1
-          className={`${lexendMedium.className} text-sm text-white md:text-3xl`}
-        >
+        <h1 className={"font-medium text-white md:text-3xl"}>
           Latiné Professional Development Directory
         </h1>
         <h2
-          className={`${koulen.className} text-3xl leading-8 text-white md:text-9xl`}
+          className={`${getKoulenFontClass()} text-5xl font-normal uppercase leading-none tracking-normal text-white md:text-8xl`}
         >
           Find Your Community
         </h2>
