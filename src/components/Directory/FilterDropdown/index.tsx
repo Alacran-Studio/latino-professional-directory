@@ -90,12 +90,12 @@ export default function FilterDropdown<T extends FilterItem>({
   };
 
   return (
-    <div className="relative mt-4 md:mt-0 md:w-full">
+    <div className={`relative mt-4 md:mt-0 ${widthClassName}`}>
       {/* Filter Button */}
       <button
         ref={dropdownButtonRef}
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className={`flex w-full items-center justify-between px-4 py-2 transition-all duration-300 ease-out hover:shadow-lg md:h-12 ${widthClassName} ${buttonClassName} ${
+        className={`flex w-full items-center justify-between px-4 py-2 transition-all duration-300 ease-out hover:shadow-lg md:h-12 ${buttonClassName} ${
           isDropdownOpen
             ? "rounded-t-lg font-semibold"
             : "rounded-lg font-normal"
@@ -117,7 +117,7 @@ export default function FilterDropdown<T extends FilterItem>({
       {/* Dropdown Menu */}
       <div
         ref={dropdownRef}
-        className={`absolute z-10 w-full transform bg-background transition-all duration-300 ease-out ${widthClassName} ${
+        className={`absolute z-10 w-full transform bg-background transition-all duration-300 ease-out ${
           isDropdownOpen
             ? "max-h-[500px] translate-y-0 rounded-b-lg border-b border-l border-r border-border p-4 opacity-100 shadow-2xl"
             : "max-h-0 translate-y-0 border-none p-0 opacity-0 shadow-none"
