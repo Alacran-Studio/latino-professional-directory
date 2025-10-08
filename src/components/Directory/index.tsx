@@ -2,48 +2,62 @@
 
 import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
-import { DirectoryOrgType, IndustryType } from "@/app/types";
+import { DirectoryOrgType, IndustryType, CityType } from "@/app/types";
 
 import Filter from "./Filter";
+import LocationFilter from "./LocationFilter";
 import NoResults from "./NoResults";
 import LoadingResults from "./LoadingResults";
 import Header1 from "../common/Header1";
 
 export default function Directory({ className = "" }: { className?: string }) {
   const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
+  const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
   const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>(
     []
   );
+  const [selectedCities, setSelectedCities] = useState<CityType[]>([]);
   const [organizations, setOrganizations] = useState<DirectoryOrgType[]>([]);
   const [industries, setIndustries] = useState<IndustryType[]>([]);
+  const [cities, setCities] = useState<CityType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchOrganizationsAndIndustries = async () => {
       try {
         setIsLoading(true);
-        const [orgResponse, industryResponse] = await Promise.all([
+        const [orgResponse, industryResponse, cityResponse] = await Promise.all([
           fetch("/api/organizations?page=1&limit=10"),
           fetch("/api/industries"),
+          fetch("/api/cities"),
         ]);
 
-        const [orgData, industryData] = await Promise.all([
+        const [orgData, industryData, cityData] = await Promise.all([
           orgResponse.json(),
           industryResponse.json(),
+          cityResponse.json(),
         ]);
 
         if (!orgResponse.ok)
           throw new Error(orgData.error || "Failed to fetch organizations");
         if (!industryResponse.ok)
           throw new Error(industryData.error || "Failed to fetch industries");
+        if (!cityResponse.ok)
+          throw new Error(cityData.error || "Failed to fetch cities");
 
         const sortedIndustries = industryData.industries.sort(
           (a: { name: string }, b: { name: string }) =>
             a.name.localeCompare(b.name)
         );
 
+        const sortedCities = cityData.cities.sort(
+          (a: { name: string }, b: { name: string }) =>
+            a.name.localeCompare(b.name)
+        );
+
         setOrganizations(orgData.organizations);
         setIndustries(sortedIndustries);
+        setCities(sortedCities);
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
@@ -55,13 +69,19 @@ export default function Directory({ className = "" }: { className?: string }) {
   }, []);
 
   const filteredOrganizations = organizations.filter((org) => {
-    if (selectedIndustries.length === 0) {
-      return true;
-    }
+    const matchesIndustry =
+      selectedIndustries.length === 0 ||
+      org.industries.some((industry) =>
+        selectedIndustries.some((selected) => selected.id === industry.id)
+      );
 
-    return org.industries.some((industry) =>
-      selectedIndustries.some((selected) => selected.id === industry.id)
-    );
+    const matchesCity =
+      selectedCities.length === 0 ||
+      org.cities.some((city) =>
+        selectedCities.some((selected) => selected.id === city.id)
+      );
+
+    return matchesIndustry && matchesCity;
   });
 
   return (
@@ -73,13 +93,21 @@ export default function Directory({ className = "" }: { className?: string }) {
         {isLoading ? (
           <></>
         ) : (
-          <div className="mb-6 md:flex md:gap-x-2">
+          //TODO: Fix spacing on desktop
+          <div className="mb-6 flex flex-col gap-y-4 md:flex-row md:gap-x-2 md:gap-y-0">
             <Filter
               industries={industries}
               selectedIndustries={selectedIndustries}
               setSelectedIndustries={setSelectedIndustries}
               isIndustryDropdownOpen={isIndustryDropdownOpen}
               setIsIndustryDropdownOpen={setIsIndustryDropdownOpen}
+            />
+            <LocationFilter
+              cities={cities}
+              selectedCities={selectedCities}
+              setSelectedCities={setSelectedCities}
+              isCityDropdownOpen={isCityDropdownOpen}
+              setIsCityDropdownOpen={setIsCityDropdownOpen}
             />
           </div>
         )}

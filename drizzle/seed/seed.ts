@@ -8,6 +8,8 @@ import {
   directoryCategories,
   orgAffinityMappings,
   orgCategoryMappings,
+  directoryCities,
+  orgCityMappings,
 } from "./data";
 import {
   OrganizationsTable,
@@ -17,6 +19,8 @@ import {
   OrganizationAffinities,
   CategoriesTable,
   OrganizationCategories,
+  CitiesTable,
+  OrganizationCities,
 } from "../schema";
 import { directoryIndustries } from "./data";
 
@@ -29,6 +33,8 @@ async function main() {
     await seedOrganizationAffinities();
     await seedCategories();
     await seedOrganizationCategories();
+    await seedCities();
+    await seedOrganizationCities();
   } catch (e) {
     console.error(e);
     throw new Error("Seed error...");
@@ -286,4 +292,77 @@ async function seedOrganizationCategories() {
     }
   }
   console.log("Seeding organization categories completed.");
+}
+
+async function seedCities() {
+  console.log("Seed cities started...");
+  for (const city of directoryCities) {
+    const existingCity = await db
+      .select()
+      .from(CitiesTable)
+      .where(eq(CitiesTable.name, city.name))
+      .limit(1);
+    if (existingCity.length > 0) {
+      console.log(`Skipping existing city: ${city.name}`);
+      continue;
+    }
+
+    await db.insert(CitiesTable).values(city);
+    console.log(`Inserted city: ${city.name}`);
+  }
+  console.log("Seed cities finished...");
+}
+
+async function seedOrganizationCities() {
+  console.log("Seed organization cities started...");
+  for (const mapping of orgCityMappings) {
+    const [organization] = await db
+      .select()
+      .from(OrganizationsTable)
+      .where(eq(OrganizationsTable.name, mapping.directoryName))
+      .limit(1);
+
+    if (!organization) {
+      console.log(`Organization not found: ${mapping.directoryName}`);
+      continue;
+    }
+
+    for (const cityName of mapping.directoryCities) {
+      const [city] = await db
+        .select()
+        .from(CitiesTable)
+        .where(eq(CitiesTable.name, cityName))
+        .limit(1);
+
+      if (!city) {
+        console.log(`City not found: ${cityName}`);
+        continue;
+      }
+
+      const existingMapping = await db
+        .select()
+        .from(OrganizationCities)
+        .where(
+          and(
+            eq(OrganizationCities.organization_id, organization.id),
+            eq(OrganizationCities.city_id, city.id)
+          )
+        )
+        .limit(1);
+
+      if (existingMapping.length > 0) {
+        console.log(
+          `Mapping already exists for ${mapping.directoryName} -> ${cityName}`
+        );
+        continue;
+      }
+
+      await db.insert(OrganizationCities).values({
+        organization_id: organization.id,
+        city_id: city.id,
+      });
+      console.log(`Inserted mapping: ${mapping.directoryName} -> ${cityName}`);
+    }
+  }
+  console.log("Seeding organization cities completed.");
 }

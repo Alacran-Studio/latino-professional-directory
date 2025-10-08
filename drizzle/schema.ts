@@ -70,3 +70,16 @@ export const OrganizationCategories = lpddSchema.table(
     category_id: integer("category_id").references(() => CategoriesTable.id),
   }
 );
+
+export const CitiesTable = lpddSchema.table("cities", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+});
+
+export const OrganizationCities = lpddSchema.table("organization_cities", {
+  id: serial("id").primaryKey(),
+  organization_id: integer("organization_id").references(
+    () => OrganizationsTable.id
+  ),
+  city_id: integer("city_id").references(() => CitiesTable.id),
+});
