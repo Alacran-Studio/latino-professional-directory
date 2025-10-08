@@ -71,6 +71,13 @@
       "when": 1731180619788,
       "tag": "20241109193019_rename-photo-url-and-video-url",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1759870503473,
+      "tag": "20251007205503_add-city-column-to-org",
+      "breakpoints": true
     }
   ]
 }

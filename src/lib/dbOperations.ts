@@ -4,8 +4,8 @@ import {
   OrganizationIndustries,
   OrganizationsTable,
 } from "../../drizzle/schema";
-import { inArray, eq } from "drizzle-orm";
-import { DirectoryOrgType, IndustryType } from "@/app/types";
+import { inArray, eq, isNotNull, sql } from "drizzle-orm";
+import { DirectoryOrgType, IndustryType, CityType } from "@/app/types";
 
 export async function fetchOrganizations(
   page: number,
@@ -71,6 +71,18 @@ export async function fetchIndustries(
 
   const industries = await query;
   return industries;
+}
+
+export async function fetchCities(): Promise<CityType[]> {
+  const cities = await db
+    .selectDistinct({
+      name: OrganizationsTable.city,
+    })
+    .from(OrganizationsTable)
+    .where(isNotNull(OrganizationsTable.city))
+    .orderBy(sql`${OrganizationsTable.city} ASC`);
+
+  return cities.filter((city): city is CityType => city.name !== null);
 }
 
 // ** HELPER METHODS **

@@ -1,0 +1,1 @@
+ALTER TABLE "lpdd"."organizations" ADD COLUMN "city" text;

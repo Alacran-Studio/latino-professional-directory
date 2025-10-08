@@ -11,6 +11,7 @@ export const OrganizationsTable = lpddSchema.table("organizations", {
   website_url: text("website_url").notNull().unique(),
   photo_url: text("photo_url"),
   video_url: text("video_url"),
+  city: text("city"),
 });
 
 export const OrganizationContacts = lpddSchema.table("organization_contacts", {
