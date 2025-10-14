@@ -2,7 +2,7 @@ import { IndustryType } from "@/app/types";
 import FilterIcon from "@/components/Directory/icons/Filter";
 import FilterDropdown from "@/components/Directory/FilterDropdown";
 
-interface FilterProps {
+interface IndustryFilterProps {
   industries: IndustryType[];
   selectedIndustries: IndustryType[];
   setSelectedIndustries: (industries: IndustryType[]) => void;
@@ -10,13 +10,13 @@ interface FilterProps {
   setIsIndustryDropdownOpen: (isOpen: boolean) => void;
 }
 
-export default function Filter({
+export default function IndustryFilter({
   industries,
   selectedIndustries,
   setSelectedIndustries,
   isIndustryDropdownOpen,
   setIsIndustryDropdownOpen,
-}: FilterProps) {
+}: IndustryFilterProps) {
   return (
     <FilterDropdown
       label="Filter by Industry"

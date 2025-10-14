@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
 import { DirectoryOrgType, IndustryType, CityType } from "@/app/types";
 
-import Filter from "./Filter";
+import IndustryFilter from "./IndustryFilter";
 import LocationFilter from "./LocationFilter";
 import NoResults from "./NoResults";
 import LoadingResults from "./LoadingResults";
@@ -95,7 +95,7 @@ export default function Directory({ className = "" }: { className?: string }) {
         ) : (
           //TODO: Fix spacing on desktop
           <div className="mb-6 flex flex-col gap-y-4 md:flex-row md:gap-x-2 md:gap-y-0">
-            <Filter
+            <IndustryFilter
               industries={industries}
               selectedIndustries={selectedIndustries}
               setSelectedIndustries={setSelectedIndustries}

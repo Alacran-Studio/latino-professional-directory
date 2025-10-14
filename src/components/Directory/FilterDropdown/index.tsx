@@ -1,5 +1,5 @@
 import { useRef, useEffect, ReactNode } from "react";
-import "../Filter/checkbox.css";
+import "../IndustryFilter/checkbox.css";
 import XIcon from "@/components/Directory/icons/X";
 import Paragraph from "@/components/common/Paragraph";
 
