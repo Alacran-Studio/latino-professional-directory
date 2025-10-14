@@ -3,9 +3,11 @@ import {
   IndustriesTable,
   OrganizationIndustries,
   OrganizationsTable,
+  CitiesTable,
+  OrganizationCities,
 } from "../../drizzle/schema";
 import { inArray, eq } from "drizzle-orm";
-import { DirectoryOrgType, IndustryType } from "@/app/types";
+import { DirectoryOrgType, IndustryType, CityType } from "@/app/types";
 
 export async function fetchOrganizations(
   page: number,
@@ -15,18 +17,31 @@ export async function fetchOrganizations(
 
   try {
     const organizations = await fetchOrganizationsData(offset, limit);
+
+    // Fetch industries
     const orgIndustryMappings = await fetchOrgIndustryMappings(organizations);
     const industryIds = orgIndustryMappings
       .map((mapping) => mapping.industry_id)
       .filter((id): id is number => id !== null);
     const industries = await fetchIndustries(industryIds);
-    const organizationsWithIndustries = mapIndustriesToOrganizations(
+
+    // Fetch cities
+    const orgCityMappings = await fetchOrgCityMappings(organizations);
+    const cityIds = orgCityMappings
+      .map((mapping) => mapping.city_id)
+      .filter((id): id is number => id !== null);
+    const cities = await fetchCities(cityIds);
+
+    // Map both industries and cities to organizations
+    const organizationsWithData = mapDataToOrganizations(
       organizations,
       orgIndustryMappings,
-      industries
+      industries,
+      orgCityMappings,
+      cities
     );
-    console.log("Organizations:", organizationsWithIndustries);
-    return organizationsWithIndustries;
+    console.log("Organizations:", organizationsWithData);
+    return organizationsWithData;
   } catch (error) {
     console.error("Error in fetchOrganizations:", error);
     throw error;
@@ -38,17 +53,29 @@ export async function fetchOrganization(
 ): Promise<DirectoryOrgType> {
   try {
     const organization = await fetchOrganizationData(organizationId);
+
+    // Fetch industries
     const orgIndustryMappings = await fetchOrgIndustryMappings(organization);
     const industryIds = orgIndustryMappings
       .map((mapping) => mapping.industry_id)
       .filter((id): id is number => id !== null);
     const industries = await fetchIndustries(industryIds);
-    const organizationWithIndustries = mapIndustriesToOrganizations(
+
+    // Fetch cities
+    const orgCityMappings = await fetchOrgCityMappings(organization);
+    const cityIds = orgCityMappings
+      .map((mapping) => mapping.city_id)
+      .filter((id): id is number => id !== null);
+    const cities = await fetchCities(cityIds);
+
+    const organizationWithData = mapDataToOrganizations(
       organization,
       orgIndustryMappings,
-      industries
+      industries,
+      orgCityMappings,
+      cities
     ).find((o) => o !== undefined);
-    return organizationWithIndustries;
+    return organizationWithData;
   } catch (error) {
     console.error("Error in fetchOrganization:", error);
     throw error;
@@ -71,6 +98,22 @@ export async function fetchIndustries(
 
   const industries = await query;
   return industries;
+}
+
+export async function fetchCities(cityIds?: number[]): Promise<CityType[]> {
+  const query = db
+    .select({
+      id: CitiesTable.id,
+      name: CitiesTable.name,
+    })
+    .from(CitiesTable);
+
+  if (cityIds && cityIds.length > 0) {
+    query.where(inArray(CitiesTable.id, cityIds));
+  }
+
+  const cities = await query;
+  return cities;
 }
 
 // ** HELPER METHODS **
@@ -107,13 +150,30 @@ async function fetchOrgIndustryMappings(organizations: any[]) {
   return orgIndustryMappings;
 }
 
-// Helper to combine organizations with their industries
-function mapIndustriesToOrganizations(
+// Helper to fetch organization city mappings
+async function fetchOrgCityMappings(organizations: any[]) {
+  const orgIds = organizations.map((org) => org.id);
+
+  const orgCityMappings = await db
+    .select({
+      organization_id: OrganizationCities.organization_id,
+      city_id: OrganizationCities.city_id,
+    })
+    .from(OrganizationCities)
+    .where(inArray(OrganizationCities.organization_id, orgIds));
+
+  return orgCityMappings;
+}
+
+// Helper to combine organizations with their industries and cities
+function mapDataToOrganizations(
   organizations: any[],
   industryMappings: any[],
-  industries: any[]
+  industries: any[],
+  cityMappings: any[],
+  cities: any[]
 ) {
-  const organizationsWithIndustries = organizations.map((org) => ({
+  const organizationsWithData = organizations.map((org) => ({
     ...org,
     industries: industryMappings
       .filter((mapping) => mapping.organization_id === org.id)
@@ -124,7 +184,14 @@ function mapIndustriesToOrganizations(
         return industry || null;
       })
       .filter((industry): industry is IndustryType => industry !== null),
+    cities: cityMappings
+      .filter((mapping) => mapping.organization_id === org.id)
+      .map((mapping): CityType | null => {
+        const city = cities.find((c) => c.id === mapping.city_id);
+        return city || null;
+      })
+      .filter((city): city is CityType => city !== null),
   }));
 
-  return organizationsWithIndustries;
+  return organizationsWithData;
 }

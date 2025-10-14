@@ -15,9 +15,15 @@ export interface DirectoryOrgType {
   industries: IndustryType[];
   photo_url: string;
   video_url: string;
+  cities: CityType[];
 }
 
 export interface IndustryType {
+  id: number;
+  name: string;
+}
+
+export interface CityType {
   id: number;
   name: string;
 }

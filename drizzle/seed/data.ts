@@ -230,3 +230,19 @@ export const orgAffinityMappings = [
     affinities: ["Latiné Professionals"],
   },
 ];
+
+export const directoryCities = [{ name: "Chicago" }];
+
+export const orgCityMappings = [
+  { directoryName: "Techqueria", directoryCities: ["Chicago"] },
+  { directoryName: "ALPFA", directoryCities: ["Chicago"] },
+  { directoryName: "1871", directoryCities: ["Chicago"] },
+  { directoryName: "SHPE", directoryCities: ["Chicago"] },
+  { directoryName: "Latinas in Nursing", directoryCities: ["Chicago"] },
+  { directoryName: "Latinas in Tech", directoryCities: ["Chicago"] },
+  { directoryName: "Angeles Investors", directoryCities: ["Chicago"] },
+  {
+    directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
+    directoryCities: ["Chicago"],
+  },
+];
