@@ -26,7 +26,7 @@ export default function LocationFilter({
       setSelectedItems={setSelectedCities}
       isDropdownOpen={isCityDropdownOpen}
       setIsDropdownOpen={setIsCityDropdownOpen}
-      buttonClassName="bg-gray-400 dark:text-black"
+      buttonClassName="bg-gray-300 dark:bg-gray-400 dark:text-black"
       widthClassName="md:w-1/2"
     />
   );
