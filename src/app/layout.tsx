@@ -7,8 +7,6 @@ import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
 import { getLexendFont } from "@/lib/utils";
 
-export const runtime = "edge";
-
 const Base = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
