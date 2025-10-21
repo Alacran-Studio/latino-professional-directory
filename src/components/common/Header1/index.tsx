@@ -9,7 +9,7 @@ export default function Header1({
 }) {
   return (
     <h1
-      className={`decoration-none text-4xl font-bold leading-none tracking-normal md:text-6xl ${className}`}
+      className={`decoration-none text-[26px] font-bold leading-none tracking-normal md:text-[50px] ${className}`}
     >
       {children}
     </h1>
