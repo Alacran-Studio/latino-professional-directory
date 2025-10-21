@@ -20,7 +20,7 @@ export default function NoResults() {
         Try a different search or refine your filters.
       </Paragraph>
       <LinkButton
-        href="/contact"
+        href="/join"
         title="Submit an Organization"
         type="compact"
       />

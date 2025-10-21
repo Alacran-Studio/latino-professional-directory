@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import TallyEmbed from "./TallyEmbed";
 
 export const metadata: Metadata = {
-  title: "Contact - Latino Professional Directory",
+  title: "Join - Latino Professional Directory",
   description:
-    "Get in touch with us to add your organization to our directory of professional development resources for Latino professionals.",
+    "Add your organization to our directory of professional development resources for Latino professionals.",
 };
 
 export default function Page() {
