@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import Header1 from "@/components/common/Header1";
+import LinkButton from "@/components/common/LinkButton";
 
 export default function HomeHero() {
   return (
@@ -21,25 +21,7 @@ export default function HomeHero() {
           Find local events and online career resources tailored to Latino
           professionals across all industries.
         </p>
-        <Link
-          href="/about"
-          className="mt-4 inline-flex w-fit items-center gap-2 rounded-xl bg-primary px-4 py-2 text-[15px] text-white transition-all duration-200 hover:bg-primary-hover md:mt-5"
-        >
-          Learn More
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </Link>
+        <LinkButton href="/about" title="Learn More" className="mt-4 md:mt-5" />
       </div>
     </section>
   );
