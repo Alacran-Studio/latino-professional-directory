@@ -4,8 +4,5 @@
   "css.lint.unknownAtRules": "ignore",
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
   }
 }
