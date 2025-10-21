@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Header1 from "@/components/common/Header1";
 
 export default function HomeHero() {
   return (
@@ -15,11 +16,7 @@ export default function HomeHero() {
         />
       </div>
       <div className="absolute bottom-[7%] left-0 right-0 flex flex-col items-center px-6 text-center md:bottom-[10%]">
-        <h1
-          className="text-[26px] font-bold leading-none tracking-normal text-white md:text-[50px]"
-        >
-          Latino Professional Directory
-        </h1>
+        <Header1 className="text-white">Latino Professional Directory</Header1>
         <p className={"mt-3 text-base font-medium leading-snug text-white md:mt-4"}>
           Find local events and online career resources tailored to Latino
           professionals across all industries.
