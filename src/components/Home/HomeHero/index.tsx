@@ -4,7 +4,7 @@ import LinkButton from "@/components/common/LinkButton";
 
 export default function HomeHero() {
   return (
-    <section className="relative h-[75vh] min-h-[300px] w-full bg-black md:h-[60vh] md:min-h-[500px]">
+    <section className="relative h-[500px] w-full bg-black md:h-[60vh] md:min-h-[500px]">
       <div className="h-full w-full">
         <Image
           src="/hero.jpg"
