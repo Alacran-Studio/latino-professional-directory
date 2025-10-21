@@ -12,7 +12,7 @@ describe("Homepage", () => {
     expect(subheading).toBeInTheDocument();
 
     expect(heading).toHaveTextContent(
-      "Latiné Professional Development Directory"
+      "Latino Professional Directory"
     );
     expect(subheading).toHaveTextContent(/find your community/i);
   });

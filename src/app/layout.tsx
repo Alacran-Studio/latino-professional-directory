@@ -41,9 +41,9 @@ const internalLinks: InternalNavigationLinks = [
 ];
 
 export const metadata: Metadata = {
-  title: "Latiné Professional Development Directory",
+  title: "Latino Professional Directory",
   description:
-    "A directory for organizations and events in the Chicagoland area to support the professional development of Latiné professionals.",
+    "A directory for organizations and events in the Chicagoland area to support the professional development of Latino professionals.",
 };
 
 export default function RootLayout({

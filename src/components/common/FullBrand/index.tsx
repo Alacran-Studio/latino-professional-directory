@@ -22,10 +22,10 @@ export const FullBrand = ({ fillColor }: FullBrandProps) => {
       <LogoSvg
         width={40}
         height={40}
-        aria-description="Logo for Latiné Professional Development Directory"
+        aria-description="Logo for Latino Professional Directory"
         fill={fillColor}
       />
-      <p className="text-logo-line text-xl tracking-tighter">LPDD</p>
+      <p className="text-logo-line text-xl tracking-tighter">LPD</p>
     </>
   );
 };

@@ -6,12 +6,12 @@ import Image from "next/image";
 const pageContent = {
   heading: "Our Mission",
   intro_p_1_1:
-    "The Latiné Professional Development Directory (LPDD) believes that success is rooted in community, belonging, and shared knowledge.",
+    "The Latino Professional Directory (LPD) believes that success is rooted in community, belonging, and shared knowledge.",
   intro_p_1_2:
     "We are a platform designed to empower a variety of professionals by fostering meaningful connections that lead to growth, confidence, and leadership.",
   intro_img_1: {
     url: "/about/about-1.jpg",
-    alt: "Group of diverse people at a Latiné Heritage Month event.",
+    alt: "Group of diverse people at a Latino Heritage Month event.",
     width: 355,
     height: 184,
   },
@@ -26,7 +26,7 @@ const pageContent = {
   intro_p_3_1:
     "We offer tools, resources, and opportunities that not only help professionals achieve their goals but also connect with others who share their values and drive.",
   intro_p_3_2:
-    "Whether you're looking to expand your network, grow your skill set, or simply belong to a supportive community, LPDD is here to guide you every step of the way.",
+    "Whether you're looking to expand your network, grow your skill set, or simply belong to a supportive community, LPD is here to guide you every step of the way.",
 };
 
 export default function AboutIntroSection() {

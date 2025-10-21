@@ -10,7 +10,7 @@ export default function IntroSection() {
         that are dedicated to
       </p>
       <h2 className="mx-4 mb-4 mt-2 text-2xl font-semibold leading-snug sm:mx-auto sm:mb-10 sm:mt-4 sm:max-w-3xl sm:text-4xl">
-        Fostering The Growth And Development Of Latiné Professionals
+        Fostering The Growth And Development Of Latino Professionals
       </h2>
       <LinkButton href="/about" title="Learn More"></LinkButton>
     </section>
