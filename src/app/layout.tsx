@@ -27,15 +27,15 @@ const Base = ({ children }: PropsWithChildren) => {
  * */
 const internalLinks: InternalNavigationLinks = [
   {
-    name: "HOME",
+    name: "Home",
     href: "/",
   },
   {
-    name: "ABOUT",
+    name: "About",
     href: "/about",
   },
   {
-    name: "CONTACT",
+    name: "Contact",
     href: "/contact",
   },
   // {
