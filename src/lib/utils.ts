@@ -1,13 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Koulen, Lexend } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const koulenFont = Koulen({
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const lexendFont = Lexend({
+const interFont = Inter({
   subsets: ["latin"],
 });
 
@@ -15,12 +10,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function getKoulenFontClass() {
-  return koulenFont.className;
-}
-
-export function getLexendFont() {
-  return lexendFont.className;
+export function getInterFont() {
+  return interFont.className;
 }
 
 export function isValidString(value: any): boolean {

@@ -6,7 +6,7 @@ import { AppSidebarProvider } from "@/components/AppSidebarProvider";
 import StructuredData from "@/components/StructuredData";
 import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
-import { getLexendFont } from "@/lib/utils";
+import { getInterFont } from "@/lib/utils";
 
 const Base = ({ children }: PropsWithChildren) => {
   return (
@@ -14,7 +14,7 @@ const Base = ({ children }: PropsWithChildren) => {
       <head>
         <StructuredData />
       </head>
-      <body className={`min-h-screen ${getLexendFont()}`}>
+      <body className={`min-h-screen ${getInterFont()}`}>
         <Providers>{children}</Providers>
       </body>
     </html>
