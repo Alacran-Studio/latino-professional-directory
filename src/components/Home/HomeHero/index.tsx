@@ -16,7 +16,7 @@ export default function HomeHero() {
       </div>
       <div className="absolute bottom-[15%] left-[5%] mr-[5%] flex flex-col">
         <h1
-          className={`${getKoulenFontClass()} text-5xl font-normal uppercase leading-none tracking-normal text-white md:text-8xl`}
+          className={`${getKoulenFontClass()} text-4xl font-normal uppercase leading-none tracking-normal text-white md:text-6xl`}
         >
           Latino Professional Directory
         </h1>
