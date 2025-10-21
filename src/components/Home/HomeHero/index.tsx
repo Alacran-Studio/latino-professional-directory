@@ -14,15 +14,15 @@ export default function HomeHero() {
           alt="Group of people listening to a panel discussion with panelists seated on stage."
         />
       </div>
-      <div className="absolute bottom-[15%] left-[5%] mr-[5%] flex flex-col-reverse md:flex-col">
-        <h1 className={"font-medium text-white md:text-3xl"}>
-          Latino Professional Directory
-        </h1>
-        <h2
+      <div className="absolute bottom-[15%] left-[5%] mr-[5%] flex flex-col">
+        <h1
           className={`${getKoulenFontClass()} text-5xl font-normal uppercase leading-none tracking-normal text-white md:text-8xl`}
         >
-          Find Your Community
-        </h2>
+          Latino Professional Directory
+        </h1>
+        <p className={"mt-3 text-xl font-medium text-white md:mt-4 md:text-3xl"}>
+          Find your community and thrive as a professional
+        </p>
       </div>
     </section>
   );
