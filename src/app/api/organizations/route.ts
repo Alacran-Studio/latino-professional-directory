@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { fetchOrganizations } from "@/lib/dbOperations";
 
+export const runtime = "edge";
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const page = Number(searchParams.get("page") || 1);
