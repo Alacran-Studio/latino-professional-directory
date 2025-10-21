@@ -15,12 +15,13 @@ export default function HomeHero() {
       </div>
       <div className="absolute bottom-[15%] left-[5%] mr-[5%] flex flex-col">
         <h1
-          className="text-4xl font-bold leading-none tracking-normal text-white md:text-6xl"
+          className="text-[26px] font-bold leading-none tracking-normal text-white md:text-[50px]"
         >
           Latino Professional Directory
         </h1>
-        <p className={"mt-3 text-xl font-medium text-white md:mt-4 md:text-3xl"}>
-          Find your community and thrive as a professional
+        <p className={"mt-3 text-base font-medium leading-snug text-white md:mt-4"}>
+          Find local events and online career resources tailored to Latino
+          professionals across all industries.
         </p>
       </div>
     </section>

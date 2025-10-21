@@ -12,12 +12,10 @@ describe("Homepage", () => {
 
     // Check for tagline
     expect(
-      screen.getByText(/find your community and thrive as a professional/i)
+      screen.getByText(/find local events and online career resources/i)
     ).toBeInTheDocument();
 
-    // Check for value proposition
-    expect(
-      screen.getByText(/discover organizations and events/i)
-    ).toBeInTheDocument();
+    // Check for Learn More button
+    expect(screen.getByText(/learn more/i)).toBeInTheDocument();
   });
 });
