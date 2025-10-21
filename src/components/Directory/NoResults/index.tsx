@@ -19,11 +19,7 @@ export default function NoResults() {
       <Paragraph className="text-secondary-foreground">
         Try a different search or refine your filters.
       </Paragraph>
-      <LinkButton
-        href="/contact"
-        title="Submit an Organization"
-        type="compact"
-      />
+      <LinkButton href="/join" title="Submit an Organization" />
     </div>
   );
 }

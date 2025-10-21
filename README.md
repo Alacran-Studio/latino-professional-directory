@@ -1,4 +1,4 @@
-# Latiné Professional Development Directory (LPDD)
+# Latino Professional Directory (LPD)
 
 A full-stack software application for the Chicago-based non-profit professional
 development organizations where visitors can view organizations and events.

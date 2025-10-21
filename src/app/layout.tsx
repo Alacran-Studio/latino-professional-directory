@@ -3,14 +3,18 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AppSidebarProvider } from "@/components/AppSidebarProvider";
+import StructuredData from "@/components/StructuredData";
 import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
-import { getLexendFont } from "@/lib/utils";
+import { getInterFont } from "@/lib/utils";
 
 const Base = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en">
-      <body className={`min-h-screen ${getLexendFont()}`}>
+      <head>
+        <StructuredData />
+      </head>
+      <body className={`min-h-screen ${getInterFont()}`}>
         <Providers>{children}</Providers>
       </body>
     </html>
@@ -23,16 +27,16 @@ const Base = ({ children }: PropsWithChildren) => {
  * */
 const internalLinks: InternalNavigationLinks = [
   {
-    name: "HOME",
+    name: "Home",
     href: "/",
   },
   {
-    name: "ABOUT",
+    name: "About",
     href: "/about",
   },
   {
-    name: "CONTACT",
-    href: "/contact",
+    name: "Join",
+    href: "/join",
   },
   // {
   //   name: "LOGIN",
@@ -41,9 +45,32 @@ const internalLinks: InternalNavigationLinks = [
 ];
 
 export const metadata: Metadata = {
-  title: "Latiné Professional Development Directory",
+  title: "Latino Professional Directory",
   description:
-    "A directory for organizations and events in the Chicagoland area to support the professional development of Latiné professionals.",
+    "A directory for organizations and events to support the professional development of Latino professionals.",
+  openGraph: {
+    title: "Latino Professional Directory",
+    description:
+      "Discover organizations and events for the professional development of Latinos & allies across industries to build connections and power your career.",
+    type: "website",
+    locale: "en_US",
+    siteName: "Latino Professional Directory",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Latino Professional Directory",
+    description:
+      "Discover organizations and events for the professional development of Latinos & allies across industries to build connections and power your career.",
+  },
+  keywords: [
+    "Latino professionals",
+    "professional development",
+    "networking",
+    "career development",
+    "Latino organizations",
+    "professional events",
+    "career connections",
+  ],
 };
 
 export default function RootLayout({
