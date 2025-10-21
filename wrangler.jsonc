@@ -1,0 +1,33 @@
+{
+  "main": ".open-next/worker.js",
+  "name": "latino-professional-directory",
+  "compatibility_date": "2025-03-25",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "account_id": "9549fe8679831e62544685b926bd22f4",
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "example.com/*",
+      "zone_name": "example.com"
+    },
+    {
+      "pattern": "www.example.com/*",
+      "zone_name": "example.com"
+    } // optional if you use www
+    // (Alternative: use "zone_id": "YOUR_ZONE_ID" instead of zone_name)
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "logs": {
+      "enabled": false,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
+  }
+}
