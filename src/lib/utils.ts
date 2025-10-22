@@ -1,8 +1,12 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Inter } from "next/font/google";
+import { Inter, Lexend } from "next/font/google";
 
 const interFont = Inter({
+  subsets: ["latin"],
+});
+
+const lexendFont = Lexend({
   subsets: ["latin"],
 });
 
@@ -12,6 +16,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getInterFont() {
   return interFont.className;
+}
+
+export function getLexendFont() {
+  return lexendFont.className;
 }
 
 export function isValidString(value: any): boolean {
