@@ -104,7 +104,7 @@ export default function FilterDropdown<T extends FilterItem>({
       >
         <div className="flex items-center">
           {icon}
-          <Paragraph className={`ml-2 ${getLexendFont()}`}>{label}</Paragraph>
+          <Paragraph className={`ml-2 text-[15px] ${getLexendFont()}`}>{label}</Paragraph>
         </div>
         <div
           className={`ml-2 transition-opacity duration-300 ease-out ${
@@ -134,7 +134,7 @@ export default function FilterDropdown<T extends FilterItem>({
               checked={isItemSelected(item)}
               onChange={() => handleItemChange(item)}
             ></input>
-            <Paragraph className={getLexendFont()}>{item.name}</Paragraph>
+            <Paragraph className={`text-[15px] ${getLexendFont()}`}>{item.name}</Paragraph>
           </label>
         ))}
       </div>
@@ -149,9 +149,9 @@ export default function FilterDropdown<T extends FilterItem>({
           <button
             key={item.id !== undefined ? item.id : item.name}
             onClick={() => removeItem(item)}
-            className="flex items-center space-x-2 rounded-full bg-gradient-to-r from-chipGradientFrom via-chipGradientVia to-chipGradientTo px-3 py-1 focus:outline-none"
+            className="flex items-center space-x-2 rounded-full bg-accent px-3 py-1 focus:outline-none dark:bg-accent"
           >
-            <Paragraph className={getLexendFont()}>{item.name}</Paragraph>
+            <Paragraph className={`text-[15px] ${getLexendFont()}`}>{item.name}</Paragraph>
             <XIcon />
           </button>
         ))}

@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
           <Subheading className="mb-6 text-secondary-foreground">
             {short_description}
           </Subheading>
-          <Tags tags={industries} className="px-8 py-2 text-lg text-white" />
+          <Tags tags={industries} className="px-8 py-2 text-[15px] text-white" />
           <a
             className={`inline-block h-12 rounded-full bg-primary px-8 py-2 text-lg text-white hover:bg-primary-hover ${getLexendFont()}`}
             href={website_url}
