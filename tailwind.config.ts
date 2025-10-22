@@ -106,7 +106,17 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    function ({ addComponents }: any) {
+      addComponents({
+        '.text-label': {
+          fontSize: '15px',
+          fontFamily: 'var(--font-lexend)',
+        },
+      });
+    },
+  ],
   darkMode: "media",
 };
 

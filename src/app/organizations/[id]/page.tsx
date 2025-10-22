@@ -45,14 +45,13 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
           <Subheading className="mb-6 text-secondary-foreground">
             {short_description}
           </Subheading>
-          <Tags tags={industries} className="px-8 py-2 text-lg text-white" />
+          <Tags tags={industries} className="px-8 py-2 text-label text-white" />
           <a
-            className="inline-block h-12 rounded-full bg-primary px-8 py-2 text-lg text-white hover:bg-primary-hover"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-2 text-label text-white hover:bg-primary-hover"
             href={website_url}
           >
-            <span>
-              Website <NewTabIcon />
-            </span>
+            <span>Website</span>
+            <NewTabIcon />
           </a>
         </div>
 

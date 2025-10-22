@@ -43,7 +43,12 @@ export default function TallyEmbed() {
   }, []);
 
   return (
-    <main className="h-[calc(100vh-4rem)] w-full">
+    <main
+      className="h-[calc(100vh-4rem)] w-full text-black"
+      style={{
+        background: 'linear-gradient(to bottom, transparent, var(--background-end-light)) var(--background-light)'
+      }}
+    >
       <iframe
         data-tally-src="https://tally.so/r/nPa7q0?transparentBackground=1&formEventsForwarding=1"
         width="100%"

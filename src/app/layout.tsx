@@ -6,11 +6,11 @@ import { AppSidebarProvider } from "@/components/AppSidebarProvider";
 import StructuredData from "@/components/StructuredData";
 import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
-import { getInterFont } from "@/lib/utils";
+import { getInterFont, getFontVariables } from "@/lib/utils";
 
 const Base = ({ children }: PropsWithChildren) => {
   return (
-    <html lang="en">
+    <html lang="en" className={getFontVariables()}>
       <head>
         <StructuredData />
       </head>
