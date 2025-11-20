@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
-import { DirectoryOrgType, IndustryType, CityType } from "@/app/types";
+import { DirectoryOrgType, IndustryType, CityType, OrganizationsApiResponse, IndustriesApiResponse, CitiesApiResponse } from "@/app/types";
 
 import IndustryFilter from "./IndustryFilter";
 import LocationFilter from "./LocationFilter";
@@ -32,18 +32,24 @@ export default function Directory({ className = "" }: { className?: string }) {
           fetch("/api/cities"),
         ]);
 
+        if (!orgResponse.ok) {
+          const error = await orgResponse.json();
+          throw new Error(error.error || "Failed to fetch organizations");
+        }
+        if (!industryResponse.ok) {
+          const error = await industryResponse.json();
+          throw new Error(error.error || "Failed to fetch industries");
+        }
+        if (!cityResponse.ok) {
+          const error = await cityResponse.json();
+          throw new Error(error.error || "Failed to fetch cities");
+        }
+
         const [orgData, industryData, cityData] = await Promise.all([
           orgResponse.json(),
           industryResponse.json(),
           cityResponse.json(),
-        ]);
-
-        if (!orgResponse.ok)
-          throw new Error(orgData.error || "Failed to fetch organizations");
-        if (!industryResponse.ok)
-          throw new Error(industryData.error || "Failed to fetch industries");
-        if (!cityResponse.ok)
-          throw new Error(cityData.error || "Failed to fetch cities");
+        ]) as [OrganizationsApiResponse, IndustriesApiResponse, CitiesApiResponse];
 
         const sortedIndustries = industryData.industries.sort(
           (a: { name: string }, b: { name: string }) =>

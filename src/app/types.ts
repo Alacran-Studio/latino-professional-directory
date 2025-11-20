@@ -52,3 +52,15 @@ export enum Category {
   Networking = "Networking",
   Startups = "Startups",
 }
+
+export interface OrganizationsApiResponse {
+  organizations: DirectoryOrgType[];
+}
+
+export interface IndustriesApiResponse {
+  industries: IndustryType[];
+}
+
+export interface CitiesApiResponse {
+  cities: CityType[];
+}
