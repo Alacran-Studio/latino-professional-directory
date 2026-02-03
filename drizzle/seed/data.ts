@@ -87,6 +87,17 @@ export const directoryOrgs = [
     photo_url: "",
     video_url: "",
   },
+  {
+    name: "Chicago Innovation",
+    logo_url: "/org-logos/chicago-innovation/chicago-innovation-logo.png",
+    description:
+      "Chicago Innovation connects, informs, and inspires the region's diverse startup and tech community through curated events, content, and programs. They bring together entrepreneurs, investors, and industry leaders to foster innovation and growth in the Chicago tech ecosystem.",
+    short_description:
+      "Connects and inspires Chicago's diverse startup and tech community.",
+    website_url: "https://chicagoinnovation.com/",
+    photo_url: "",
+    video_url: "",
+  },
 ];
 
 export const directoryIndustries = [
@@ -118,6 +129,10 @@ export const orgIndustryMappings = [
   {
     directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
     directoryIndustries: ["Professional Services", "Education"],
+  },
+  {
+    directoryName: "Chicago Innovation",
+    directoryIndustries: ["Tech"],
   },
 ];
 
@@ -164,6 +179,10 @@ export const orgCategoryMappings = [
   {
     directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
     categories: ["Mentorship", "Community Impact", "Networking"],
+  },
+  {
+    directoryName: "Chicago Innovation",
+    categories: ["Networking", "Entrepreneurship / Innovation"],
   },
 ];
 
@@ -244,5 +263,41 @@ export const orgCityMappings = [
   {
     directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
     directoryCities: ["Chicago"],
+  },
+  {
+    directoryName: "Chicago Innovation",
+    directoryCities: ["Chicago"],
+  },
+];
+
+export const directoryEvents = [
+  {
+    name: "Chicago Innovation Awards 2024",
+    description:
+      "Annual celebration of Chicago's most innovative companies and entrepreneurs, recognizing breakthrough achievements across various industries.",
+    short_description:
+      "Annual celebration recognizing Chicago's most innovative companies.",
+    event_date: "2024-10-15",
+    event_time: "6:00 PM - 9:00 PM",
+    location: "Navy Pier, Chicago",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/awards",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+];
+
+export const eventOrgMappings = [
+  {
+    eventName: "Chicago Innovation Awards 2024",
+    organizationNames: ["Chicago Innovation"],
+  },
+];
+
+export const eventIndustryMappings = [
+  {
+    eventName: "Chicago Innovation Awards 2024",
+    industries: ["Tech"],
   },
 ];

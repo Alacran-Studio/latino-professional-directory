@@ -1,5 +1,4 @@
 import * as React from "react";
-import { fetchOrganization } from "@/lib/dbOperations";
 import { DirectoryOrgType } from "@/app/types";
 import { notFound } from "next/navigation";
 import Tags from "@/components/Directory/Tags";
@@ -9,6 +8,7 @@ import Paragraph from "@/components/common/Paragraph";
 import Subheading from "@/components/common/Subheading";
 import { NewTabIcon } from "@/components/ui/icons/NewTabSvg";
 import { isValidString } from "@/lib/utils";
+import EventCard from "@/components/Events/EventCard";
 
 interface PageProps {
   id: string;
@@ -16,7 +16,19 @@ interface PageProps {
 
 export default async function Page({ params }: { params: Promise<PageProps> }) {
   const id = (await params).id;
-  const org: DirectoryOrgType = await fetchOrganization(+id);
+
+  // Fetch organization from API to get events
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/organizations/${id}`,
+    { cache: "no-store" }
+  );
+
+  if (!response.ok) {
+    notFound();
+  }
+
+  const { organization } = await response.json();
+  const org: DirectoryOrgType = organization;
 
   if (undefined == org) {
     notFound();
@@ -31,6 +43,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     industries,
     photo_url,
     video_url,
+    events = [],
   } = org;
 
   return (
@@ -72,6 +85,18 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
       <div className={`${isValidString(logo_url) ? "text-center" : ""}`}>
         <Paragraph className="mb-6">{description}</Paragraph>
       </div>
+
+      {/* Events Section */}
+      {events.length > 0 && (
+        <div className="mt-12">
+          <Header1 className="mb-6 text-center">Events from {name}</Header1>
+          <div className="grid gap-4">
+            {events.map((event) => (
+              <EventCard key={event.id} {...event} />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

@@ -35,6 +35,10 @@ const internalLinks: InternalNavigationLinks = [
     href: "/about",
   },
   {
+    name: "Events",
+    href: "/events",
+  },
+  {
     name: "Join",
     href: "/join",
   },

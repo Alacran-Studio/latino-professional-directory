@@ -83,3 +83,32 @@ export const OrganizationCities = lpddSchema.table("organization_cities", {
   ),
   city_id: integer("city_id").references(() => CitiesTable.id),
 });
+
+export const EventsTable = lpddSchema.table("events", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  description: text("description"),
+  short_description: text("short_description"),
+  event_date: text("event_date").notNull(),
+  event_time: text("event_time"),
+  location: text("location"),
+  city_id: integer("city_id").references(() => CitiesTable.id),
+  registration_url: text("registration_url"),
+  photo_url: text("photo_url"),
+  video_url: text("video_url"),
+  is_virtual: text("is_virtual").default("false"),
+});
+
+export const EventOrganizations = lpddSchema.table("event_organizations", {
+  id: serial("id").primaryKey(),
+  event_id: integer("event_id").references(() => EventsTable.id),
+  organization_id: integer("organization_id").references(
+    () => OrganizationsTable.id
+  ),
+});
+
+export const EventIndustries = lpddSchema.table("event_industries", {
+  id: serial("id").primaryKey(),
+  event_id: integer("event_id").references(() => EventsTable.id),
+  industry_id: integer("industry_id").references(() => IndustriesTable.id),
+});
