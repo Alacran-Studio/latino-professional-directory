@@ -7,9 +7,8 @@ import {
   IndustryType,
   CityType,
   EventsApiResponse,
-  IndustriesApiResponse,
-  CitiesApiResponse,
 } from "@/app/types";
+import { fetchFilterData } from "@/lib/fetchFilterData";
 
 import IndustryFilter from "@/components/Directory/IndustryFilter";
 import LocationFilter from "@/components/Directory/LocationFilter";
@@ -39,52 +38,24 @@ export default function EventsDirectory({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchEventsAndFilters = async () => {
+    const fetchData = async () => {
       try {
         setIsLoading(true);
-        const [eventResponse, industryResponse, cityResponse] =
-          await Promise.all([
-            fetch("/api/events?page=1&limit=50"),
-            fetch("/api/industries"),
-            fetch("/api/cities"),
-          ]);
+        const [eventResponse, filterData] = await Promise.all([
+          fetch("/api/events?page=1&limit=50"),
+          fetchFilterData(),
+        ]);
 
         if (!eventResponse.ok) {
           const error = await eventResponse.json();
           throw new Error(error.error || "Failed to fetch events");
         }
-        if (!industryResponse.ok) {
-          const error = await industryResponse.json();
-          throw new Error(error.error || "Failed to fetch industries");
-        }
-        if (!cityResponse.ok) {
-          const error = await cityResponse.json();
-          throw new Error(error.error || "Failed to fetch cities");
-        }
 
-        const [eventData, industryData, cityData] = (await Promise.all([
-          eventResponse.json(),
-          industryResponse.json(),
-          cityResponse.json(),
-        ])) as [
-          EventsApiResponse,
-          IndustriesApiResponse,
-          CitiesApiResponse
-        ];
-
-        const sortedIndustries = industryData.industries.sort(
-          (a: { name: string }, b: { name: string }) =>
-            a.name.localeCompare(b.name)
-        );
-
-        const sortedCities = cityData.cities.sort(
-          (a: { name: string }, b: { name: string }) =>
-            a.name.localeCompare(b.name)
-        );
+        const eventData: EventsApiResponse = await eventResponse.json();
 
         setEvents(eventData.events);
-        setIndustries(sortedIndustries);
-        setCities(sortedCities);
+        setIndustries(filterData.industries);
+        setCities(filterData.cities);
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
@@ -92,7 +63,7 @@ export default function EventsDirectory({
       }
     };
 
-    fetchEventsAndFilters();
+    fetchData();
   }, []);
 
   const filteredEvents = events.filter((event) => {

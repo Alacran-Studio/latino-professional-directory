@@ -12,6 +12,75 @@ import {
 import { inArray, eq } from "drizzle-orm";
 import { DirectoryOrgType, IndustryType, CityType, EventType } from "@/app/types";
 
+// ** ENRICHMENT HELPERS **
+
+async function enrichOrganizations(
+  organizations: any[]
+): Promise<DirectoryOrgType[]> {
+  if (organizations.length === 0) return [];
+
+  const [orgIndustryMappings, orgCityMappings] = await Promise.all([
+    fetchOrgIndustryMappings(organizations),
+    fetchOrgCityMappings(organizations),
+  ]);
+
+  const industryIds = orgIndustryMappings
+    .map((mapping) => mapping.industry_id)
+    .filter((id): id is number => id !== null);
+  const cityIds = orgCityMappings
+    .map((mapping) => mapping.city_id)
+    .filter((id): id is number => id !== null);
+
+  const [industries, cities] = await Promise.all([
+    fetchIndustries(industryIds),
+    fetchCities(cityIds),
+  ]);
+
+  return mapDataToOrganizations(
+    organizations,
+    orgIndustryMappings,
+    industries,
+    orgCityMappings,
+    cities
+  );
+}
+
+async function enrichEvents(events: any[]): Promise<EventType[]> {
+  if (events.length === 0) return [];
+
+  const [eventIndustryMappings, eventOrgMappings] = await Promise.all([
+    fetchEventIndustryMappings(events),
+    fetchEventOrgMappings(events),
+  ]);
+
+  const industryIds = eventIndustryMappings
+    .map((mapping) => mapping.industry_id)
+    .filter((id): id is number => id !== null);
+  const cityIds = events
+    .map((event) => event.city_id)
+    .filter((id): id is number => id !== null);
+  const orgIds = eventOrgMappings
+    .map((mapping) => mapping.organization_id)
+    .filter((id): id is number => id !== null);
+
+  const [industries, cities, organizations] = await Promise.all([
+    fetchIndustries(industryIds),
+    fetchCities(cityIds),
+    fetchOrganizationsById(orgIds),
+  ]);
+
+  return mapDataToEvents(
+    events,
+    cities,
+    eventIndustryMappings,
+    industries,
+    eventOrgMappings,
+    organizations
+  );
+}
+
+// ** ORGANIZATION FETCH FUNCTIONS **
+
 export async function fetchOrganizations(
   page: number,
   limit: number
@@ -20,31 +89,7 @@ export async function fetchOrganizations(
 
   try {
     const organizations = await fetchOrganizationsData(offset, limit);
-
-    // Fetch industries
-    const orgIndustryMappings = await fetchOrgIndustryMappings(organizations);
-    const industryIds = orgIndustryMappings
-      .map((mapping) => mapping.industry_id)
-      .filter((id): id is number => id !== null);
-    const industries = await fetchIndustries(industryIds);
-
-    // Fetch cities
-    const orgCityMappings = await fetchOrgCityMappings(organizations);
-    const cityIds = orgCityMappings
-      .map((mapping) => mapping.city_id)
-      .filter((id): id is number => id !== null);
-    const cities = await fetchCities(cityIds);
-
-    // Map both industries and cities to organizations
-    const organizationsWithData = mapDataToOrganizations(
-      organizations,
-      orgIndustryMappings,
-      industries,
-      orgCityMappings,
-      cities
-    );
-    console.log("Organizations:", organizationsWithData);
-    return organizationsWithData;
+    return await enrichOrganizations(organizations);
   } catch (error) {
     console.error("Error in fetchOrganizations:", error);
     throw error;
@@ -56,29 +101,8 @@ export async function fetchOrganization(
 ): Promise<DirectoryOrgType> {
   try {
     const organization = await fetchOrganizationData(organizationId);
-
-    // Fetch industries
-    const orgIndustryMappings = await fetchOrgIndustryMappings(organization);
-    const industryIds = orgIndustryMappings
-      .map((mapping) => mapping.industry_id)
-      .filter((id): id is number => id !== null);
-    const industries = await fetchIndustries(industryIds);
-
-    // Fetch cities
-    const orgCityMappings = await fetchOrgCityMappings(organization);
-    const cityIds = orgCityMappings
-      .map((mapping) => mapping.city_id)
-      .filter((id): id is number => id !== null);
-    const cities = await fetchCities(cityIds);
-
-    const organizationWithData = mapDataToOrganizations(
-      organization,
-      orgIndustryMappings,
-      industries,
-      orgCityMappings,
-      cities
-    ).find((o) => o !== undefined);
-    return organizationWithData;
+    const enriched = await enrichOrganizations(organization);
+    return enriched[0];
   } catch (error) {
     console.error("Error in fetchOrganization:", error);
     throw error;
@@ -121,7 +145,6 @@ export async function fetchCities(cityIds?: number[]): Promise<CityType[]> {
 
 // ** HELPER METHODS **
 
-// Helper to fetch organizations based on pagination
 async function fetchOrganizationsData(offset: number, limit: number) {
   const organizations = await db
     .select()
@@ -138,7 +161,6 @@ async function fetchOrganizationData(id: number) {
     .where(eq(OrganizationsTable.id, id));
 }
 
-// Helper to fetch organization industry mappings
 async function fetchOrgIndustryMappings(organizations: any[]) {
   const orgIds = organizations.map((org) => org.id);
 
@@ -153,7 +175,6 @@ async function fetchOrgIndustryMappings(organizations: any[]) {
   return orgIndustryMappings;
 }
 
-// Helper to fetch organization city mappings
 async function fetchOrgCityMappings(organizations: any[]) {
   const orgIds = organizations.map((org) => org.id);
 
@@ -168,7 +189,6 @@ async function fetchOrgCityMappings(organizations: any[]) {
   return orgCityMappings;
 }
 
-// Helper to combine organizations with their industries and cities
 function mapDataToOrganizations(
   organizations: any[],
   industryMappings: any[],
@@ -209,38 +229,7 @@ export async function fetchEvents(
 
   try {
     const events = await fetchEventsData(offset, limit);
-
-    // Fetch event-industry mappings
-    const eventIndustryMappings = await fetchEventIndustryMappings(events);
-    const industryIds = eventIndustryMappings
-      .map((mapping) => mapping.industry_id)
-      .filter((id): id is number => id !== null);
-    const industries = await fetchIndustries(industryIds);
-
-    // Fetch cities for events
-    const cityIds = events
-      .map((event) => event.city_id)
-      .filter((id): id is number => id !== null);
-    const cities = await fetchCities(cityIds);
-
-    // Fetch event-organization mappings
-    const eventOrgMappings = await fetchEventOrgMappings(events);
-    const orgIds = eventOrgMappings
-      .map((mapping) => mapping.organization_id)
-      .filter((id): id is number => id !== null);
-    const organizations = await fetchOrganizationsById(orgIds);
-
-    // Map all data to events
-    const eventsWithData = mapDataToEvents(
-      events,
-      cities,
-      eventIndustryMappings,
-      industries,
-      eventOrgMappings,
-      organizations
-    );
-
-    return eventsWithData;
+    return await enrichEvents(events);
   } catch (error) {
     console.error("Error in fetchEvents:", error);
     throw error;
@@ -250,38 +239,8 @@ export async function fetchEvents(
 export async function fetchEvent(eventId: number): Promise<EventType> {
   try {
     const event = await fetchEventData(eventId);
-
-    // Fetch event-industry mappings
-    const eventIndustryMappings = await fetchEventIndustryMappings(event);
-    const industryIds = eventIndustryMappings
-      .map((mapping) => mapping.industry_id)
-      .filter((id): id is number => id !== null);
-    const industries = await fetchIndustries(industryIds);
-
-    // Fetch city for event
-    const cityIds = event
-      .map((e) => e.city_id)
-      .filter((id): id is number => id !== null);
-    const cities = await fetchCities(cityIds);
-
-    // Fetch event-organization mappings
-    const eventOrgMappings = await fetchEventOrgMappings(event);
-    const orgIds = eventOrgMappings
-      .map((mapping) => mapping.organization_id)
-      .filter((id): id is number => id !== null);
-    const organizations = await fetchOrganizationsById(orgIds);
-
-    // Map all data to event
-    const eventWithData = mapDataToEvents(
-      event,
-      cities,
-      eventIndustryMappings,
-      industries,
-      eventOrgMappings,
-      organizations
-    ).find((e) => e !== undefined);
-
-    return eventWithData;
+    const enriched = await enrichEvents(event);
+    return enriched[0];
   } catch (error) {
     console.error("Error in fetchEvent:", error);
     throw error;
@@ -292,7 +251,6 @@ export async function fetchEventsForOrganization(
   organizationId: number
 ): Promise<EventType[]> {
   try {
-    // Get event IDs for this organization
     const eventOrgMappings = await db
       .select({
         event_id: EventOrganizations.event_id,
@@ -306,43 +264,12 @@ export async function fetchEventsForOrganization(
 
     if (eventIds.length === 0) return [];
 
-    // Fetch events
     const events = await db
       .select()
       .from(EventsTable)
       .where(inArray(EventsTable.id, eventIds));
 
-    // Fetch event-industry mappings
-    const eventIndustryMappings = await fetchEventIndustryMappings(events);
-    const industryIds = eventIndustryMappings
-      .map((mapping) => mapping.industry_id)
-      .filter((id): id is number => id !== null);
-    const industries = await fetchIndustries(industryIds);
-
-    // Fetch cities
-    const cityIds = events
-      .map((event) => event.city_id)
-      .filter((id): id is number => id !== null);
-    const cities = await fetchCities(cityIds);
-
-    // Fetch all event-org mappings for these events
-    const allEventOrgMappings = await fetchEventOrgMappings(events);
-    const allOrgIds = allEventOrgMappings
-      .map((mapping) => mapping.organization_id)
-      .filter((id): id is number => id !== null);
-    const organizations = await fetchOrganizationsById(allOrgIds);
-
-    // Map all data to events
-    const eventsWithData = mapDataToEvents(
-      events,
-      cities,
-      eventIndustryMappings,
-      industries,
-      allEventOrgMappings,
-      organizations
-    );
-
-    return eventsWithData;
+    return await enrichEvents(events);
   } catch (error) {
     console.error("Error in fetchEventsForOrganization:", error);
     throw error;
@@ -402,30 +329,7 @@ async function fetchOrganizationsById(
     .from(OrganizationsTable)
     .where(inArray(OrganizationsTable.id, orgIds));
 
-  // Fetch industries
-  const orgIndustryMappings = await fetchOrgIndustryMappings(organizations);
-  const industryIds = orgIndustryMappings
-    .map((mapping) => mapping.industry_id)
-    .filter((id): id is number => id !== null);
-  const industries = await fetchIndustries(industryIds);
-
-  // Fetch cities
-  const orgCityMappings = await fetchOrgCityMappings(organizations);
-  const cityIds = orgCityMappings
-    .map((mapping) => mapping.city_id)
-    .filter((id): id is number => id !== null);
-  const cities = await fetchCities(cityIds);
-
-  // Map data to organizations
-  const organizationsWithData = mapDataToOrganizations(
-    organizations,
-    orgIndustryMappings,
-    industries,
-    orgCityMappings,
-    cities
-  );
-
-  return organizationsWithData;
+  return await enrichOrganizations(organizations);
 }
 
 function mapDataToEvents(
@@ -437,16 +341,13 @@ function mapDataToEvents(
   organizations: DirectoryOrgType[]
 ): EventType[] {
   return events.map((event) => {
-    // Get city (direct FK)
     const city = cityData.find((c) => c.id === event.city_id);
 
-    // Get industries (direct many-to-many)
     const eventIndustries = industryMappings
       .filter((m) => m.event_id === event.id)
       .map((m) => industries.find((i) => i.id === m.industry_id))
       .filter((i) => i !== undefined);
 
-    // Get hosting organizations (many-to-many, optional)
     const eventOrgs = orgMappings
       .filter((m) => m.event_id === event.id)
       .map((m) => organizations.find((o) => o.id === m.organization_id))

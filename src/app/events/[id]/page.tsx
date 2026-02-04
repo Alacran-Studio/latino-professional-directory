@@ -1,5 +1,4 @@
 import * as React from "react";
-import { fetchEvent } from "@/lib/dbOperations";
 import { EventType } from "@/app/types";
 import { notFound } from "next/navigation";
 import Tags from "@/components/Directory/Tags";
@@ -17,9 +16,20 @@ interface PageProps {
 
 export default async function Page({ params }: { params: Promise<PageProps> }) {
   const id = (await params).id;
-  const event: EventType = await fetchEvent(+id);
 
-  if (undefined == event) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/events/${id}`,
+    { cache: "no-store" }
+  );
+
+  if (!response.ok) {
+    notFound();
+  }
+
+  const { event } = await response.json();
+  const typedEvent: EventType = event;
+
+  if (undefined == typedEvent) {
     notFound();
   }
 
@@ -37,7 +47,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     is_virtual,
     industries,
     organizations,
-  } = event;
+  } = typedEvent;
 
   // Format date for display
   const formattedDate = new Date(event_date).toLocaleDateString("en-US", {
