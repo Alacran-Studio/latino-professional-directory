@@ -14,7 +14,7 @@ export default function NoEvents() {
         height={131}
         className="opacity-75"
       />
-      <Subheading>We couldn't find any events.</Subheading>
+      <Subheading>We couldn&apos;t find any events.</Subheading>
       <Paragraph className="text-secondary-foreground">
         Try adjusting your filters or check back later for new events.
       </Paragraph>
