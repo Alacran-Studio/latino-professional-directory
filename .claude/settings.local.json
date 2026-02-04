@@ -14,7 +14,9 @@
       "Bash(curl:*)",
       "Bash(python3:*)",
       "Bash(psql:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(tree:*)",
+      "Bash(npx next build:*)"
     ],
     "deny": [],
     "ask": []

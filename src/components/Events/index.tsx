@@ -148,12 +148,19 @@ export default function EventsDirectory({
               isCityDropdownOpen={isCityDropdownOpen}
               setIsCityDropdownOpen={setIsCityDropdownOpen}
             />
-            <DateFilter
-              dateFilter={dateFilter}
-              setDateFilter={setDateFilter}
-              isDateDropdownOpen={isDateDropdownOpen}
-              setIsDateDropdownOpen={setIsDateDropdownOpen}
-            />
+            {/* TODO: DateFilter – Upcoming/Past Events toggle
+             * Component ready at ./DateFilter/index.tsx
+             * State already wired: dateFilter, isDateDropdownOpen
+             * Filtering logic in filteredEvents already handles "upcoming" | "past" | "all"
+             * Shelved to revisit once layout/design is finalized with Figma designs.
+             *
+             * <DateFilter
+             *   dateFilter={dateFilter}
+             *   setDateFilter={setDateFilter}
+             *   isDateDropdownOpen={isDateDropdownOpen}
+             *   setIsDateDropdownOpen={setIsDateDropdownOpen}
+             * />
+             */}
           </div>
         )}
 
