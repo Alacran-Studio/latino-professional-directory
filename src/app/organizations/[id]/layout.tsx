@@ -1,14 +1,7 @@
-import BackButton from "@/components/common/BackButton";
-
 export default function OrganizationLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <main className="relative p-7">
-      <BackButton href="/" label="Directory" />
-      {children}
-    </main>
-  );
+  return <main>{children}</main>;
 }
