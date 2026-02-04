@@ -14,8 +14,8 @@ import {
 import IndustryFilter from "@/components/Directory/IndustryFilter";
 import LocationFilter from "@/components/Directory/LocationFilter";
 import DateFilter from "./DateFilter";
-import NoResults from "@/components/Directory/NoResults";
-import LoadingResults from "@/components/Directory/LoadingResults";
+import NoEvents from "./NoEvents";
+import LoadingEvents from "./LoadingEvents";
 import Header1 from "@/components/common/Header1";
 
 export default function EventsDirectory({
@@ -158,9 +158,9 @@ export default function EventsDirectory({
         )}
 
         {isLoading ? (
-          <LoadingResults />
+          <LoadingEvents />
         ) : filteredEvents.length === 0 ? (
-          <NoResults />
+          <NoEvents />
         ) : (
           <div className="grid gap-4">
             {filteredEvents.map((event) => (

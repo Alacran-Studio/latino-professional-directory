@@ -11,7 +11,10 @@
       "Bash(npm run migration:push:*)",
       "Bash(npm run migration:apply:*)",
       "Bash(npm run db:seed:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(psql:*)",
+      "Bash(npx tsx:*)"
     ],
     "deny": [],
     "ask": []
