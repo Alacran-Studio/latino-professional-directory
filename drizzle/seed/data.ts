@@ -406,21 +406,6 @@ export const directoryEvents = [
     video_url: "",
     is_virtual: "false",
   },
-  {
-    name: "The 25th annual Chicago Innovation Awards",
-    description:
-      "The premier celebration of Chicago's most innovative companies and entrepreneurs, recognizing breakthrough achievements that are transforming industries and improving lives.",
-    short_description:
-      "The premier celebration of Chicago's most innovative companies and entrepreneurs.",
-    event_date: "2026-11-17",
-    event_time: "",
-    location: "UIC Forum",
-    city: "Chicago",
-    registration_url: "https://chicagoinnovation.com/awards",
-    photo_url: "",
-    video_url: "",
-    is_virtual: "false",
-  },
 ];
 
 export const eventOrgMappings = [
@@ -460,10 +445,6 @@ export const eventOrgMappings = [
     eventName: "The Complete Innovator",
     organizationNames: ["Chicago Innovation"],
   },
-  {
-    eventName: "The 25th annual Chicago Innovation Awards",
-    organizationNames: ["Chicago Innovation"],
-  },
 ];
 
 export const eventIndustryMappings = [
@@ -501,10 +482,6 @@ export const eventIndustryMappings = [
   },
   {
     eventName: "The Complete Innovator",
-    industries: ["Tech"],
-  },
-  {
-    eventName: "The 25th annual Chicago Innovation Awards",
     industries: ["Tech"],
   },
 ];

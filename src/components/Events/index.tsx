@@ -129,7 +129,7 @@ export default function EventsDirectory({
       className={`${className} mb-4 flex w-10/12 flex-col items-center pb-4 pt-8`}
     >
       <Header1 className="pb-8 text-center">Events</Header1>
-      <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
+      <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:max-w-6xl dark:shadow-gray-800">
         {isLoading ? (
           <></>
         ) : (
@@ -169,7 +169,7 @@ export default function EventsDirectory({
         ) : filteredEvents.length === 0 ? (
           <NoEvents />
         ) : (
-          <div className="grid gap-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredEvents.map((event) => (
               <EventCard key={event.id} {...event} />
             ))}
