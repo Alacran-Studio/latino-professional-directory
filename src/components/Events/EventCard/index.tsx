@@ -6,8 +6,38 @@ import {
   CalendarIcon,
   ClockIcon,
   LocationMarkerIcon,
-  PhotographIcon,
 } from "@heroicons/react/outline";
+
+const DEFAULT_IMAGES: Record<string, string> = {
+  Tech: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=400&fit=crop",
+  Healthcare:
+    "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop",
+  Finance:
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=400&fit=crop",
+  "Professional Services":
+    "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&h=400&fit=crop",
+  "Venture Capital":
+    "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop",
+  Education:
+    "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=600&h=400&fit=crop",
+  Engineering:
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop",
+  "Real Estate":
+    "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=400&fit=crop",
+  Law: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop",
+};
+
+const FALLBACK_IMAGE =
+  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop";
+
+function getDefaultImage(industries: EventType["industries"]): string {
+  for (const industry of industries) {
+    if (DEFAULT_IMAGES[industry.name]) {
+      return DEFAULT_IMAGES[industry.name];
+    }
+  }
+  return FALLBACK_IMAGE;
+}
 
 export default function EventCard({
   id,
@@ -28,28 +58,25 @@ export default function EventCard({
   });
 
   const locationText = [location, city?.name].filter(Boolean).join(", ");
+  const imageUrl = isValidString(photo_url)
+    ? photo_url
+    : getDefaultImage(industries);
 
   return (
     <Link href={`/events/${id}`} className="group">
       <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-lg shadow-gray-300 hover:bg-cardHover dark:shadow-gray-800">
         {/* Photo */}
-        {isValidString(photo_url) ? (
-          <div className="relative h-48 w-full">
-            <Image
-              src={photo_url}
-              alt={`${name} event photo`}
-              fill
-              className="object-cover"
-            />
-          </div>
-        ) : (
-          <div className="flex h-48 w-full items-center justify-center bg-muted">
-            <PhotographIcon className="h-12 w-12 text-muted-foreground" />
-          </div>
-        )}
+        <div className="relative h-48 w-full">
+          <Image
+            src={imageUrl}
+            alt={`${name} event photo`}
+            fill
+            className="object-cover"
+          />
+        </div>
 
         {/* Content */}
-        <div className="flex flex-1 flex-col p-5">
+        <div className="flex flex-1 flex-col p-5 font-[family-name:var(--font-lexend)]">
           {/* Industry tag */}
           {industries.length > 0 && (
             <p className="text-sm font-semibold text-brandGold">
@@ -92,7 +119,7 @@ export default function EventCard({
           {/* Learn More button */}
           <button
             tabIndex={-1}
-            className="mt-4 w-full rounded-lg bg-brandGold px-4 py-2.5 text-sm font-semibold text-neutral-900"
+            className="mt-4 w-full rounded-full bg-gradient-to-r from-brandGold to-yellow-600 px-4 py-2.5 text-sm font-semibold text-white"
           >
             Learn More
           </button>
