@@ -163,6 +163,7 @@ async function fetchOrganizationData(id: number) {
 
 async function fetchOrgIndustryMappings(organizations: any[]) {
   const orgIds = organizations.map((org) => org.id);
+  if (orgIds.length === 0) return [];
 
   const orgIndustryMappings = await db
     .select({
@@ -177,6 +178,7 @@ async function fetchOrgIndustryMappings(organizations: any[]) {
 
 async function fetchOrgCityMappings(organizations: any[]) {
   const orgIds = organizations.map((org) => org.id);
+  if (orgIds.length === 0) return [];
 
   const orgCityMappings = await db
     .select({
@@ -293,6 +295,7 @@ async function fetchEventData(id: number) {
 
 async function fetchEventIndustryMappings(events: any[]) {
   const eventIds = events.map((event) => event.id);
+  if (eventIds.length === 0) return [];
 
   const eventIndustryMappings = await db
     .select({
@@ -307,6 +310,7 @@ async function fetchEventIndustryMappings(events: any[]) {
 
 async function fetchEventOrgMappings(events: any[]) {
   const eventIds = events.map((event) => event.id);
+  if (eventIds.length === 0) return [];
 
   const eventOrgMappings = await db
     .select({
