@@ -89,11 +89,10 @@ export const directoryOrgs = [
   },
   {
     name: "Chicago Innovation",
-    logo_url: "/org-logos/chicago-innovation/chicago-innovation-logo.png",
+    logo_url: "/org-logos/chicago-innovation/CI_black_logo.png",
     description:
-      "Chicago Innovation connects, informs, and inspires the region's diverse startup and tech community through curated events, content, and programs. They bring together entrepreneurs, investors, and industry leaders to foster innovation and growth in the Chicago tech ecosystem.",
-    short_description:
-      "Connects and inspires Chicago's diverse startup and tech community.",
+      "Chicago Innovation is in its 25th year of educating, connecting, and celebrating innovators across Chicago's diverse communities through a variety of events and initiatives.",
+    short_description: "Educating, connecting, and celebrating innovators.",
     website_url: "https://chicagoinnovation.com/",
     photo_url: "",
     video_url: "",
