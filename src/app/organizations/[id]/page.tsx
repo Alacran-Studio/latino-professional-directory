@@ -13,6 +13,7 @@ import {
   LocationMarkerIcon,
   GlobeAltIcon,
 } from "@heroicons/react/outline";
+import { headers } from "next/headers";
 
 const COVER_FALLBACK =
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop";
@@ -24,8 +25,13 @@ interface PageProps {
 export default async function Page({ params }: { params: Promise<PageProps> }) {
   const id = (await params).id;
 
+  const headersList = await headers();
+  const host = headersList.get("host") || "localhost:3000";
+  const protocol = headersList.get("x-forwarded-proto") || "http";
+  const baseUrl = `${protocol}://${host}`;
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/organizations/${id}`,
+    `${baseUrl}/api/organizations/${id}`,
     { cache: "no-store" }
   );
 

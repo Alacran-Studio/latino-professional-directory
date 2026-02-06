@@ -9,6 +9,7 @@ import Subheading from "@/components/common/Subheading";
 import { NewTabIcon } from "@/components/ui/icons/NewTabSvg";
 import { isValidString } from "@/lib/utils";
 import Link from "next/link";
+import { headers } from "next/headers";
 
 interface PageProps {
   id: string;
@@ -17,8 +18,13 @@ interface PageProps {
 export default async function Page({ params }: { params: Promise<PageProps> }) {
   const id = (await params).id;
 
+  const headersList = await headers();
+  const host = headersList.get("host") || "localhost:3000";
+  const protocol = headersList.get("x-forwarded-proto") || "http";
+  const baseUrl = `${protocol}://${host}`;
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/events/${id}`,
+    `${baseUrl}/api/events/${id}`,
     { cache: "no-store" }
   );
 
