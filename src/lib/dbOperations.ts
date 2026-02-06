@@ -5,9 +5,81 @@ import {
   OrganizationsTable,
   CitiesTable,
   OrganizationCities,
+  EventsTable,
+  EventOrganizations,
+  EventIndustries,
 } from "../../drizzle/schema";
 import { inArray, eq } from "drizzle-orm";
-import { DirectoryOrgType, IndustryType, CityType } from "@/app/types";
+import { DirectoryOrgType, IndustryType, CityType, EventType } from "@/app/types";
+
+// ** ENRICHMENT HELPERS **
+
+async function enrichOrganizations(
+  organizations: any[]
+): Promise<DirectoryOrgType[]> {
+  if (organizations.length === 0) return [];
+
+  const [orgIndustryMappings, orgCityMappings] = await Promise.all([
+    fetchOrgIndustryMappings(organizations),
+    fetchOrgCityMappings(organizations),
+  ]);
+
+  const industryIds = orgIndustryMappings
+    .map((mapping) => mapping.industry_id)
+    .filter((id): id is number => id !== null);
+  const cityIds = orgCityMappings
+    .map((mapping) => mapping.city_id)
+    .filter((id): id is number => id !== null);
+
+  const [industries, cities] = await Promise.all([
+    fetchIndustries(industryIds),
+    fetchCities(cityIds),
+  ]);
+
+  return mapDataToOrganizations(
+    organizations,
+    orgIndustryMappings,
+    industries,
+    orgCityMappings,
+    cities
+  );
+}
+
+async function enrichEvents(events: any[]): Promise<EventType[]> {
+  if (events.length === 0) return [];
+
+  const [eventIndustryMappings, eventOrgMappings] = await Promise.all([
+    fetchEventIndustryMappings(events),
+    fetchEventOrgMappings(events),
+  ]);
+
+  const industryIds = eventIndustryMappings
+    .map((mapping) => mapping.industry_id)
+    .filter((id): id is number => id !== null);
+  const cityIds = events
+    .map((event) => event.city_id)
+    .filter((id): id is number => id !== null);
+  const orgIds = eventOrgMappings
+    .map((mapping) => mapping.organization_id)
+    .filter((id): id is number => id !== null);
+
+  const [industries, cities, organizations] = await Promise.all([
+    fetchIndustries(industryIds),
+    fetchCities(cityIds),
+    fetchOrganizationsById(orgIds),
+  ]);
+
+  return mapDataToEvents(
+    events,
+    cities,
+    eventIndustryMappings,
+    industries,
+    eventOrgMappings,
+    organizations
+  );
+}
+
+// ** ORGANIZATION FETCH FUNCTIONS **
 
 export async function fetchOrganizations(
   page: number,
@@ -17,31 +89,7 @@ export async function fetchOrganizations(
 
   try {
     const organizations = await fetchOrganizationsData(offset, limit);
-
-    // Fetch industries
-    const orgIndustryMappings = await fetchOrgIndustryMappings(organizations);
-    const industryIds = orgIndustryMappings
-      .map((mapping) => mapping.industry_id)
-      .filter((id): id is number => id !== null);
-    const industries = await fetchIndustries(industryIds);
-
-    // Fetch cities
-    const orgCityMappings = await fetchOrgCityMappings(organizations);
-    const cityIds = orgCityMappings
-      .map((mapping) => mapping.city_id)
-      .filter((id): id is number => id !== null);
-    const cities = await fetchCities(cityIds);
-
-    // Map both industries and cities to organizations
-    const organizationsWithData = mapDataToOrganizations(
-      organizations,
-      orgIndustryMappings,
-      industries,
-      orgCityMappings,
-      cities
-    );
-    console.log("Organizations:", organizationsWithData);
-    return organizationsWithData;
+    return await enrichOrganizations(organizations);
   } catch (error) {
     console.error("Error in fetchOrganizations:", error);
     throw error;
@@ -53,29 +101,8 @@ export async function fetchOrganization(
 ): Promise<DirectoryOrgType> {
   try {
     const organization = await fetchOrganizationData(organizationId);
-
-    // Fetch industries
-    const orgIndustryMappings = await fetchOrgIndustryMappings(organization);
-    const industryIds = orgIndustryMappings
-      .map((mapping) => mapping.industry_id)
-      .filter((id): id is number => id !== null);
-    const industries = await fetchIndustries(industryIds);
-
-    // Fetch cities
-    const orgCityMappings = await fetchOrgCityMappings(organization);
-    const cityIds = orgCityMappings
-      .map((mapping) => mapping.city_id)
-      .filter((id): id is number => id !== null);
-    const cities = await fetchCities(cityIds);
-
-    const organizationWithData = mapDataToOrganizations(
-      organization,
-      orgIndustryMappings,
-      industries,
-      orgCityMappings,
-      cities
-    ).find((o) => o !== undefined);
-    return organizationWithData;
+    const enriched = await enrichOrganizations(organization);
+    return enriched[0];
   } catch (error) {
     console.error("Error in fetchOrganization:", error);
     throw error;
@@ -118,7 +145,6 @@ export async function fetchCities(cityIds?: number[]): Promise<CityType[]> {
 
 // ** HELPER METHODS **
 
-// Helper to fetch organizations based on pagination
 async function fetchOrganizationsData(offset: number, limit: number) {
   const organizations = await db
     .select()
@@ -135,9 +161,9 @@ async function fetchOrganizationData(id: number) {
     .where(eq(OrganizationsTable.id, id));
 }
 
-// Helper to fetch organization industry mappings
 async function fetchOrgIndustryMappings(organizations: any[]) {
   const orgIds = organizations.map((org) => org.id);
+  if (orgIds.length === 0) return [];
 
   const orgIndustryMappings = await db
     .select({
@@ -150,9 +176,9 @@ async function fetchOrgIndustryMappings(organizations: any[]) {
   return orgIndustryMappings;
 }
 
-// Helper to fetch organization city mappings
 async function fetchOrgCityMappings(organizations: any[]) {
   const orgIds = organizations.map((org) => org.id);
+  if (orgIds.length === 0) return [];
 
   const orgCityMappings = await db
     .select({
@@ -165,7 +191,6 @@ async function fetchOrgCityMappings(organizations: any[]) {
   return orgCityMappings;
 }
 
-// Helper to combine organizations with their industries and cities
 function mapDataToOrganizations(
   organizations: any[],
   industryMappings: any[],
@@ -194,4 +219,149 @@ function mapDataToOrganizations(
   }));
 
   return organizationsWithData;
+}
+
+// ** EVENT FETCH FUNCTIONS **
+
+export async function fetchEvents(
+  page: number,
+  limit: number
+): Promise<EventType[]> {
+  const offset = (page - 1) * limit;
+
+  try {
+    const events = await fetchEventsData(offset, limit);
+    return await enrichEvents(events);
+  } catch (error) {
+    console.error("Error in fetchEvents:", error);
+    throw error;
+  }
+}
+
+export async function fetchEvent(eventId: number): Promise<EventType> {
+  try {
+    const event = await fetchEventData(eventId);
+    const enriched = await enrichEvents(event);
+    return enriched[0];
+  } catch (error) {
+    console.error("Error in fetchEvent:", error);
+    throw error;
+  }
+}
+
+export async function fetchEventsForOrganization(
+  organizationId: number
+): Promise<EventType[]> {
+  try {
+    const eventOrgMappings = await db
+      .select({
+        event_id: EventOrganizations.event_id,
+      })
+      .from(EventOrganizations)
+      .where(eq(EventOrganizations.organization_id, organizationId));
+
+    const eventIds = eventOrgMappings
+      .map((mapping) => mapping.event_id)
+      .filter((id): id is number => id !== null);
+
+    if (eventIds.length === 0) return [];
+
+    const events = await db
+      .select()
+      .from(EventsTable)
+      .where(inArray(EventsTable.id, eventIds));
+
+    return await enrichEvents(events);
+  } catch (error) {
+    console.error("Error in fetchEventsForOrganization:", error);
+    throw error;
+  }
+}
+
+// ** EVENT HELPER METHODS **
+
+async function fetchEventsData(offset: number, limit: number) {
+  const events = await db
+    .select()
+    .from(EventsTable)
+    .offset(offset)
+    .limit(limit);
+  return events;
+}
+
+async function fetchEventData(id: number) {
+  return await db.select().from(EventsTable).where(eq(EventsTable.id, id));
+}
+
+async function fetchEventIndustryMappings(events: any[]) {
+  const eventIds = events.map((event) => event.id);
+  if (eventIds.length === 0) return [];
+
+  const eventIndustryMappings = await db
+    .select({
+      event_id: EventIndustries.event_id,
+      industry_id: EventIndustries.industry_id,
+    })
+    .from(EventIndustries)
+    .where(inArray(EventIndustries.event_id, eventIds));
+
+  return eventIndustryMappings;
+}
+
+async function fetchEventOrgMappings(events: any[]) {
+  const eventIds = events.map((event) => event.id);
+  if (eventIds.length === 0) return [];
+
+  const eventOrgMappings = await db
+    .select({
+      event_id: EventOrganizations.event_id,
+      organization_id: EventOrganizations.organization_id,
+    })
+    .from(EventOrganizations)
+    .where(inArray(EventOrganizations.event_id, eventIds));
+
+  return eventOrgMappings;
+}
+
+async function fetchOrganizationsById(
+  orgIds: number[]
+): Promise<DirectoryOrgType[]> {
+  if (orgIds.length === 0) return [];
+
+  const organizations = await db
+    .select()
+    .from(OrganizationsTable)
+    .where(inArray(OrganizationsTable.id, orgIds));
+
+  return await enrichOrganizations(organizations);
+}
+
+function mapDataToEvents(
+  events: any[],
+  cityData: any[],
+  industryMappings: any[],
+  industries: any[],
+  orgMappings: any[],
+  organizations: DirectoryOrgType[]
+): EventType[] {
+  return events.map((event) => {
+    const city = cityData.find((c) => c.id === event.city_id);
+
+    const eventIndustries = industryMappings
+      .filter((m) => m.event_id === event.id)
+      .map((m) => industries.find((i) => i.id === m.industry_id))
+      .filter((i) => i !== undefined);
+
+    const eventOrgs = orgMappings
+      .filter((m) => m.event_id === event.id)
+      .map((m) => organizations.find((o) => o.id === m.organization_id))
+      .filter((org) => org !== undefined);
+
+    return {
+      ...event,
+      city,
+      industries: eventIndustries,
+      organizations: eventOrgs,
+    };
+  });
 }

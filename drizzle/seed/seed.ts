@@ -10,6 +10,9 @@ import {
   orgCategoryMappings,
   directoryCities,
   orgCityMappings,
+  directoryEvents,
+  eventOrgMappings,
+  eventIndustryMappings,
 } from "./data";
 import {
   OrganizationsTable,
@@ -21,6 +24,9 @@ import {
   OrganizationCategories,
   CitiesTable,
   OrganizationCities,
+  EventsTable,
+  EventOrganizations,
+  EventIndustries,
 } from "../schema";
 import { directoryIndustries } from "./data";
 
@@ -35,6 +41,9 @@ async function main() {
     await seedOrganizationCategories();
     await seedCities();
     await seedOrganizationCities();
+    await seedEvents();
+    await seedEventOrganizations();
+    await seedEventIndustries();
   } catch (e) {
     console.error(e);
     throw new Error("Seed error...");
@@ -365,4 +374,149 @@ async function seedOrganizationCities() {
     }
   }
   console.log("Seeding organization cities completed.");
+}
+
+async function seedEvents() {
+  console.log("Seed events started...");
+  for (const event of directoryEvents) {
+    const existingEvent = await db
+      .select()
+      .from(EventsTable)
+      .where(eq(EventsTable.name, event.name))
+      .limit(1);
+
+    if (existingEvent.length > 0) {
+      console.log(`Skipping existing event: ${event.name}`);
+      continue;
+    }
+
+    // Look up city_id by city name
+    const [city] = await db
+      .select()
+      .from(CitiesTable)
+      .where(eq(CitiesTable.name, event.city))
+      .limit(1);
+
+    if (!city) {
+      console.log(`City not found: ${event.city}`);
+      continue;
+    }
+
+    // Insert event with city_id (destructure to remove city field)
+    const { city: _, ...eventData } = event;
+    await db.insert(EventsTable).values({
+      ...eventData,
+      city_id: city.id,
+    });
+    console.log(`Inserted event: ${event.name}`);
+  }
+  console.log("Seed events finished...");
+}
+
+async function seedEventOrganizations() {
+  console.log("Seed event organizations started...");
+  for (const mapping of eventOrgMappings) {
+    const [event] = await db
+      .select()
+      .from(EventsTable)
+      .where(eq(EventsTable.name, mapping.eventName))
+      .limit(1);
+
+    if (!event) {
+      console.log(`Event not found: ${mapping.eventName}`);
+      continue;
+    }
+
+    for (const orgName of mapping.organizationNames) {
+      const [organization] = await db
+        .select()
+        .from(OrganizationsTable)
+        .where(eq(OrganizationsTable.name, orgName))
+        .limit(1);
+
+      if (!organization) {
+        console.log(`Organization not found: ${orgName}`);
+        continue;
+      }
+
+      const existingMapping = await db
+        .select()
+        .from(EventOrganizations)
+        .where(
+          and(
+            eq(EventOrganizations.event_id, event.id),
+            eq(EventOrganizations.organization_id, organization.id)
+          )
+        )
+        .limit(1);
+
+      if (existingMapping.length > 0) {
+        console.log(
+          `Mapping already exists: ${mapping.eventName} -> ${orgName}`
+        );
+        continue;
+      }
+
+      await db.insert(EventOrganizations).values({
+        event_id: event.id,
+        organization_id: organization.id,
+      });
+      console.log(`Inserted mapping: ${mapping.eventName} -> ${orgName}`);
+    }
+  }
+  console.log("Seeding event organizations completed.");
+}
+
+async function seedEventIndustries() {
+  console.log("Seed event industries started...");
+  for (const mapping of eventIndustryMappings) {
+    const [event] = await db
+      .select()
+      .from(EventsTable)
+      .where(eq(EventsTable.name, mapping.eventName))
+      .limit(1);
+
+    if (!event) {
+      console.log(`Event not found: ${mapping.eventName}`);
+      continue;
+    }
+
+    for (const industryName of mapping.industries) {
+      const [industry] = await db
+        .select()
+        .from(IndustriesTable)
+        .where(eq(IndustriesTable.name, industryName))
+        .limit(1);
+
+      if (!industry) {
+        console.log(`Industry not found: ${industryName}`);
+        continue;
+      }
+
+      const existingMapping = await db
+        .select()
+        .from(EventIndustries)
+        .where(
+          and(
+            eq(EventIndustries.event_id, event.id),
+            eq(EventIndustries.industry_id, industry.id)
+          )
+        )
+        .limit(1);
+
+      if (existingMapping.length > 0) {
+        console.log(
+          `Mapping already exists: ${mapping.eventName} -> ${industryName}`
+        );
+        continue;
+      }
+
+      await db.insert(EventIndustries).values({
+        event_id: event.id,
+        industry_id: industry.id,
+      });
+      console.log(`Inserted mapping: ${mapping.eventName} -> ${industryName}`);
+    }
+  }
+  console.log("Seeding event industries completed.");
 }

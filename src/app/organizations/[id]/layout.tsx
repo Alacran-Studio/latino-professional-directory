@@ -1,7 +1,7 @@
 export default function OrganizationLayout({
-  children, // will be a page or nested layout
+  children,
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="relative p-7">{children}</main>;
+  return <main>{children}</main>;
 }
