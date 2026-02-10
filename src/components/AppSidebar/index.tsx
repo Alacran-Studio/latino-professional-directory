@@ -34,7 +34,7 @@ export function AppSidebar({ links }: AppSidebarProps) {
               {links.map((item) => (
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.href}>{item.name}</Link>
+                    <Link href={item.href}>{item.name.toUpperCase()}</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

@@ -25,7 +25,7 @@ export default function NavLinks({ links }: NavLinksProps) {
             <p
               className={`pr-2 tracking-tighter transition duration-300 ease-in-out md:pl-8 md:tracking-normal ${clsx(isActiveLink ? activeClasses : inactiveClasses)}`}
             >
-              {name}
+              {name.toUpperCase()}
             </p>
           </Link>
         );
