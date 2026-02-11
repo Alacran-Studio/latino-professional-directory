@@ -149,6 +149,7 @@ async function fetchOrganizationsData(offset: number, limit: number) {
   const organizations = await db
     .select()
     .from(OrganizationsTable)
+    .where(eq(OrganizationsTable.status, "approved"))
     .offset(offset)
     .limit(limit);
   return organizations;
@@ -158,7 +159,8 @@ async function fetchOrganizationData(id: number) {
   return await db
     .select()
     .from(OrganizationsTable)
-    .where(eq(OrganizationsTable.id, id));
+    .where(eq(OrganizationsTable.id, id))
+    .where(eq(OrganizationsTable.status, "approved"));
 }
 
 async function fetchOrgIndustryMappings(organizations: any[]) {
