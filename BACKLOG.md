@@ -129,10 +129,12 @@ Services organizations might offer:
 ## Technical Backlog
 
 ### Infrastructure
+- [ ] Set up staging environment (separate from production DB/Supabase project)
 - [ ] Graph visualization of org/people/event relationships
 - [ ] Automation pipelines (content updates, notifications)
 
 ### UX/Optimization
+- [ ] Org slugs — use human-readable URLs (e.g., `/organizations/techqueria` instead of `/organizations/31`). Add `slug` column to orgs table, generate from name.
 - [ ] Disable dark mode — force light mode site-wide (remove `prefers-color-scheme` overrides, set `color-scheme: light` on `<html>`)
 - [ ] Mobile experience audit and fixes
 - [ ] Desktop experience review
