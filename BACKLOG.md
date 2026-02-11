@@ -133,6 +133,7 @@ Services organizations might offer:
 - [ ] Automation pipelines (content updates, notifications)
 
 ### UX/Optimization
+- [ ] Disable dark mode — force light mode site-wide (remove `prefers-color-scheme` overrides, set `color-scheme: light` on `<html>`)
 - [ ] Mobile experience audit and fixes
 - [ ] Desktop experience review
 - [ ] Performance optimization
