@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { UserRole } from "@/types/admin";
+import { logout } from "../_actions/logout";
 
 interface AdminSidebarProps {
   role: UserRole;
@@ -60,13 +61,21 @@ export function AdminSidebar({ role, userName }: AdminSidebarProps) {
         </ul>
       </nav>
 
-      <div className="border-t border-border p-4">
+      <div className="flex flex-col gap-2 border-t border-border p-4">
         <Link
           href="/"
           className="text-sm text-secondary-foreground hover:text-foreground"
         >
           Back to site
         </Link>
+        <form action={logout}>
+          <button
+            type="submit"
+            className="text-sm text-secondary-foreground hover:text-foreground"
+          >
+            Sign out
+          </button>
+        </form>
       </div>
     </aside>
   );

@@ -9,7 +9,7 @@ import {
   EventOrganizations,
   EventIndustries,
 } from "../../drizzle/schema";
-import { inArray, eq } from "drizzle-orm";
+import { inArray, eq, and } from "drizzle-orm";
 import { DirectoryOrgType, IndustryType, CityType, EventType } from "@/app/types";
 
 // ** ENRICHMENT HELPERS **
@@ -159,8 +159,7 @@ async function fetchOrganizationData(id: number) {
   return await db
     .select()
     .from(OrganizationsTable)
-    .where(eq(OrganizationsTable.id, id))
-    .where(eq(OrganizationsTable.status, "approved"));
+    .where(and(eq(OrganizationsTable.id, id), eq(OrganizationsTable.status, "approved")));
 }
 
 async function fetchOrgIndustryMappings(organizations: any[]) {
