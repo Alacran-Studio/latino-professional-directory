@@ -1,5 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import HomePage from "../page";
+import { APP_NAME } from "@/lib/constants";
 
 describe("Homepage", () => {
   it("Renders headings and tagline", () => {
@@ -8,7 +9,7 @@ describe("Homepage", () => {
     const heading = screen.getAllByRole("heading", { level: 1 })[0];
 
     expect(heading).toBeInTheDocument();
-    expect(heading).toHaveTextContent("Latino Professional Directory");
+    expect(heading).toHaveTextContent(APP_NAME);
 
     // Check for tagline
     expect(

@@ -1,9 +1,10 @@
 import Directory from "@/components/Directory";
 import FeaturedOrgs from "@/components/Home/FeaturedOrgs";
 import type { Metadata } from "next";
+import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Directory | Latino Professional Directory",
+  title: `Directory | ${APP_NAME}`,
   description:
     "Browse organizations dedicated to the professional development of Latino professionals across all industries.",
 };

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import DisplayHeading from "@/components/common/DisplayHeading";
 import LinkButton from "@/components/common/LinkButton";
+import { APP_NAME } from "@/lib/constants";
 
 export default function HomeHero() {
   return (
@@ -17,7 +18,7 @@ export default function HomeHero() {
       </div>
       <div className="absolute bottom-[7%] left-0 right-0 flex flex-col items-center px-6 text-center md:bottom-[10%]">
         <h1 className="font-lexend text-sm font-medium tracking-widest text-white/80 uppercase">
-          Latino Professional Directory
+          {APP_NAME}
         </h1>
         <DisplayHeading className="mt-2 text-white">
           Find Your Community
