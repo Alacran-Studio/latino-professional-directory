@@ -1,8 +1,8 @@
 # Latino Professional Directory - Backlog
 
-**Last Updated:** February 6, 2026  
-**Owner:** Jorge Viramontes  
-**Status:** In Progress  
+**Last Updated:** February 12, 2026
+**Owner:** Jorge Viramontes
+**Status:** In Progress
 
 **Repo:** https://github.com/Alacran-Studio/latino-professional-directory
 **Production Site:** https://latinoprofessionaldirectory.com/
@@ -11,6 +11,17 @@
 
 ## Recent Wins 🎉
 
+### Week of Feb 10
+- ✅ Featured Organizations — foundation in place (`is_featured` flag, spotlight section)
+- ✅ Onboarding form submissions working with email integrations (Resend)
+- ✅ Admin UI implemented
+- ✅ User auth and profiles
+- ✅ Directory separation (dedicated `/directory` route)
+- ✅ Font consistency — Lexend applied across directory components (Tags, FilterDropdown)
+- ✅ UI redesign — Koulen display headings, Lexend subheadings, Be Vietnam Pro body text
+- ✅ Org detail page redesign — cover photo, card layout, contact info, events section
+
+### Previous
 - ✅ Chicago Innovation fully integrated (logo, description, events live)
 - ✅ Events listing page and event detail pages completed
 - ✅ Events data model implemented and working in directory
@@ -20,40 +31,77 @@
 
 ---
 
-## Active Sprint
+## Active Sprint (Week of Feb 16)
 
-### 1. Featured Organizations
+### 0. Backlog Review & Detail Pass
 **Priority:** High
 **Status:** Not Started
 
-- [ ] Add `is_featured` boolean column to organizations table
-- [ ] Create FeaturedOrgs component (horizontal row above directory)
-- [ ] Update Directory page layout to include featured section
-- [ ] Sort main directory alphabetically by name
-- [ ] Featured orgs appear both in spotlight section AND in main directory list
+- [ ] Manual walkthrough of the full app — flag visual inconsistencies, copy issues, rough edges
+- [ ] Triage findings into quick fixes vs. larger items
+- [ ] Update backlog with findings
 
-### 2. Organization Assets & Branding
+### 1. Org Slugs
+**Priority:** High
+**Status:** Not Started
+
+- [ ] Add `slug` column to organizations table in Supabase
+- [ ] Generate slugs from org names (lowercase, hyphenated)
+- [ ] Update routes to use `/organizations/[slug]` instead of `/organizations/[id]`
+- [ ] Redirect or handle old ID-based URLs gracefully
+
+### 2. Affinity Model — 1871 First Joint Event
+**Priority:** High
+**Status:** Not Started
+
+- [ ] Design affinity table/relationship in Supabase
+- [ ] Update org profile UI to display affiliated groups
+- [ ] Seed 1871 data (LTNtech Voices affinity group)
+- [ ] Prepare 1871 org profile for first joint event posting
+
+### 3. Key Services Taxonomy
+**Priority:** High
+**Status:** Not Started
+
+Services organizations might offer:
+- Networking, Mentorship, In-Person Events, Webinars, Career Development, Scholarships, Leadership Programs, Job Board
+
+- [ ] Add `key_services` field to org schema in Supabase
+- [ ] Display services on org profile page
+- [ ] Add selectable services list to onboarding flow
+- [ ] Update initial org profiles with services data
+
+### 4. Org Assets & Branding — High Priority Orgs
 **Priority:** High
 **Status:** In Progress
 
-- [ ] Collect logos from partner organizations
+Focus orgs:
+- Techqueria
+- ALPFA
+- LaFamilia
+- 1871
+- Chicago Innovation ✅
+
+- [ ] Collect logos from focus orgs
 - [ ] Implement custom font treatment for org/event cards (replace generic images with styled org titles)
 - [ ] Ensure font consistency across all card types
-- ✅ Chicago Innovation: Logo + description updated, events live
 
-### ~~3. Bug Fixes - Recent Build~~ ✅
-**Status:** Completed
+### 5. Featured Organizations — Build Out
+**Priority:** Medium
+**Status:** In Progress (foundation shipped)
 
-- ✅ Fixed fetch/seed refactor issues
-- ✅ Fixed self-fetch URL issues on Netlify preview deploys (using headers() for dynamic base URL)
+- [ ] Refine FeaturedOrgs component styling and layout
+- [ ] Add featured org badges or visual distinction in main directory list
+- [ ] Populate featured orgs with real partner data
+- [ ] Review featured section responsiveness across breakpoints
 
-### 3. Google Analytics Setup
-**Priority:** High  
-**Status:** Not Started  
-**Estimate:** 2 hours with Claude Code
+### 6. Mobile Experience Audit
+**Priority:** Medium
+**Status:** Not Started
 
-- [ ] Implement GA4 tracking
-- [ ] Set up key events (page views, org clicks, event RSVPs)
+- [ ] Full walkthrough on mobile (home, directory, org detail, events, join)
+- [ ] Flag and fix layout/spacing/touch-target issues
+- [ ] Test onboarding flow on mobile
 
 ---
 
@@ -64,18 +112,16 @@
 - Integration with org profiles: ✅ Working (Chicago Innovation live)
 
 ### Backlog
-- ✅ Build events listing page
-- ✅ Event detail pages
-- [ ] Calendar view option (hardening - later)
-- [ ] RSVP/external link handling (hardening - later)
+- [ ] Calendar view option (hardening — later)
+- [ ] RSVP/external link handling (hardening — later)
 
 ### Live Events Strategy (with Gustavo)
-**Platform:** Luma  
+**Platform:** Luma
 **Model:** Joint partnerships with organizations to build their profiles
 
 Organizations in pipeline:
 - Chicago Innovation ✅ (assets received)
-- 1871
+- 1871 (next up — first joint event)
 - Latino Professionals
 - ALPFA
 - Techqueria
@@ -90,7 +136,7 @@ Non-explicitly Latino-serving organizations that provide Latino-serving groups, 
 
 ### Schema Pattern
 ```
-Organization HAS Affinity FOR [demographic] 
+Organization HAS Affinity FOR [demographic]
   AND is Called: [group_name]
   AND is Type: [AFFINITY_GROUP | COMPANY_ERG | PROGRAM]
 ```
@@ -100,29 +146,6 @@ Organization HAS Affinity FOR [demographic]
 |------------|--------------|------------|------|
 | 1871 | Latina/o | LTNtech Voices | AFFINITY_GROUP |
 | HERE Technologies | Latina/o | Vamos | COMPANY_ERG |
-
-### Implementation Tasks
-- [ ] Design affinity table/relationship in Supabase
-- [ ] Update org profile UI to display affiliated groups
-- [ ] Seed initial data (1871, HERE, etc.)
-
----
-
-## Key Services Taxonomy
-
-Services organizations might offer:
-- Networking
-- Mentorship
-- In-Person Events
-- Webinars
-- Career Development
-- Scholarships
-- Leadership Programs
-- Job Board
-
-- [ ] Add key_services field to org schema
-- [ ] Create selection UI for org profiles
-- [ ] Update 10-20 org profiles with services
 
 ---
 
@@ -134,9 +157,7 @@ Services organizations might offer:
 - [ ] Automation pipelines (content updates, notifications)
 
 ### UX/Optimization
-- [ ] Org slugs — use human-readable URLs (e.g., `/organizations/techqueria` instead of `/organizations/31`). Add `slug` column to orgs table, generate from name.
 - [ ] Disable dark mode — force light mode site-wide (remove `prefers-color-scheme` overrides, set `color-scheme: light` on `<html>`)
-- [ ] Mobile experience audit and fixes
 - [ ] Desktop experience review
 - [ ] Performance optimization
 
@@ -149,28 +170,12 @@ Services organizations might offer:
 
 ## Email & Engagement (Pivoted)
 
-**Original Plan:** Buttondown + custom signup forms  
+**Original Plan:** Buttondown + custom signup forms
 **New Approach:** Luma for event-based email capture
 
 - [ ] Set up Luma account
 - [ ] Configure email list functionality post-first event
 - [ ] Evaluate newsletter needs after event traction
-
----
-
-## Next Actions
-
-### This Week
-1. **Bug fixes** - Triage and fix recent build errors
-2. **Google Analytics** - 2 hour setup session
-3. **Org assets** - Implement custom font treatment for cards
-4. **Chicago Innovation** - Finalize integration with new assets
-
-### Next Week
-4. **BMC Session** - 2-hour block to validate business model assumptions
-5. **Affinity model** - Design and implement in Supabase
-6. **Luma setup** - Create account, plan first event with Gustavo
-7. **Continue partnership outreach** - Follow up with orgs, collect assets
 
 ---
 
@@ -180,6 +185,7 @@ Services organizations might offer:
 - Latino Professionals
 - ALPFA
 - Techqueria
+- LaFamilia
 - 1871
 - Chicago Innovation
 
