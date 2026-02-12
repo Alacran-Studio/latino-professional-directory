@@ -8,6 +8,9 @@ import {
   UsersTable,
   UserOrganizationsTable,
 } from "../../../../drizzle/schema";
+import { sendEmail } from "@/lib/email/resend";
+import { orgSubmittedEmail } from "@/lib/email/templates/orgSubmitted";
+import { orgSubmittedConfirmationEmail } from "@/lib/email/templates/orgSubmittedConfirmation";
 
 interface SubmitData {
   name: string;
@@ -110,7 +113,24 @@ export async function submitOrganization(data: SubmitData) {
     return { error: "Failed to create organization. Please try again." };
   }
 
-  // 6. Auto sign-in (signUp may not auto-sign-in depending on Supabase config)
+  // 6. Send email notifications (non-blocking)
+  const submitterName = `${first_name} ${last_name}`;
+
+  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+  if (adminEmail) {
+    const { subject, html } = orgSubmittedEmail({
+      orgName: name,
+      submitterName,
+      submitterEmail: email,
+    });
+    sendEmail({ to: adminEmail, subject, html });
+  }
+
+  const { subject: confirmSubject, html: confirmHtml } =
+    orgSubmittedConfirmationEmail({ orgName: name, firstName: first_name });
+  sendEmail({ to: email, subject: confirmSubject, html: confirmHtml });
+
+  // 7. Auto sign-in (signUp may not auto-sign-in depending on Supabase config)
   await supabase.auth.signInWithPassword({ email, password });
 
   return { success: true };

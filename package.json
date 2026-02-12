@@ -10,6 +10,7 @@
     "migration:generate": "drizzle-kit generate",
     "migration:apply": "drizzle-kit migrate",
     "db:seed": "npx tsx ./drizzle/seed/seed.ts",
+    "db:reset-user": "npx tsx ./scripts/reset-test-user.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
