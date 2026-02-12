@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
-import { DirectoryOrgType, IndustryType, CityType } from "@/app/types";
+import { DirectoryOrgType, IndustryType, CityType, OrganizationsApiResponse } from "@/app/types";
+import { fetchFilterData } from "@/lib/fetchFilterData";
 
 import IndustryFilter from "./IndustryFilter";
 import LocationFilter from "./LocationFilter";
@@ -23,41 +24,24 @@ export default function Directory({ className = "" }: { className?: string }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchOrganizationsAndIndustries = async () => {
+    const fetchData = async () => {
       try {
         setIsLoading(true);
-        const [orgResponse, industryResponse, cityResponse] = await Promise.all([
+        const [orgResponse, filterData] = await Promise.all([
           fetch("/api/organizations?page=1&limit=10"),
-          fetch("/api/industries"),
-          fetch("/api/cities"),
+          fetchFilterData(),
         ]);
 
-        const [orgData, industryData, cityData] = await Promise.all([
-          orgResponse.json(),
-          industryResponse.json(),
-          cityResponse.json(),
-        ]);
+        if (!orgResponse.ok) {
+          const error = await orgResponse.json();
+          throw new Error(error.error || "Failed to fetch organizations");
+        }
 
-        if (!orgResponse.ok)
-          throw new Error(orgData.error || "Failed to fetch organizations");
-        if (!industryResponse.ok)
-          throw new Error(industryData.error || "Failed to fetch industries");
-        if (!cityResponse.ok)
-          throw new Error(cityData.error || "Failed to fetch cities");
-
-        const sortedIndustries = industryData.industries.sort(
-          (a: { name: string }, b: { name: string }) =>
-            a.name.localeCompare(b.name)
-        );
-
-        const sortedCities = cityData.cities.sort(
-          (a: { name: string }, b: { name: string }) =>
-            a.name.localeCompare(b.name)
-        );
+        const orgData: OrganizationsApiResponse = await orgResponse.json();
 
         setOrganizations(orgData.organizations);
-        setIndustries(sortedIndustries);
-        setCities(sortedCities);
+        setIndustries(filterData.industries);
+        setCities(filterData.cities);
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
@@ -65,7 +49,7 @@ export default function Directory({ className = "" }: { className?: string }) {
       }
     };
 
-    fetchOrganizationsAndIndustries();
+    fetchData();
   }, []);
 
   const filteredOrganizations = organizations.filter((org) => {

@@ -2,7 +2,31 @@
   "permissions": {
     "allow": [
       "Bash(npm run build:*)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "Bash(npm update:*)",
+      "Bash(npm audit fix:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(npm run migration:generate:*)",
+      "Bash(npm run migration:push:*)",
+      "Bash(npm run migration:apply:*)",
+      "Bash(npm run db:seed:*)",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(psql:*)",
+      "Bash(npx tsx:*)",
+      "Bash(tree:*)",
+      "Bash(npx next build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfix: escape apostrophe in NoEvents component to resolve lint error\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npx tsc:*)",
+      "Bash(grep:*)",
+      "Bash(xxd:*)",
+      "Bash(printf:*)",
+      "Bash(git checkout:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npm install:*)",
+      "Bash(node -e:*)"
     ],
     "deny": [],
     "ask": []

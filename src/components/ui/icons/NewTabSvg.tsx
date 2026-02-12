@@ -4,8 +4,9 @@ import { SVGProps } from "react";
 const NewTabSvg = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={24}
+    width={16}
+    height={16}
+    viewBox="0 0 24 24"
     fill="none"
     strokeWidth={2.0}
     color="var(--icon-fg)"
@@ -33,7 +34,7 @@ const NewTabSvg = (props: SVGProps<SVGSVGElement>) => (
 
 export const NewTabIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
-    <span className="inline-block h-[24px] w-[24px] pt-1">
+    <span className="inline-block h-[16px] w-[16px]">
       <NewTabSvg {...props} />
     </span>
   );

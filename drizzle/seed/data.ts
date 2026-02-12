@@ -87,6 +87,16 @@ export const directoryOrgs = [
     photo_url: "",
     video_url: "",
   },
+  {
+    name: "Chicago Innovation",
+    logo_url: "/org-logos/chicago-innovation/CI_black_logo.png",
+    description:
+      "Chicago Innovation is in its 25th year of educating, connecting, and celebrating innovators across Chicago's diverse communities through a variety of events and initiatives.",
+    short_description: "Educating, connecting, and celebrating innovators.",
+    website_url: "https://chicagoinnovation.com/",
+    photo_url: "",
+    video_url: "",
+  },
 ];
 
 export const directoryIndustries = [
@@ -118,6 +128,10 @@ export const orgIndustryMappings = [
   {
     directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
     directoryIndustries: ["Professional Services", "Education"],
+  },
+  {
+    directoryName: "Chicago Innovation",
+    directoryIndustries: ["Tech"],
   },
 ];
 
@@ -164,6 +178,10 @@ export const orgCategoryMappings = [
   {
     directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
     categories: ["Mentorship", "Community Impact", "Networking"],
+  },
+  {
+    directoryName: "Chicago Innovation",
+    categories: ["Networking", "Entrepreneurship / Innovation"],
   },
 ];
 
@@ -244,5 +262,225 @@ export const orgCityMappings = [
   {
     directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
     directoryCities: ["Chicago"],
+  },
+  {
+    directoryName: "Chicago Innovation",
+    directoryCities: ["Chicago"],
+  },
+];
+
+export const directoryEvents = [
+  {
+    name: "The Innovation Forecast: the Next 25 Years",
+    description:
+      "Join us for an insightful look into the future of innovation as we explore predictions and trends that will shape the next 25 years of technological advancement and entrepreneurship.",
+    short_description:
+      "An insightful look into the future of innovation and the next 25 years.",
+    event_date: "2026-02-19",
+    event_time: "",
+    location: "The School of the Art Institute Ballroom",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+  {
+    name: "Health and Wellness Innovation",
+    description:
+      "Discover the latest breakthroughs in healthcare technology, wellness solutions, and medical innovations transforming how we approach health and wellbeing.",
+    short_description:
+      "Exploring breakthroughs in healthcare technology and wellness solutions.",
+    event_date: "2026-03-31",
+    event_time: "",
+    location: "Illinois Tech (downtown campus)",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+  {
+    name: "AI + IQ",
+    description:
+      "A deep dive into artificial intelligence and its intersection with human intelligence, exploring how AI is augmenting human capabilities and reshaping industries.",
+    short_description:
+      "Exploring AI's intersection with human intelligence and industry transformation.",
+    event_date: "2026-04-14",
+    event_time: "",
+    location: "CineCity",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+  {
+    name: "Innovation Elevates Us All",
+    description:
+      "Celebrating how innovation creates opportunities and positive impact across all communities, focusing on inclusive growth and accessible technology.",
+    short_description:
+      "Celebrating inclusive innovation and its positive impact across communities.",
+    event_date: "2026-05-27",
+    event_time: "",
+    location: "Harold Washington Library",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+  {
+    name: "Celebrating Women in Innovation",
+    description:
+      "Honoring women leaders and innovators who are driving change and breaking barriers in technology, entrepreneurship, and innovation.",
+    short_description:
+      "Honoring women leaders driving change in technology and innovation.",
+    event_date: "2026-06-16",
+    event_time: "",
+    location: "Venue TBD",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+  {
+    name: "Climate Innovation Summit",
+    description:
+      "Addressing climate challenges through innovative solutions, sustainable technologies, and collaborative approaches to environmental stewardship.",
+    short_description:
+      "Addressing climate challenges through innovative and sustainable solutions.",
+    event_date: "2026-07-22",
+    event_time: "",
+    location: "Convene at Willis Tower",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+  {
+    name: "The In-Gala",
+    description:
+      "An elegant evening celebrating Chicago's innovation ecosystem, bringing together entrepreneurs, investors, and industry leaders for networking and recognition.",
+    short_description:
+      "An elegant celebration of Chicago's innovation ecosystem and leaders.",
+    event_date: "2026-08-06",
+    event_time: "",
+    location: "Bridgeport Art Center",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+  {
+    name: "The Nominee Celebration",
+    description:
+      "Celebrating the nominees for the Chicago Innovation Awards and recognizing their outstanding contributions to innovation and entrepreneurship.",
+    short_description:
+      "Celebrating Chicago Innovation Awards nominees and their achievements.",
+    event_date: "2026-09-16",
+    event_time: "",
+    location: "Venue TBD",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+  {
+    name: "The Complete Innovator",
+    description:
+      "A comprehensive exploration of what it takes to be a successful innovator, covering mindset, skills, and strategies for creating lasting impact.",
+    short_description:
+      "Exploring the mindset, skills, and strategies of successful innovators.",
+    event_date: "2026-10-21",
+    event_time: "",
+    location: "Venue TBD",
+    city: "Chicago",
+    registration_url: "https://chicagoinnovation.com/events",
+    photo_url: "",
+    video_url: "",
+    is_virtual: "false",
+  },
+];
+
+export const eventOrgMappings = [
+  {
+    eventName: "The Innovation Forecast: the Next 25 Years",
+    organizationNames: ["Chicago Innovation"],
+  },
+  {
+    eventName: "Health and Wellness Innovation",
+    organizationNames: ["Chicago Innovation"],
+  },
+  {
+    eventName: "AI + IQ",
+    organizationNames: ["Chicago Innovation"],
+  },
+  {
+    eventName: "Innovation Elevates Us All",
+    organizationNames: ["Chicago Innovation"],
+  },
+  {
+    eventName: "Celebrating Women in Innovation",
+    organizationNames: ["Chicago Innovation"],
+  },
+  {
+    eventName: "Climate Innovation Summit",
+    organizationNames: ["Chicago Innovation"],
+  },
+  {
+    eventName: "The In-Gala",
+    organizationNames: ["Chicago Innovation"],
+  },
+  {
+    eventName: "The Nominee Celebration",
+    organizationNames: ["Chicago Innovation"],
+  },
+  {
+    eventName: "The Complete Innovator",
+    organizationNames: ["Chicago Innovation"],
+  },
+];
+
+export const eventIndustryMappings = [
+  {
+    eventName: "The Innovation Forecast: the Next 25 Years",
+    industries: ["Tech"],
+  },
+  {
+    eventName: "Health and Wellness Innovation",
+    industries: ["Tech"],
+  },
+  {
+    eventName: "AI + IQ",
+    industries: ["Tech"],
+  },
+  {
+    eventName: "Innovation Elevates Us All",
+    industries: ["Tech"],
+  },
+  {
+    eventName: "Celebrating Women in Innovation",
+    industries: ["Tech"],
+  },
+  {
+    eventName: "Climate Innovation Summit",
+    industries: ["Tech"],
+  },
+  {
+    eventName: "The In-Gala",
+    industries: ["Tech"],
+  },
+  {
+    eventName: "The Nominee Celebration",
+    industries: ["Tech"],
+  },
+  {
+    eventName: "The Complete Innovator",
+    industries: ["Tech"],
   },
 ];

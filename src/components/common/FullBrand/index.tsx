@@ -14,9 +14,10 @@ const LogoSvg = (props: SVGProps<SVGSVGElement>) => (
 
 interface FullBrandProps {
   fillColor: string;
+  textClassName?: string;
 }
 
-export const FullBrand = ({ fillColor }: FullBrandProps) => {
+export const FullBrand = ({ fillColor, textClassName }: FullBrandProps) => {
   return (
     <>
       <LogoSvg
@@ -25,7 +26,7 @@ export const FullBrand = ({ fillColor }: FullBrandProps) => {
         aria-description="Logo for Latino Professional Directory"
         fill={fillColor}
       />
-      <p className="text-logo-line text-xl tracking-tighter">LPD</p>
+      <p className={`${textClassName ?? "text-logo-line"} text-xl tracking-tighter`}>LPD</p>
     </>
   );
 };

@@ -16,6 +16,7 @@ export interface DirectoryOrgType {
   photo_url: string;
   video_url: string;
   cities: CityType[];
+  events?: EventType[];
 }
 
 export interface IndustryType {
@@ -51,4 +52,42 @@ export enum Affinity {
 export enum Category {
   Networking = "Networking",
   Startups = "Startups",
+}
+
+export interface OrganizationsApiResponse {
+  organizations: DirectoryOrgType[];
+}
+
+export interface IndustriesApiResponse {
+  industries: IndustryType[];
+}
+
+export interface CitiesApiResponse {
+  cities: CityType[];
+}
+
+export interface EventType {
+  id: number;
+  name: string;
+  description: string;
+  short_description: string;
+  event_date: string;
+  event_time: string;
+  location: string;
+  city_id: number;
+  registration_url: string;
+  photo_url: string;
+  video_url: string;
+  is_virtual: string;
+  organizations: DirectoryOrgType[];
+  industries: IndustryType[];
+  city: CityType;
+}
+
+export interface EventsApiResponse {
+  events: EventType[];
+}
+
+export interface EventApiResponse {
+  event: EventType;
 }

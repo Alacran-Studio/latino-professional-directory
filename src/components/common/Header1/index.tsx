@@ -9,7 +9,7 @@ export default function Header1({
 }) {
   return (
     <h1
-      className={`decoration-none text-[26px] font-bold leading-none tracking-normal md:text-[50px] ${className}`}
+      className={`font-lexend text-[28px] font-semibold leading-tight tracking-normal md:text-[42px] ${className}`}
     >
       {children}
     </h1>

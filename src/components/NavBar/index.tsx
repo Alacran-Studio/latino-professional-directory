@@ -16,7 +16,7 @@ export default function NavBar({ links }: NavBarProps) {
   const pathname = usePathname();
 
   const navClasses = clsx(
-    "w-full min-w-[315px] h-12 md:h-14 flex items-center justify-between px-2 bg-slate-900",
+    "w-full min-w-[315px] h-12 md:h-14 flex items-center justify-between px-2 bg-brand",
     pathname === "/" && "absolute z-10 md:bg-transparent"
   );
 

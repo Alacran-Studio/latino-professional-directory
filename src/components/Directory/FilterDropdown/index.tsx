@@ -2,7 +2,7 @@ import { useRef, useEffect, ReactNode } from "react";
 import "../IndustryFilter/checkbox.css";
 import XIcon from "@/components/Directory/icons/X";
 import Paragraph from "@/components/common/Paragraph";
-import { getLexendFont } from "@/lib/utils";
+
 
 interface FilterItem {
   id?: number;
@@ -104,7 +104,7 @@ export default function FilterDropdown<T extends FilterItem>({
       >
         <div className="flex items-center">
           {icon}
-          <Paragraph className={`ml-2 text-[15px] ${getLexendFont()}`}>{label}</Paragraph>
+          <Paragraph className="ml-2 text-label font-lexend">{label}</Paragraph>
         </div>
         <div
           className={`ml-2 transition-opacity duration-300 ease-out ${
@@ -134,7 +134,7 @@ export default function FilterDropdown<T extends FilterItem>({
               checked={isItemSelected(item)}
               onChange={() => handleItemChange(item)}
             ></input>
-            <Paragraph className={`text-[15px] ${getLexendFont()}`}>{item.name}</Paragraph>
+            <Paragraph className="text-label font-lexend">{item.name}</Paragraph>
           </label>
         ))}
       </div>
@@ -151,7 +151,7 @@ export default function FilterDropdown<T extends FilterItem>({
             onClick={() => removeItem(item)}
             className="flex items-center space-x-2 rounded-full bg-accent px-3 py-1 focus:outline-none dark:bg-accent"
           >
-            <Paragraph className={`text-[15px] ${getLexendFont()}`}>{item.name}</Paragraph>
+            <Paragraph className="text-label font-lexend">{item.name}</Paragraph>
             <XIcon />
           </button>
         ))}
