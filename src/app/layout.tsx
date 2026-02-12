@@ -6,7 +6,7 @@ import { AppSidebarProvider } from "@/components/AppSidebarProvider";
 import StructuredData from "@/components/StructuredData";
 import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
-import { getInterFont, getFontVariables } from "@/lib/utils";
+import { getBodyFont, getFontVariables } from "@/lib/utils";
 
 const Base = ({ children }: PropsWithChildren) => {
   return (
@@ -14,7 +14,7 @@ const Base = ({ children }: PropsWithChildren) => {
       <head>
         <StructuredData />
       </head>
-      <body className={`min-h-screen ${getInterFont()}`}>
+      <body className={`min-h-screen ${getBodyFont()}`}>
         <Providers>{children}</Providers>
       </body>
     </html>
@@ -31,21 +31,21 @@ const internalLinks: InternalNavigationLinks = [
     href: "/",
   },
   {
-    name: "About",
-    href: "/about",
+    name: "Directory",
+    href: "/directory",
   },
   {
     name: "Events",
     href: "/events",
   },
   {
+    name: "About",
+    href: "/about",
+  },
+  {
     name: "Join",
     href: "/join",
   },
-  // {
-  //   name: "LOGIN",
-  //   href: "/login",
-  // },
 ];
 
 export const metadata: Metadata = {

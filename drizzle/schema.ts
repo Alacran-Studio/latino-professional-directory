@@ -11,6 +11,9 @@ export const OrganizationsTable = lpddSchema.table("organizations", {
   website_url: text("website_url").notNull().unique(),
   photo_url: text("photo_url"),
   video_url: text("video_url"),
+  status: text("status").notNull().default("approved"),
+  created_at: text("created_at").notNull().default("now()"),
+  updated_at: text("updated_at").notNull().default("now()"),
 });
 
 export const OrganizationContacts = lpddSchema.table("organization_contacts", {
@@ -18,6 +21,7 @@ export const OrganizationContacts = lpddSchema.table("organization_contacts", {
   first_name: text("first_name").notNull(),
   last_name: text("last_name").notNull(),
   email: text("email").notNull().unique(),
+  phone: text("phone"),
   organization_id: integer("organization_id").references(
     () => OrganizationsTable.id
   ),
@@ -112,3 +116,28 @@ export const EventIndustries = lpddSchema.table("event_industries", {
   event_id: integer("event_id").references(() => EventsTable.id),
   industry_id: integer("industry_id").references(() => IndustriesTable.id),
 });
+
+export const UsersTable = lpddSchema.table("users", {
+  id: serial("id").primaryKey(),
+  supabase_id: text("supabase_id").notNull().unique(),
+  email: text("email").notNull().unique(),
+  first_name: text("first_name").notNull(),
+  last_name: text("last_name").notNull(),
+  role: text("role").notNull().default("org_admin"),
+  created_at: text("created_at").notNull().default("now()"),
+  updated_at: text("updated_at").notNull().default("now()"),
+});
+
+export const UserOrganizationsTable = lpddSchema.table(
+  "user_organizations",
+  {
+    id: serial("id").primaryKey(),
+    user_id: integer("user_id")
+      .notNull()
+      .references(() => UsersTable.id),
+    organization_id: integer("organization_id")
+      .notNull()
+      .references(() => OrganizationsTable.id),
+    created_at: text("created_at").notNull().default("now()"),
+  }
+);

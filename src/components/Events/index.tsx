@@ -15,8 +15,6 @@ import LocationFilter from "@/components/Directory/LocationFilter";
 import DateFilter from "./DateFilter";
 import NoEvents from "./NoEvents";
 import LoadingEvents from "./LoadingEvents";
-import Header1 from "@/components/common/Header1";
-
 export default function EventsDirectory({
   className = "",
 }: {
@@ -99,7 +97,6 @@ export default function EventsDirectory({
     <section
       className={`${className} mb-4 flex w-10/12 flex-col items-center pb-4 pt-8`}
     >
-      <Header1 className="pb-8 text-center">Events</Header1>
       {isLoading ? (
         <></>
       ) : (

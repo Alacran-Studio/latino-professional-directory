@@ -76,7 +76,7 @@ export default function EventCard({
         </div>
 
         {/* Content */}
-        <div className="flex flex-1 flex-col p-5 font-[family-name:var(--font-lexend)]">
+        <div className="flex flex-1 flex-col p-5 font-lexend">
           {/* Industry tag */}
           {industries.length > 0 && (
             <p className="text-sm font-semibold text-brandGold">

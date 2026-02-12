@@ -22,7 +22,11 @@
       "Bash(npx tsc:*)",
       "Bash(grep:*)",
       "Bash(xxd:*)",
-      "Bash(printf:*)"
+      "Bash(printf:*)",
+      "Bash(git checkout:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npm install:*)",
+      "Bash(node -e:*)"
     ],
     "deny": [],
     "ask": []

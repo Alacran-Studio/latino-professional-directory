@@ -7,6 +7,11 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      koulen: ["var(--font-koulen)"],
+      lexend: ["var(--font-lexend)"],
+      body: ["var(--font-body)"],
+    },
     extend: {
       animation: {
         strongerPulse: "strongerPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
@@ -112,7 +117,7 @@ const config: Config = {
       addComponents({
         '.text-label': {
           fontSize: '15px',
-          fontFamily: 'var(--font-lexend)',
+          fontFamily: 'var(--font-body)',
         },
       });
     },
