@@ -1,6 +1,7 @@
 "use client";
 
 import { IndustryType } from "@/app/types";
+import { getLexendFont } from "@/lib/utils";
 
 interface Props {
   tags: IndustryType[];
@@ -16,6 +17,7 @@ export default function Tags({ tags, className }: Props) {
     "space-x-2",
     "rounded-full",
     "inline-block",
+    getLexendFont(),
   ].join(" ");
 
   if (className) {
