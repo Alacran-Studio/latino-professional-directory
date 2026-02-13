@@ -1,9 +1,28 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { UserRole } from "@/types/admin";
 import { logout } from "../_actions/logout";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import {
+  HomeIcon,
+  UserGroupIcon,
+  ClipboardListIcon,
+  UserCircleIcon,
+  LogoutIcon,
+  ArrowLeftIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/outline";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface AdminSidebarProps {
   role: UserRole;
@@ -11,72 +30,160 @@ interface AdminSidebarProps {
 }
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", roles: ["system_admin", "org_admin"] },
+  {
+    href: "/admin",
+    label: "Dashboard",
+    roles: ["system_admin", "org_admin"],
+    icon: HomeIcon,
+  },
   {
     href: "/admin/organizations",
     label: "Organizations",
     roles: ["system_admin", "org_admin"],
+    icon: UserGroupIcon,
   },
-  { href: "/admin/queue", label: "Approval Queue", roles: ["system_admin"] },
+  {
+    href: "/admin/queue",
+    label: "Approval Queue",
+    roles: ["system_admin"],
+    icon: ClipboardListIcon,
+  },
 ];
 
 export function AdminSidebar({ role, userName }: AdminSidebarProps) {
   const pathname = usePathname();
+  const isMobile = useIsMobile();
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    setCollapsed(isMobile);
+  }, [isMobile]);
+
+  const toggleCollapsed = () => setCollapsed((prev) => !prev);
 
   const visibleItems = navItems.filter((item) => item.roles.includes(role));
+  const roleLabel = role === "system_admin" ? "System Admin" : "Org Admin";
 
   return (
-    <aside className="flex w-64 shrink-0 flex-col border-r border-border bg-card">
-      <div className="border-b border-border p-4">
-        <p className="text-sm text-secondary-foreground">Signed in as</p>
-        <p className="font-semibold text-foreground">{userName}</p>
-        <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-          {role === "system_admin" ? "System Admin" : "Org Admin"}
-        </span>
-      </div>
+    <TooltipProvider delayDuration={0}>
+      <aside
+        className={cn(
+          "flex shrink-0 flex-col border-r border-border bg-card transition-all duration-300 ease-in-out",
+          collapsed ? "w-16" : "w-48"
+        )}
+      >
+        {/* User section */}
+        <div className="shrink-0 border-b border-border p-4">
+          {collapsed ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={toggleCollapsed}
+                  className="flex w-full cursor-pointer justify-center"
+                >
+                  <UserCircleIcon className="h-6 w-6 text-foreground" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <p className="font-semibold">{userName}</p>
+                <p className="text-xs text-muted-foreground">{roleLabel}</p>
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <>
+              <p className="text-sm text-secondary-foreground">Signed in as</p>
+              <p className="font-semibold text-foreground">{userName}</p>
+              <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                {roleLabel}
+              </span>
+            </>
+          )}
+        </div>
 
-      <nav className="flex-1 p-4">
-        <ul className="space-y-1">
-          {visibleItems.map((item) => {
-            const isActive =
-              item.href === "/admin"
-                ? pathname === "/admin"
-                : pathname.startsWith(item.href);
+        {/* Navigation — only this section scrolls */}
+        <nav className="min-h-0 flex-1 overflow-y-auto p-4">
+          <ul className="space-y-1">
+            {visibleItems.map((item) => {
+              const isActive =
+                item.href === "/admin"
+                  ? pathname === "/admin"
+                  : pathname.startsWith(item.href);
 
-            return (
-              <li key={item.href}>
+              const Icon = item.icon;
+
+              const linkContent = (
                 <Link
                   href={item.href}
-                  className={`block rounded-md px-3 py-2 text-sm transition-colors ${
+                  className={cn(
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                    collapsed && "justify-center px-0",
                     isActive
                       ? "bg-primary/10 font-medium text-primary"
                       : "text-foreground hover:bg-card-hover"
-                  }`}
+                  )}
                 >
-                  {item.label}
+                  <Icon className="h-5 w-5 shrink-0" />
+                  {!collapsed && <span>{item.label}</span>}
                 </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+              );
 
-      <div className="flex flex-col gap-2 border-t border-border p-4">
-        <Link
-          href="/"
-          className="text-sm text-secondary-foreground hover:text-foreground"
-        >
-          Back to site
-        </Link>
-        <form action={logout}>
+              return (
+                <li key={item.href}>
+                  {collapsed ? (
+                    <Tooltip>
+                      <TooltipTrigger asChild>{linkContent}</TooltipTrigger>
+                      <TooltipContent side="right">
+                        {item.label}
+                      </TooltipContent>
+                    </Tooltip>
+                  ) : (
+                    linkContent
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* Footer — always pinned at bottom */}
+        <div className="shrink-0 border-t border-border">
+          {!collapsed && (
+            <div className="flex flex-col gap-2 p-4">
+              <Link
+                href="/"
+                className="flex items-center gap-3 text-sm text-secondary-foreground hover:text-foreground"
+              >
+                <ArrowLeftIcon className="h-5 w-5 shrink-0" />
+                <span>Back to site</span>
+              </Link>
+              <form action={logout}>
+                <button
+                  type="submit"
+                  className="flex items-center gap-3 text-sm text-secondary-foreground hover:text-foreground"
+                >
+                  <LogoutIcon className="h-5 w-5 shrink-0" />
+                  <span>Sign out</span>
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* Toggle button */}
           <button
-            type="submit"
-            className="text-sm text-secondary-foreground hover:text-foreground"
+            onClick={toggleCollapsed}
+            className="flex w-full items-center justify-center gap-2 border-t border-border py-2 text-sm text-secondary-foreground hover:text-foreground"
           >
-            Sign out
+            {collapsed ? (
+              <ChevronRightIcon className="h-5 w-5" />
+            ) : (
+              <>
+                <ChevronLeftIcon className="h-5 w-5" />
+                <span>Collapse Menu</span>
+              </>
+            )}
           </button>
-        </form>
-      </div>
-    </aside>
+        </div>
+      </aside>
+    </TooltipProvider>
   );
 }
