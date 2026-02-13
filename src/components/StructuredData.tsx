@@ -1,22 +1,22 @@
+import { APP_NAME, APP_SHORT_NAME, APP_DESCRIPTION, APP_DESCRIPTION_LONG } from "@/lib/constants";
+
 export default function StructuredData() {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Latino Professional Directory",
-    alternateName: "LPD",
+    name: APP_NAME,
+    alternateName: APP_SHORT_NAME,
     url: typeof window !== "undefined" ? window.location.origin : "",
-    description:
-      "A directory for organizations and events to support the professional development of Latino professionals.",
+    description: APP_DESCRIPTION,
     sameAs: [],
   };
 
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Latino Professional Directory",
+    name: APP_NAME,
     url: typeof window !== "undefined" ? window.location.origin : "",
-    description:
-      "Discover organizations and events for the professional development of Latinos & allies across industries to build connections and power your career.",
+    description: APP_DESCRIPTION_LONG,
     potentialAction: {
       "@type": "SearchAction",
       target: {

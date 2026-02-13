@@ -1,3 +1,5 @@
+import { APP_URL } from "@/lib/constants";
+
 export function orgSubmittedEmail({
   orgName,
   submitterName,
@@ -28,7 +30,7 @@ export function orgSubmittedEmail({
           </tr>
         </table>
         <p>
-          <a href="${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/admin/queue"
+          <a href="${APP_URL}/admin/queue"
              style="display: inline-block; background: #2D56B2; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none;">
             Review in Admin
           </a>

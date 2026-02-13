@@ -7,6 +7,7 @@ import StructuredData from "@/components/StructuredData";
 import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
 import { getBodyFont, getFontVariables } from "@/lib/utils";
+import { APP_NAME, APP_DESCRIPTION, APP_DESCRIPTION_LONG } from "@/lib/constants";
 
 const Base = ({ children }: PropsWithChildren) => {
   return (
@@ -49,22 +50,19 @@ const internalLinks: InternalNavigationLinks = [
 ];
 
 export const metadata: Metadata = {
-  title: "Latino Professional Directory",
-  description:
-    "A directory for organizations and events to support the professional development of Latino professionals.",
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
   openGraph: {
-    title: "Latino Professional Directory",
-    description:
-      "Discover organizations and events for the professional development of Latinos & allies across industries to build connections and power your career.",
+    title: APP_NAME,
+    description: APP_DESCRIPTION_LONG,
     type: "website",
     locale: "en_US",
-    siteName: "Latino Professional Directory",
+    siteName: APP_NAME,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Latino Professional Directory",
-    description:
-      "Discover organizations and events for the professional development of Latinos & allies across industries to build connections and power your career.",
+    title: APP_NAME,
+    description: APP_DESCRIPTION_LONG,
   },
   keywords: [
     "Latino professionals",

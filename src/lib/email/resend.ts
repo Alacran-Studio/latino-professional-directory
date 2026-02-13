@@ -1,8 +1,9 @@
 import { Resend } from "resend";
+import { APP_NAME, APP_EMAIL_DOMAIN } from "@/lib/constants";
 
 export const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = "Latino Professional Directory <hello@mail.latinoprofessionaldirectory.com>";
+const FROM_EMAIL = `${APP_NAME} <hello@${APP_EMAIL_DOMAIN}>`;
 
 export async function sendEmail({
   to,
@@ -13,11 +14,8 @@ export async function sendEmail({
   subject: string;
   html: string;
 }) {
-  console.log(`[Email] Sending to: ${to}, subject: "${subject}"`);
-  console.log(`[Email] API key present: ${!!process.env.RESEND_API_KEY}`);
-
   try {
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: FROM_EMAIL,
       to,
       subject,
@@ -26,8 +24,6 @@ export async function sendEmail({
 
     if (error) {
       console.error("[Email] Resend API error:", error);
-    } else {
-      console.log("[Email] Sent successfully, id:", data?.id);
     }
   } catch (error) {
     console.error("[Email] Failed to send:", error);

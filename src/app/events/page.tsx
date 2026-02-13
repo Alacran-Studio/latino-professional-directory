@@ -2,9 +2,10 @@ import EventsDirectory from "@/components/Events";
 import Image from "next/image";
 import DisplayHeading from "@/components/common/DisplayHeading";
 import type { Metadata } from "next";
+import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Events | Latino Professional Directory",
+  title: `Events | ${APP_NAME}`,
   description:
     "Discover networking events, workshops, and conferences for the professional development of Latino professionals.",
 };
@@ -24,7 +25,7 @@ export default function EventsPage() {
         />
         <div className="absolute inset-0 flex flex-col items-start justify-end px-6 pb-8 md:px-12 md:pb-12">
           <p className="font-lexend text-sm font-medium tracking-widest text-white/80 uppercase">
-            Latino Professional Directory
+            {APP_NAME}
           </p>
           <DisplayHeading className="mt-1 text-accent">
             Upcoming Events

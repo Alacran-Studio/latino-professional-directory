@@ -1,3 +1,5 @@
+import { APP_URL, APP_NAME } from "@/lib/constants";
+
 export function orgSubmittedConfirmationEmail({
   orgName,
   firstName,
@@ -19,13 +21,13 @@ export function orgSubmittedConfirmationEmail({
           your admin dashboard.
         </p>
         <p>
-          <a href="${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/admin"
+          <a href="${APP_URL}/admin"
              style="display: inline-block; background: #2D56B2; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none;">
             View Dashboard
           </a>
         </p>
         <p style="color: #888; font-size: 14px; margin-top: 24px;">
-          &mdash; The Latino Professional Directory Team
+          &mdash; The ${APP_NAME} Team
         </p>
       </div>
     `,

@@ -2,11 +2,12 @@ import Header1 from "@/components/common/Header1";
 import Paragraph from "@/components/common/Paragraph";
 import Subheading from "@/components/common/Subheading";
 import Image from "next/image";
+import { APP_NAME, APP_SHORT_NAME } from "@/lib/constants";
 
 const pageContent = {
   heading: "Our Mission",
   intro_p_1_1:
-    "The Latino Professional Directory (LPD) believes that success is rooted in community, belonging, and shared knowledge.",
+    `The ${APP_NAME} (${APP_SHORT_NAME}) believes that success is rooted in community, belonging, and shared knowledge.`,
   intro_p_1_2:
     "We are a platform designed to empower a variety of professionals by fostering meaningful connections that lead to growth, confidence, and leadership.",
   intro_img_1: {
@@ -26,7 +27,7 @@ const pageContent = {
   intro_p_3_1:
     "We offer tools, resources, and opportunities that not only help professionals achieve their goals but also connect with others who share their values and drive.",
   intro_p_3_2:
-    "Whether you're looking to expand your network, grow your skill set, or simply belong to a supportive community, LPD is here to guide you every step of the way.",
+    `Whether you\u2019re looking to expand your network, grow your skill set, or simply belong to a supportive community, ${APP_SHORT_NAME} is here to guide you every step of the way.`,
 };
 
 export default function AboutIntroSection() {
