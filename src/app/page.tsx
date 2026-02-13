@@ -34,7 +34,7 @@ export default function Home() {
               width={600}
               height={400}
               className="h-auto w-full object-cover"
-              alt="Preview of the Latino Professional Directory showing organizations."
+              alt="Preview of the directory showing organizations."
             />
           </div>
         </div>

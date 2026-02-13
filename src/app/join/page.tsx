@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { JoinForm } from "./_components/JoinForm";
+import { APP_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Join - Latino Professional Directory",
+  title: `Join - ${APP_NAME}`,
   description:
     "Add your organization to our directory of professional development resources for Latino professionals.",
 };
@@ -15,8 +16,7 @@ export default function JoinPage() {
           Add Your Organization
         </h1>
         <p className="mb-8 text-secondary-foreground">
-          Submit your organization to be listed in the Latino Professional
-          Directory.
+          Submit your organization to be listed in the {APP_NAME}.
         </p>
       </div>
 
