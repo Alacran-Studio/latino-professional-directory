@@ -10,12 +10,14 @@ export default async function AdminLayout({
   const user = await requireAuth();
 
   return (
-    <div className="flex min-h-[calc(100vh-64px)]">
+    <div className="flex h-[calc(100vh-64px)] overflow-hidden">
       <AdminSidebar
         role={user.role as UserRole}
         userName={`${user.first_name} ${user.last_name}`}
       />
-      <main className="flex-1 bg-background p-6">{children}</main>
+      <main className="flex-1 overflow-auto bg-background p-6">
+        {children}
+      </main>
     </div>
   );
 }
