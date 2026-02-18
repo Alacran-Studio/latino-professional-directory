@@ -1,6 +1,6 @@
 # Latino Professional Directory - Backlog
 
-**Last Updated:** February 13, 2026
+**Last Updated:** February 18, 2026
 **Owner:** Jorge Viramontes
 **Status:** In Progress
 
@@ -186,6 +186,17 @@ Organization HAS Affinity FOR [demographic]
 - [ ] Set up staging environment (separate from production DB/Supabase project)
 - [ ] Graph visualization of org/people/event relationships
 - [ ] Automation pipelines (content updates, notifications)
+
+### React & Dependencies
+
+- [ ] Upgrade to React 19 — review breaking changes, update dependencies, test across app
+  - React 19 may improve loading state handling (Suspense, `use()` hook) — explore removing manual `useState` loading patterns in directory
+
+### Directory Component (`/directory`)
+
+- [ ] Pagination / load-more for organizations — currently hardcoded `limit=10` in `api/organizations` call; won't scale as org count grows (needs design discussion)
+- [ ] Refactor `IndustryFilter` + `LocationFilter` into a single generic `Filter` component — accepts `items`, `selectedItems`, `setSelectedItems`, and `filterType` (`"industry"` | `"location"`). Component owns its own dropdown open/close state internally. Derives label, icon, button colors, and helper text from `filterType`. Removes 4 lines of state + props from parent `Directory` component and eliminates duplicated filter logic.
+- [ ] Explore server-side data fetching for directory — move org + filter data fetch out of client-side `useEffect` and into the server component (`page.tsx`), pass as props. Eliminates `isLoading` state, the `useEffect`, and `organizations` useState. Filters remain client-side. Already possible with current stack (Next.js 15 App Router Server Components) — does not require React 19. (Needs design discussion)
 
 ### UX/Optimization
 
