@@ -27,7 +27,20 @@
       "mcp__ide__getDiagnostics",
       "Bash(npm install:*)",
       "Bash(node -e:*)",
-      "Bash(npx next lint:*)"
+      "Bash(npx next lint:*)",
+      "Bash(gh auth status && gh repo view Alacran-Studio/latino-professional-directory --json name,url 2>/dev/null)",
+      "Bash(which gh || brew install gh)",
+      "Bash(gh auth status)",
+      "Bash(gh auth status && gh repo view Alacran-Studio/latino-professional-directory --json name,url,owner)",
+      "Bash(gh project create --owner Alacran-Studio --title \"LPDD Roadmap\" --format json)",
+      "Bash(gh project field-list 1 --owner Alacran-Studio --format json)",
+      "Bash(gh api graphql -f query='\nmutation {\n  updateProjectV2SingleSelectField\\(input: {\n    projectId: \"PVT_kwDOBQg2P84BQK7F\"\n    fieldId: \"PVTSSF_lADOBQg2P84BQK7Fzg-XiZY\"\n    singleSelectOptions: [\n      { name: \"Backlog\", color: GRAY, description: \"Not yet prioritized\" }\n      { name: \"Up Next\", color: BLUE, description: \"Queued for active sprint\" }\n      { name: \"In Progress\", color: YELLOW, description: \"Actively being worked on\" }\n      { name: \"Done\", color: GREEN, description: \"Completed\" }\n    ]\n  }\\) {\n    projectV2SingleSelectField {\n      id\n      options { id name }\n    }\n  }\n}')",
+      "Bash(gh api graphql -f query='\nmutation {\n  createProjectV2Field\\(input: {\n    projectId: \"PVT_kwDOBQg2P84BQK7F\"\n    dataType: SINGLE_SELECT\n    name: \"Priority\"\n    singleSelectOptions: [\n      { name: \"High\", color: RED, description: \"\" }\n      { name: \"Medium\", color: YELLOW, description: \"\" }\n      { name: \"Low\", color: GRAY, description: \"\" }\n    ]\n  }\\) {\n    projectV2Field { ... on ProjectV2SingleSelectField { id name options { id name } } }\n  }\n}')",
+      "Bash(REPO=\"Alacran-Studio/latino-professional-directory\"\nPROJECT=1\nOWNER=\"Alacran-Studio\"\n\nfor issue in 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77; do\n  gh project item-add $PROJECT --owner $OWNER --url \"https://github.com/$REPO/issues/$issue\"\ndone)",
+      "Bash(gh project item-list 1 --owner Alacran-Studio --format json | python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f'Total items: {d[\\\\\"totalCount\\\\\"]}'\\)\")",
+      "Bash(gh project item-list 1 --owner Alacran-Studio --format json | python3 -c \"\nimport json, sys\nd = json.load\\(sys.stdin\\)\nfor item in d['items']:\n    title = item.get\\('title', ''\\)\n    item_id = item.get\\('id', ''\\)\n    print\\(f'{item_id} | {title}'\\)\n\")",
+      "Bash(git rm BACKLOG.md)",
+      "Bash(git rm -f BACKLOG.md && git commit -m \"$\\(cat <<'EOF'\nRemove BACKLOG.md — migrated to GitHub Project\n\nAll backlog items, context, and implementation notes have been moved\nto GitHub Issues on the LPDD Roadmap project board.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
     ],
     "deny": [],
     "ask": []
