@@ -6,6 +6,7 @@ export interface FeaturedOrgCardProps {
   id: number;
   name: string;
   logoUrl: string;
+  shortDescription?: string;
   industries: IndustryType[];
   featured?: boolean;
 }
@@ -14,22 +15,17 @@ export default function FeaturedOrgCard({
   id,
   name,
   logoUrl,
+  shortDescription,
   industries,
   featured = false,
 }: FeaturedOrgCardProps) {
   return (
-    <div className="relative flex flex-col items-center">
-      {/* Star badge for featured */}
-      {featured && (
-        <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 text-2xl md:-top-4 md:left-4 md:translate-x-0">
-          <span role="img" aria-label="Featured">&#11088;</span>
-        </div>
-      )}
+    <div className="relative flex h-full flex-col items-center">
 
       {/* Card */}
       <Link
         href={`/organizations/${id}`}
-        className="group flex w-48 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56"
+        className={`group flex h-full w-48 flex-col overflow-hidden rounded-xl bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56 ${featured ? "border-2 border-accent" : "border border-border"}`}
       >
         {/* Logo */}
         <div className="flex h-36 w-full items-center justify-center p-4 transition-colors group-hover:bg-muted/40 sm:h-40">
@@ -42,8 +38,8 @@ export default function FeaturedOrgCard({
           />
         </div>
 
-        {/* Text inside card — fixed height so all cards align */}
-        <div className="flex min-h-[72px] flex-col items-center justify-start px-4 py-3 text-center">
+        {/* Text inside card — grows to fill remaining card height */}
+        <div className="flex flex-1 flex-col items-center justify-start px-4 py-3 text-center">
           <p className="font-lexend text-xs font-bold uppercase tracking-wide sm:text-sm">
             {name}
           </p>
@@ -58,6 +54,9 @@ export default function FeaturedOrgCard({
                 </span>
               ))}
             </div>
+          )}
+          {shortDescription && (
+            <p className="mt-auto pt-3 text-xs text-muted-foreground">{shortDescription}</p>
           )}
         </div>
       </Link>
