@@ -1,22 +1,22 @@
 import Image from "next/image";
+import Link from "next/link";
+import { IndustryType } from "@/app/types";
 
 export interface FeaturedOrgCardProps {
+  id: number;
   name: string;
   logoUrl: string;
-  industry: string;
-  websiteUrl: string;
+  industries: IndustryType[];
   featured?: boolean;
 }
 
 export default function FeaturedOrgCard({
+  id,
   name,
   logoUrl,
-  industry,
-  websiteUrl,
+  industries,
   featured = false,
 }: FeaturedOrgCardProps) {
-  const domain = websiteUrl.replace(/^https?:\/\//, "").replace(/\/$/, "");
-
   return (
     <div className="relative flex flex-col items-center">
       {/* Star badge for featured */}
@@ -27,9 +27,12 @@ export default function FeaturedOrgCard({
       )}
 
       {/* Card */}
-      <div className="group flex w-48 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-xl sm:w-52 md:w-56">
+      <Link
+        href={`/organizations/${id}`}
+        className="group flex w-48 flex-col overflow-hidden rounded-xl border border-border bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56"
+      >
         {/* Logo */}
-        <div className="flex h-36 w-full items-center justify-center p-4 sm:h-40">
+        <div className="flex h-36 w-full items-center justify-center p-4 transition-colors group-hover:bg-muted/40 sm:h-40">
           <Image
             src={logoUrl}
             alt={`${name} logo`}
@@ -44,14 +47,20 @@ export default function FeaturedOrgCard({
           <p className="font-lexend text-xs font-bold uppercase tracking-wide sm:text-sm">
             {name}
           </p>
-          <p className="mt-1 text-xs font-semibold text-brandGold">
-            {industry}
-          </p>
-          <p className="text-xs text-secondary-foreground">
-            {domain}
-          </p>
+          {industries.length > 0 && (
+            <div className="mt-2 flex flex-wrap justify-center gap-1">
+              {industries.map((industry) => (
+                <span
+                  key={industry.id}
+                  className="inline-block rounded-full bg-brandGold px-2 py-0.5 text-xs font-semibold text-brand"
+                >
+                  {industry.name}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
