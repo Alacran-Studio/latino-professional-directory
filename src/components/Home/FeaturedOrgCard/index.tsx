@@ -17,6 +17,8 @@ export default function FeaturedOrgCard({
   industries,
   featured = false,
 }: FeaturedOrgCardProps) {
+  const primaryIndustry = industries[0];
+
   return (
     <div className="relative flex flex-col items-center">
       {/* Star badge for featured */}
@@ -33,13 +35,19 @@ export default function FeaturedOrgCard({
       >
         {/* Logo */}
         <div className="flex h-36 w-full items-center justify-center p-4 transition-colors group-hover:bg-muted/40 sm:h-40">
-          <Image
-            src={logoUrl}
-            alt={`${name} logo`}
-            width={200}
-            height={200}
-            className="max-h-28 w-auto object-contain sm:max-h-32"
-          />
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt={`${name} logo`}
+              width={200}
+              height={200}
+              className="max-h-28 w-auto object-contain sm:max-h-32"
+            />
+          ) : (
+            <span className="font-lexend text-sm font-bold uppercase tracking-wide">
+              {name}
+            </span>
+          )}
         </div>
 
         {/* Text inside card */}
@@ -47,17 +55,10 @@ export default function FeaturedOrgCard({
           <p className="font-lexend text-xs font-bold uppercase tracking-wide sm:text-sm">
             {name}
           </p>
-          {industries.length > 0 && (
-            <div className="mt-2 flex flex-wrap justify-center gap-1">
-              {industries.map((industry) => (
-                <span
-                  key={industry.id}
-                  className="inline-block rounded-full bg-brandGold px-2 py-0.5 text-xs font-semibold text-brand"
-                >
-                  {industry.name}
-                </span>
-              ))}
-            </div>
+          {primaryIndustry && (
+            <span className="mt-2 inline-block rounded-full bg-brandGold px-2 py-0.5 text-xs font-semibold">
+              {primaryIndustry.name}
+            </span>
           )}
         </div>
       </Link>
