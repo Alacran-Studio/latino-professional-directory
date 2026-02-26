@@ -170,10 +170,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
                   Focus Industries
                 </h2>
-                <Tags
-                  tags={industries}
-                  className="px-4 py-1.5 text-label text-white"
-                />
+                <Tags tags={industries} />
               </section>
             )}
           </div>

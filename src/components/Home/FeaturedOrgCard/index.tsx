@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IndustryType } from "@/app/types";
+import IndustryPill from "@/components/common/IndustryPill";
 
 export interface FeaturedOrgCardProps {
   id: number;
@@ -8,7 +9,6 @@ export interface FeaturedOrgCardProps {
   logoUrl: string;
   shortDescription?: string;
   industries: IndustryType[];
-  featured?: boolean;
 }
 
 export default function FeaturedOrgCard({
@@ -17,7 +17,6 @@ export default function FeaturedOrgCard({
   logoUrl,
   shortDescription,
   industries,
-  featured = false,
 }: FeaturedOrgCardProps) {
   return (
     <div className="relative flex h-full flex-col items-center">
@@ -25,7 +24,7 @@ export default function FeaturedOrgCard({
       {/* Card */}
       <Link
         href={`/organizations/${id}`}
-        className={`group flex h-full w-48 flex-col overflow-hidden rounded-xl bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56 ${featured ? "border-2 border-accent" : "border border-border"}`}
+        className="group flex h-full w-full flex-col overflow-hidden rounded-xl border-2 border-accent bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56"
       >
         {/* Logo */}
         <div className="flex h-36 w-full items-center justify-center p-4 transition-colors group-hover:bg-muted/40 sm:h-40">
@@ -46,17 +45,12 @@ export default function FeaturedOrgCard({
           {industries.length > 0 && (
             <div className="mt-2 flex flex-wrap justify-center gap-1">
               {industries.map((industry) => (
-                <span
-                  key={industry.id}
-                  className="inline-block rounded-full bg-brandGold px-3 py-1 text-label font-lexend"
-                >
-                  {industry.name}
-                </span>
+                <IndustryPill key={industry.id} industry={industry} />
               ))}
             </div>
           )}
           {shortDescription && (
-            <p className="mt-auto pt-3 text-sm text-secondary-foreground">{shortDescription}</p>
+            <p className="mt-auto pt-3 text-base text-secondary-foreground sm:text-sm">{shortDescription}</p>
           )}
         </div>
       </Link>

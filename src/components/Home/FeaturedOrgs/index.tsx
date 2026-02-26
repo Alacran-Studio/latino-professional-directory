@@ -41,7 +41,6 @@ export default async function FeaturedOrgs({ className = "" }: { className?: str
               logoUrl={org.logo_url}
               shortDescription={org.short_description}
               industries={org.industries}
-              featured
             />
           ))}
         </div>

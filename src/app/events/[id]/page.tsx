@@ -93,7 +93,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
             {short_description}
           </Subheading>
 
-          <Tags tags={industries} className="mb-4 px-8 py-2 text-label text-white" />
+          <Tags tags={industries} />
 
           {/* Hosting Organizations */}
           {organizations.length > 0 && (
