@@ -40,7 +40,7 @@ export default function FeaturedOrgCard({
 
         {/* Text inside card — grows to fill remaining card height */}
         <div className="flex flex-1 flex-col items-center justify-start px-4 py-3 text-center">
-          <p className="font-lexend text-xs font-bold uppercase tracking-wide sm:text-sm">
+          <p className="font-lexend text-sm font-bold sm:text-base">
             {name}
           </p>
           {industries.length > 0 && (
@@ -48,7 +48,7 @@ export default function FeaturedOrgCard({
               {industries.map((industry) => (
                 <span
                   key={industry.id}
-                  className="inline-block rounded-full bg-brandGold px-2 py-0.5 text-xs font-semibold"
+                  className="inline-block rounded-full bg-brandGold px-3 py-1 text-label font-lexend"
                 >
                   {industry.name}
                 </span>
@@ -56,7 +56,7 @@ export default function FeaturedOrgCard({
             </div>
           )}
           {shortDescription && (
-            <p className="mt-auto pt-3 text-xs text-muted-foreground">{shortDescription}</p>
+            <p className="mt-auto pt-3 text-sm text-secondary-foreground">{shortDescription}</p>
           )}
         </div>
       </Link>
