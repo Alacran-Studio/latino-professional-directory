@@ -27,7 +27,7 @@ export default function DirectoryOrg({
           <Paragraph className="text-secondary-foreground">
             {short_description}
           </Paragraph>
-          <Tags tags={industries} className="px-3 py-1 text-label font-lexend" />
+          <Tags tags={industries} />
         </div>
       </div>
     </Link>

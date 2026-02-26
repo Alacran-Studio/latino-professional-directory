@@ -1,30 +1,11 @@
 import Image from "next/image";
 import Header2 from "@/components/common/Header2";
 import FeaturedOrgCard from "@/components/Home/FeaturedOrgCard";
-import type { FeaturedOrgCardProps } from "@/components/Home/FeaturedOrgCard";
+import { fetchFeaturedOrganizations } from "@/lib/dbOperations";
 
-const FEATURED_ORGS: FeaturedOrgCardProps[] = [
-  {
-    name: "Techqueria",
-    logoUrl: "/org-logos/techqueria/techqueria-logo.png",
-    industry: "Tech and Engineering",
-    websiteUrl: "https://www.techqueria.org",
-  },
-  {
-    name: "ALPFA",
-    logoUrl: "/org-logos/alpfa/alpfa-logo.png",
-    industry: "Finance",
-    websiteUrl: "https://www.alpfa.org",
-  },
-  {
-    name: "1871",
-    logoUrl: "/org-logos/1871/1871-logo.png",
-    industry: "Tech and Innovation",
-    websiteUrl: "https://www.1871.com",
-  },
-];
+export default async function FeaturedOrgs({ className = "" }: { className?: string }) {
+  const orgs = await fetchFeaturedOrganizations();
 
-export default function FeaturedOrgs({ className = "" }: { className?: string }) {
   return (
     <section className={`relative w-full overflow-hidden py-16 md:py-24 ${className}`}>
       {/* Background art - blue blob */}
@@ -52,8 +33,15 @@ export default function FeaturedOrgs({ className = "" }: { className?: string })
         <Header2 className="text-center">Featured Organizations</Header2>
 
         <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-6 md:gap-10">
-          {FEATURED_ORGS.map((org) => (
-            <FeaturedOrgCard key={org.name} {...org} />
+          {orgs.map((org) => (
+            <FeaturedOrgCard
+              key={org.id}
+              id={org.id}
+              name={org.name}
+              logoUrl={org.logo_url}
+              shortDescription={org.short_description}
+              industries={org.industries}
+            />
           ))}
         </div>
       </div>

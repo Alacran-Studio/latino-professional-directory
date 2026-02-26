@@ -6,3 +6,5 @@ coverage/
 yarn.lock
 npm-debug.log
 *.swp
+tsconfig.tsbuildinfo
+.claude/settings.local.json

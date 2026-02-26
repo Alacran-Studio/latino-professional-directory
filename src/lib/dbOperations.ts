@@ -81,6 +81,20 @@ async function enrichEvents(events: any[]): Promise<EventType[]> {
 
 // ** ORGANIZATION FETCH FUNCTIONS **
 
+export async function fetchFeaturedOrganizations(): Promise<DirectoryOrgType[]> {
+  const FEATURED_NAMES = ["Techqueria", "ALPFA", "1871"];
+  try {
+    const organizations = await db
+      .select()
+      .from(OrganizationsTable)
+      .where(inArray(OrganizationsTable.name, FEATURED_NAMES));
+    return await enrichOrganizations(organizations);
+  } catch (error) {
+    console.error("Error in fetchFeaturedOrganizations:", error);
+    throw error;
+  }
+}
+
 export async function fetchOrganizations(
   page: number,
   limit: number

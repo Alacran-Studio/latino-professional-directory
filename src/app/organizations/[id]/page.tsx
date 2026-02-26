@@ -103,7 +103,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
               {name}
             </h1>
             {isValidString(short_description) && (
-              <p className="mt-1 text-sm text-secondary-foreground">
+              <p className="mt-1 text-base text-secondary-foreground">
                 {short_description}
               </p>
             )}
@@ -119,7 +119,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
             <h2 className="mb-4 text-lg font-bold uppercase tracking-wide sm:text-xl">
               About Us
             </h2>
-            <Paragraph className="text-xs text-secondary-foreground">
+            <Paragraph className="text-sm text-secondary-foreground">
               {description}
             </Paragraph>
           </section>
@@ -170,10 +170,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
                   Focus Industries
                 </h2>
-                <Tags
-                  tags={industries}
-                  className="px-4 py-1.5 text-label text-white"
-                />
+                <Tags tags={industries} />
               </section>
             )}
           </div>
