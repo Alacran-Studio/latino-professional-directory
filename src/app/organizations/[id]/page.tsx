@@ -53,6 +53,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     logo_url,
     website_url,
     industries,
+    services = [],
     photo_url,
     cities = [],
     events = [],
@@ -173,6 +174,18 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 <Tags tags={industries} />
               </section>
             )}
+          </div>
+        )}
+
+        {/* Key Services */}
+        {services.length > 0 && (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
+              <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
+                Key Services
+              </h2>
+              <Tags tags={services} type="services" />
+            </section>
           </div>
         )}
 
