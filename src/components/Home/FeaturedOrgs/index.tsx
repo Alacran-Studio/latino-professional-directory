@@ -6,6 +6,8 @@ import { fetchFeaturedOrganizations } from "@/lib/dbOperations";
 export default async function FeaturedOrgs({ className = "" }: { className?: string }) {
   const orgs = await fetchFeaturedOrganizations();
 
+  if (orgs.length === 0) return null;
+
   return (
     <section className={`relative w-full overflow-hidden py-16 md:py-24 ${className}`}>
       {/* Background art - blue blob */}
