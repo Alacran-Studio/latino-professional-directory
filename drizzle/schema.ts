@@ -141,3 +141,9 @@ export const UserOrganizationsTable = lpddSchema.table(
     created_at: text("created_at").notNull().default("now()"),
   }
 );
+
+export const FeaturedOrgsTable = lpddSchema.table("featured_orgs", {
+  id: serial("id").primaryKey(),
+  org_id: integer("org_id").notNull().unique().references(() => OrganizationsTable.id),
+  display_order: integer("display_order").notNull(),
+});
