@@ -19,13 +19,10 @@ export default function FeaturedOrgCard({
   industries,
 }: FeaturedOrgCardProps) {
   return (
-    <div className="relative flex h-full flex-col items-center">
-
-      {/* Card */}
-      <Link
-        href={`/organizations/${id}`}
-        className="group flex h-full w-full flex-col overflow-hidden rounded-xl border-2 border-accent bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56"
-      >
+    <Link
+      href={`/organizations/${id}`}
+      className="group flex w-full flex-col overflow-hidden rounded-xl border-2 border-accent bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56"
+    >
         {/* Logo */}
         <div className="flex h-36 w-full items-center justify-center p-4 transition-colors group-hover:bg-muted/40 sm:h-40">
           <Image
@@ -53,7 +50,6 @@ export default function FeaturedOrgCard({
             <p className="mt-auto pt-3 text-base text-secondary-foreground sm:text-sm">{shortDescription}</p>
           )}
         </div>
-      </Link>
-    </div>
+    </Link>
   );
 }
