@@ -9,9 +9,11 @@ import {
   EventOrganizations,
   EventIndustries,
   FeaturedOrgsTable,
+  KeyServicesTable,
+  OrganizationServices,
 } from "../../drizzle/schema";
 import { inArray, eq, and } from "drizzle-orm";
-import { DirectoryOrgType, IndustryType, CityType, EventType } from "@/app/types";
+import { DirectoryOrgType, IndustryType, CityType, EventType, ServiceType } from "@/app/types";
 
 // ** ENRICHMENT HELPERS **
 
@@ -20,9 +22,10 @@ async function enrichOrganizations(
 ): Promise<DirectoryOrgType[]> {
   if (organizations.length === 0) return [];
 
-  const [orgIndustryMappings, orgCityMappings] = await Promise.all([
+  const [orgIndustryMappings, orgCityMappings, orgServiceMappings] = await Promise.all([
     fetchOrgIndustryMappings(organizations),
     fetchOrgCityMappings(organizations),
+    fetchOrgServiceMappings(organizations),
   ]);
 
   const industryIds = orgIndustryMappings
@@ -31,10 +34,14 @@ async function enrichOrganizations(
   const cityIds = orgCityMappings
     .map((mapping) => mapping.city_id)
     .filter((id): id is number => id !== null);
+  const serviceIds = orgServiceMappings
+    .map((mapping) => mapping.service_id)
+    .filter((id): id is number => id !== null);
 
-  const [industries, cities] = await Promise.all([
+  const [industries, cities, services] = await Promise.all([
     fetchIndustries(industryIds),
     fetchCities(cityIds),
+    fetchServices(serviceIds),
   ]);
 
   return mapDataToOrganizations(
@@ -42,7 +49,9 @@ async function enrichOrganizations(
     orgIndustryMappings,
     industries,
     orgCityMappings,
-    cities
+    cities,
+    orgServiceMappings,
+    services
   );
 }
 
@@ -155,6 +164,23 @@ export async function fetchIndustries(
   return industries;
 }
 
+export async function fetchServices(
+  serviceIds?: number[]
+): Promise<ServiceType[]> {
+  const query = db
+    .select({
+      id: KeyServicesTable.id,
+      name: KeyServicesTable.name,
+    })
+    .from(KeyServicesTable);
+
+  if (serviceIds && serviceIds.length > 0) {
+    query.where(inArray(KeyServicesTable.id, serviceIds));
+  }
+
+  return await query;
+}
+
 export async function fetchCities(cityIds?: number[]): Promise<CityType[]> {
   const query = db
     .select({
@@ -220,12 +246,29 @@ async function fetchOrgCityMappings(organizations: any[]) {
   return orgCityMappings;
 }
 
+async function fetchOrgServiceMappings(organizations: any[]) {
+  const orgIds = organizations.map((org) => org.id);
+  if (orgIds.length === 0) return [];
+
+  const orgServiceMappings = await db
+    .select({
+      organization_id: OrganizationServices.organization_id,
+      service_id: OrganizationServices.service_id,
+    })
+    .from(OrganizationServices)
+    .where(inArray(OrganizationServices.organization_id, orgIds));
+
+  return orgServiceMappings;
+}
+
 function mapDataToOrganizations(
   organizations: any[],
   industryMappings: any[],
   industries: any[],
   cityMappings: any[],
-  cities: any[]
+  cities: any[],
+  serviceMappings: any[],
+  services: any[]
 ) {
   const organizationsWithData = organizations.map((org) => ({
     ...org,
@@ -245,6 +288,13 @@ function mapDataToOrganizations(
         return city || null;
       })
       .filter((city): city is CityType => city !== null),
+    services: serviceMappings
+      .filter((mapping) => mapping.organization_id === org.id)
+      .map((mapping): ServiceType | null => {
+        const service = services.find((s) => s.id === mapping.service_id);
+        return service || null;
+      })
+      .filter((service): service is ServiceType => service !== null),
   }));
 
   return organizationsWithData;

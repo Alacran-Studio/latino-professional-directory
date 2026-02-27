@@ -13,6 +13,8 @@ import {
   directoryEvents,
   eventOrgMappings,
   eventIndustryMappings,
+  directoryServices,
+  orgServiceMappings,
 } from "./data";
 import {
   OrganizationsTable,
@@ -28,6 +30,8 @@ import {
   EventOrganizations,
   EventIndustries,
   FeaturedOrgsTable,
+  KeyServicesTable,
+  OrganizationServices,
 } from "../schema";
 import { directoryIndustries } from "./data";
 
@@ -46,6 +50,8 @@ async function main() {
     await seedEventOrganizations();
     await seedEventIndustries();
     await seedFeaturedOrgs();
+    await seedServices();
+    await seedOrganizationServices();
   } catch (e) {
     console.error(e);
     throw new Error("Seed error...");
@@ -561,4 +567,79 @@ async function seedFeaturedOrgs() {
     console.log(`Inserted featured org: ${name} (order ${displayOrder})`);
   }
   console.log("Seed featured orgs finished...");
+}
+
+async function seedServices() {
+  console.log("Seed services started...");
+  for (const service of directoryServices) {
+    const existingService = await db
+      .select()
+      .from(KeyServicesTable)
+      .where(eq(KeyServicesTable.name, service.name))
+      .limit(1);
+    if (existingService.length > 0) {
+      console.log(`Skipping existing service: ${service.name}`);
+      continue;
+    }
+
+    await db.insert(KeyServicesTable).values(service);
+    console.log(`Inserted service: ${service.name}`);
+  }
+  console.log("Seed services finished...");
+}
+
+async function seedOrganizationServices() {
+  console.log("Seed organization services started...");
+  for (const mapping of orgServiceMappings) {
+    const [organization] = await db
+      .select()
+      .from(OrganizationsTable)
+      .where(eq(OrganizationsTable.name, mapping.directoryName))
+      .limit(1);
+
+    if (!organization) {
+      console.log(`Organization not found: ${mapping.directoryName}`);
+      continue;
+    }
+
+    for (const serviceName of mapping.services) {
+      const [service] = await db
+        .select()
+        .from(KeyServicesTable)
+        .where(eq(KeyServicesTable.name, serviceName))
+        .limit(1);
+
+      if (!service) {
+        console.log(`Service not found: ${serviceName}`);
+        continue;
+      }
+
+      const existingMapping = await db
+        .select()
+        .from(OrganizationServices)
+        .where(
+          and(
+            eq(OrganizationServices.organization_id, organization.id),
+            eq(OrganizationServices.service_id, service.id)
+          )
+        )
+        .limit(1);
+
+      if (existingMapping.length > 0) {
+        console.log(
+          `Mapping already exists for ${mapping.directoryName} -> ${serviceName}`
+        );
+        continue;
+      }
+
+      await db.insert(OrganizationServices).values({
+        organization_id: organization.id,
+        service_id: service.id,
+      });
+      console.log(
+        `Inserted mapping: ${mapping.directoryName} -> ${serviceName}`
+      );
+    }
+  }
+  console.log("Seeding organization services completed.");
 }

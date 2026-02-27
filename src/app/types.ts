@@ -13,6 +13,7 @@ export interface DirectoryOrgType {
   description: string;
   website_url: string;
   industries: IndustryType[];
+  services: ServiceType[];
   photo_url: string;
   video_url: string;
   cities: CityType[];
@@ -20,6 +21,11 @@ export interface DirectoryOrgType {
 }
 
 export interface IndustryType {
+  id: number;
+  name: string;
+}
+
+export interface ServiceType {
   id: number;
   name: string;
 }
@@ -60,6 +66,10 @@ export interface OrganizationsApiResponse {
 
 export interface IndustriesApiResponse {
   industries: IndustryType[];
+}
+
+export interface ServicesApiResponse {
+  services: ServiceType[];
 }
 
 export interface CitiesApiResponse {

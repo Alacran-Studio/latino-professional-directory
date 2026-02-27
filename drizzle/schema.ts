@@ -147,3 +147,14 @@ export const FeaturedOrgsTable = lpddSchema.table("featured_orgs", {
   org_id: integer("org_id").notNull().unique().references(() => OrganizationsTable.id),
   display_order: integer("display_order").notNull(),
 });
+
+export const KeyServicesTable = lpddSchema.table("key_services", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+});
+
+export const OrganizationServices = lpddSchema.table("organization_services", {
+  id: serial("id").primaryKey(),
+  organization_id: integer("organization_id").references(() => OrganizationsTable.id),
+  service_id: integer("service_id").references(() => KeyServicesTable.id),
+});

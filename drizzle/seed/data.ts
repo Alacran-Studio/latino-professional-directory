@@ -269,6 +269,28 @@ export const orgCityMappings = [
   },
 ];
 
+export const directoryServices = [
+  { name: "Mentorship" },
+  { name: "Networking" },
+  { name: "Leadership Development" },
+  { name: "Career Advancement" },
+  { name: "Professional Development" },
+  { name: "Entrepreneurship" },
+  { name: "Funding & Investment" },
+  { name: "Community Building" },
+];
+
+export const orgServiceMappings = [
+  { directoryName: "Techqueria", services: ["Mentorship", "Networking", "Career Advancement", "Professional Development", "Community Building"] },
+  { directoryName: "ALPFA", services: ["Networking", "Leadership Development", "Career Advancement", "Professional Development"] },
+  { directoryName: "Hispanic Alliance for Career Enhancement (HACE)", services: ["Mentorship", "Leadership Development", "Career Advancement", "Professional Development"] },
+  { directoryName: "Angeles Investors", services: ["Mentorship", "Entrepreneurship", "Funding & Investment"] },
+  { directoryName: "SHPE", services: ["Mentorship", "Networking", "Leadership Development", "Professional Development", "Community Building"] },
+  { directoryName: "Latinas in Tech", services: ["Networking", "Career Advancement", "Professional Development", "Community Building"] },
+  { directoryName: "Chicago Innovation", services: ["Networking", "Entrepreneurship", "Community Building"] },
+  { directoryName: "1871", services: ["Mentorship", "Networking", "Professional Development", "Entrepreneurship", "Funding & Investment"] },
+];
+
 export const directoryEvents = [
   {
     name: "The Innovation Forecast: the Next 25 Years",
