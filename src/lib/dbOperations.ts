@@ -8,6 +8,7 @@ import {
   EventsTable,
   EventOrganizations,
   EventIndustries,
+  FeaturedOrgsTable,
 } from "../../drizzle/schema";
 import { inArray, eq, and } from "drizzle-orm";
 import { DirectoryOrgType, IndustryType, CityType, EventType } from "@/app/types";
@@ -82,13 +83,26 @@ async function enrichEvents(events: any[]): Promise<EventType[]> {
 // ** ORGANIZATION FETCH FUNCTIONS **
 
 export async function fetchFeaturedOrganizations(): Promise<DirectoryOrgType[]> {
-  const FEATURED_NAMES = ["Techqueria", "ALPFA", "1871"];
   try {
+    const featuredRows = await db
+      .select({ org_id: FeaturedOrgsTable.org_id })
+      .from(FeaturedOrgsTable)
+      .orderBy(FeaturedOrgsTable.display_order);
+
+    const orgIds = featuredRows.map((r) => r.org_id);
+    if (orgIds.length === 0) return [];
+
     const organizations = await db
       .select()
       .from(OrganizationsTable)
-      .where(inArray(OrganizationsTable.name, FEATURED_NAMES));
-    return await enrichOrganizations(organizations);
+      .where(inArray(OrganizationsTable.id, orgIds));
+
+    // Preserve display_order ordering
+    const orderedOrgs = orgIds
+      .map((id) => organizations.find((o) => o.id === id))
+      .filter((o): o is (typeof organizations)[0] => o !== undefined);
+
+    return await enrichOrganizations(orderedOrgs);
   } catch (error) {
     console.error("Error in fetchFeaturedOrganizations:", error);
     throw error;

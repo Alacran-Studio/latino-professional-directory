@@ -2,9 +2,17 @@ import { db } from "@/lib/drizzleClient";
 import {
   OrganizationsTable,
   UserOrganizationsTable,
+  FeaturedOrgsTable,
 } from "../../../drizzle/schema";
 import { eq, inArray, sql } from "drizzle-orm";
 import type { AdminOrg, OrgStatus } from "@/types/admin";
+
+export interface FeaturedOrg {
+  id: number;
+  org_id: number;
+  display_order: number;
+  name: string;
+}
 
 export async function fetchAllOrgs(): Promise<AdminOrg[]> {
   const rows = await db
@@ -87,4 +95,33 @@ export async function userOwnsOrg(
     .limit(1);
 
   return rows.some((r) => r.organization_id === orgId);
+}
+
+export async function fetchFeaturedOrgs(): Promise<FeaturedOrg[]> {
+  const rows = await db
+    .select({
+      id: FeaturedOrgsTable.id,
+      org_id: FeaturedOrgsTable.org_id,
+      display_order: FeaturedOrgsTable.display_order,
+      name: OrganizationsTable.name,
+    })
+    .from(FeaturedOrgsTable)
+    .innerJoin(OrganizationsTable, eq(FeaturedOrgsTable.org_id, OrganizationsTable.id))
+    .orderBy(FeaturedOrgsTable.display_order);
+  return rows;
+}
+
+export async function addFeaturedOrg(orgId: number, displayOrder: number): Promise<void> {
+  await db.insert(FeaturedOrgsTable).values({ org_id: orgId, display_order: displayOrder });
+}
+
+export async function removeFeaturedOrg(orgId: number): Promise<void> {
+  await db.delete(FeaturedOrgsTable).where(eq(FeaturedOrgsTable.org_id, orgId));
+}
+
+export async function updateFeaturedOrgOrder(orgId: number, displayOrder: number): Promise<void> {
+  await db
+    .update(FeaturedOrgsTable)
+    .set({ display_order: displayOrder })
+    .where(eq(FeaturedOrgsTable.org_id, orgId));
 }

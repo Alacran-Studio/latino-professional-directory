@@ -27,6 +27,7 @@ import {
   EventsTable,
   EventOrganizations,
   EventIndustries,
+  FeaturedOrgsTable,
 } from "../schema";
 import { directoryIndustries } from "./data";
 
@@ -44,6 +45,7 @@ async function main() {
     await seedEvents();
     await seedEventOrganizations();
     await seedEventIndustries();
+    await seedFeaturedOrgs();
   } catch (e) {
     console.error(e);
     throw new Error("Seed error...");
@@ -519,4 +521,44 @@ async function seedEventIndustries() {
     }
   }
   console.log("Seeding event industries completed.");
+}
+
+async function seedFeaturedOrgs() {
+  console.log("Seed featured orgs started...");
+  const FEATURED = [
+    { name: "Techqueria", displayOrder: 1 },
+    { name: "ALPFA", displayOrder: 2 },
+    { name: "1871", displayOrder: 3 },
+  ];
+
+  for (const { name, displayOrder } of FEATURED) {
+    const [org] = await db
+      .select()
+      .from(OrganizationsTable)
+      .where(eq(OrganizationsTable.name, name))
+      .limit(1);
+
+    if (!org) {
+      console.log(`Organization not found: ${name}`);
+      continue;
+    }
+
+    const existing = await db
+      .select()
+      .from(FeaturedOrgsTable)
+      .where(eq(FeaturedOrgsTable.org_id, org.id))
+      .limit(1);
+
+    if (existing.length > 0) {
+      console.log(`Skipping existing featured org: ${name}`);
+      continue;
+    }
+
+    await db.insert(FeaturedOrgsTable).values({
+      org_id: org.id,
+      display_order: displayOrder,
+    });
+    console.log(`Inserted featured org: ${name} (order ${displayOrder})`);
+  }
+  console.log("Seed featured orgs finished...");
 }
