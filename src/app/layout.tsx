@@ -10,11 +10,20 @@ import { getBodyFont, getFontVariables } from "@/lib/utils";
 import { APP_NAME, APP_DESCRIPTION, APP_DESCRIPTION_LONG } from "@/lib/constants";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
+const darkModeDisabled = process.env.NEXT_PUBLIC_DISABLE_DARK_MODE === "true";
+
 const Base = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en" className={getFontVariables()}>
       <head>
         <StructuredData />
+        {!darkModeDisabled && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `if(window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.classList.add('dark')`,
+            }}
+          />
+        )}
       </head>
       <body className={`min-h-screen ${getBodyFont()}`}>
         <Providers>{children}</Providers>
