@@ -28,6 +28,16 @@ export function trackFilterApplied(
   });
 }
 
+export function trackFilterRemoved(
+  filterType: "industry" | "location",
+  filterValue: string
+) {
+  sendGAEvent("event", "filter_removed", {
+    filter_type: filterType,
+    filter_value: filterValue,
+  });
+}
+
 export function trackJoinStep1Complete() {
   sendGAEvent("event", "join_step_1_complete", {});
 }

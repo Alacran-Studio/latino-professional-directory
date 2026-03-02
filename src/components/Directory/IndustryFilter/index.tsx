@@ -1,7 +1,7 @@
 import { IndustryType } from "@/app/types";
 import FilterIcon from "@/components/Directory/icons/Filter";
 import FilterDropdown from "@/components/Directory/FilterDropdown";
-import { trackFilterApplied } from "@/lib/analytics";
+import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 
 interface IndustryFilterProps {
   industries: IndustryType[];
@@ -29,7 +29,11 @@ export default function IndustryFilter({
       setIsDropdownOpen={setIsIndustryDropdownOpen}
       buttonClassName="bg-brandGold dark:text-black"
       widthClassName="md:w-1/2"
-      onItemSelect={(val) => trackFilterApplied("industry", val)}
+      onItemSelect={(val, selected) =>
+        selected
+          ? trackFilterApplied("industry", val)
+          : trackFilterRemoved("industry", val)
+      }
     />
   );
 }
