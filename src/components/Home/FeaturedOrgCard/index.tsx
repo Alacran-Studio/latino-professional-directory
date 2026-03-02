@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { IndustryType } from "@/app/types";
 import IndustryPill from "@/components/common/IndustryPill";
+import { trackFeaturedOrgClick } from "@/lib/analytics";
 
 export interface FeaturedOrgCardProps {
   id: number;
@@ -21,6 +24,7 @@ export default function FeaturedOrgCard({
   return (
     <Link
       href={`/organizations/${id}`}
+      onClick={() => trackFeaturedOrgClick(id, name)}
       className="group flex w-full flex-col overflow-hidden rounded-xl border-2 border-accent bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56"
     >
         {/* Logo */}

@@ -6,10 +6,10 @@ import Image from "next/image";
 import Header1 from "@/components/common/Header1";
 import Paragraph from "@/components/common/Paragraph";
 import Subheading from "@/components/common/Subheading";
-import { NewTabIcon } from "@/components/ui/icons/NewTabSvg";
 import { isValidString } from "@/lib/utils";
 import Link from "next/link";
 import { headers } from "next/headers";
+import EventRegisterButton from "./_components/EventRegisterButton";
 
 interface PageProps {
   id: string;
@@ -117,15 +117,11 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
 
           {/* Registration Button */}
           {isValidString(registration_url) && (
-            <a
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-2 text-label text-white hover:bg-primary-hover"
-              href={registration_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span>Register</span>
-              <NewTabIcon />
-            </a>
+            <EventRegisterButton
+              eventId={id}
+              eventName={name}
+              registrationUrl={registration_url}
+            />
           )}
         </div>
 

@@ -1,6 +1,7 @@
 import { CityType } from "@/app/types";
 import LocationIcon from "@/components/Directory/icons/Location";
 import FilterDropdown from "@/components/Directory/FilterDropdown";
+import { trackFilterApplied } from "@/lib/analytics";
 
 interface LocationFilterProps {
   cities: CityType[];
@@ -28,6 +29,7 @@ export default function LocationFilter({
       setIsDropdownOpen={setIsCityDropdownOpen}
       buttonClassName="bg-gray-300 dark:bg-gray-400 dark:text-black"
       widthClassName="md:w-1/2"
+      onItemSelect={(val) => trackFilterApplied("location", val)}
     />
   );
 }
