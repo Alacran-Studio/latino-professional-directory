@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from "react";
 import DirectoryOrg from "./DirectoryOrg";
-import { DirectoryOrgType, IndustryType, CityType, OrganizationsApiResponse } from "@/app/types";
+import {
+  DirectoryOrgType,
+  IndustryType,
+  CityType,
+  OrganizationsApiResponse,
+} from "@/app/types";
 import { fetchFilterData } from "@/lib/fetchFilterData";
 
 import IndustryFilter from "./IndustryFilter";
@@ -28,7 +33,7 @@ export default function Directory({ className = "" }: { className?: string }) {
       try {
         setIsLoading(true);
         const [orgResponse, filterData] = await Promise.all([
-          fetch("/api/organizations?page=1&limit=10"),
+          fetch("/api/organizations?page=1&limit=100"),
           fetchFilterData(),
         ]);
 

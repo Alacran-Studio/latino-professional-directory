@@ -8,6 +8,7 @@ import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
 import { getBodyFont, getFontVariables } from "@/lib/utils";
 import { APP_NAME, APP_DESCRIPTION, APP_DESCRIPTION_LONG } from "@/lib/constants";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const Base = ({ children }: PropsWithChildren) => {
   return (
@@ -17,6 +18,7 @@ const Base = ({ children }: PropsWithChildren) => {
       </head>
       <body className={`min-h-screen ${getBodyFont()}`}>
         <Providers>{children}</Providers>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? ""} />
       </body>
     </html>
   );

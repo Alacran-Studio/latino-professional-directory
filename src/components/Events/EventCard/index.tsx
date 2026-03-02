@@ -1,7 +1,10 @@
+"use client";
+
 import { EventType } from "@/app/types";
 import Link from "next/link";
 import { isValidString } from "@/lib/utils";
 import Image from "next/image";
+import { trackEventClick } from "@/lib/analytics";
 import {
   CalendarIcon,
   ClockIcon,
@@ -63,7 +66,7 @@ export default function EventCard({
     : getDefaultImage(industries);
 
   return (
-    <Link href={`/events/${id}`} className="group">
+    <Link href={`/events/${id}`} onClick={() => trackEventClick(id, name)} className="group">
       <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-lg shadow-gray-300 hover:bg-cardHover dark:shadow-gray-800">
         {/* Photo */}
         <div className="relative h-48 w-full">

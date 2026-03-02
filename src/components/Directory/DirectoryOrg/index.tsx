@@ -1,3 +1,5 @@
+"use client";
+
 import { DirectoryOrgType } from "@/app/types";
 import Paragraph from "@/components/common/Paragraph";
 import Subheading from "@/components/common/Subheading";
@@ -5,6 +7,7 @@ import Link from "next/link";
 import Logo from "@/components/Directory/Logo";
 import Tags from "@/components/Directory/Tags";
 import { isValidString } from "@/lib/utils";
+import { trackOrgClick } from "@/lib/analytics";
 
 export default function DirectoryOrg({
   id,
@@ -14,7 +17,7 @@ export default function DirectoryOrg({
   industries,
 }: DirectoryOrgType) {
   return (
-    <Link href={`/organizations/${id}`}>
+    <Link href={`/organizations/${id}`} onClick={() => trackOrgClick(id, name)}>
       <div className="flex w-full cursor-pointer flex-col items-center rounded-lg border border-border bg-card p-6 shadow-lg shadow-gray-300 transition duration-300 ease-in-out hover:bg-cardHover sm:flex-row dark:shadow-gray-800">
         {/* Organization Logo */}
         {isValidString(logo_url) && (

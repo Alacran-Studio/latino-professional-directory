@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import { StepOrgInfo } from "./StepOrgInfo";
 import { StepContactInfo } from "./StepContactInfo";
 import { submitOrganization } from "../_actions/submitOrganization";
+import {
+  trackJoinStep1Complete,
+  trackJoinSubmitted,
+  trackJoinSubmitError,
+} from "@/lib/analytics";
 
 type Step = "org_info" | "contact_info";
 
@@ -39,7 +44,9 @@ export function JoinForm() {
     if (result?.error) {
       setError(result.error);
       setLoading(false);
+      trackJoinSubmitError(result.error);
     } else {
+      trackJoinSubmitted();
       router.push("/admin?submitted=true");
     }
   }
@@ -80,7 +87,10 @@ export function JoinForm() {
           <StepOrgInfo
             data={formData}
             onChange={handleChange}
-            onNext={() => setStep("contact_info")}
+            onNext={() => {
+              trackJoinStep1Complete();
+              setStep("contact_info");
+            }}
           />
         )}
 

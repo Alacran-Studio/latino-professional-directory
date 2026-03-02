@@ -9,11 +9,9 @@ import BackButton from "@/components/common/BackButton";
 import CoverImage from "@/components/common/CoverImage";
 import { isValidString } from "@/lib/utils";
 import EventCard from "@/components/Events/EventCard";
-import {
-  LocationMarkerIcon,
-  GlobeAltIcon,
-} from "@heroicons/react/outline";
+import { LocationMarkerIcon, GlobeAltIcon } from "@heroicons/react/outline";
 import { headers } from "next/headers";
+import OrgWebsiteLink from "./_components/OrgWebsiteLink";
 
 const COVER_FALLBACK =
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop";
@@ -147,19 +145,11 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                     </div>
                   )}
                   {isValidString(website_url) && (
-                    <div className="flex items-center gap-3">
-                      <GlobeAltIcon className="h-5 w-5 flex-shrink-0 text-brandGold" />
-                      <a
-                        href={website_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-brandGold underline-offset-2 hover:underline"
-                      >
-                        {website_url
-                          .replace(/^https?:\/\//, "")
-                          .replace(/\/$/, "")}
-                      </a>
-                    </div>
+                    <OrgWebsiteLink
+                      orgId={id}
+                      orgName={name}
+                      websiteUrl={website_url}
+                    />
                   )}
                 </div>
               </section>

@@ -19,6 +19,7 @@ interface FilterDropdownProps<T extends FilterItem> {
   setIsDropdownOpen: (isOpen: boolean) => void;
   buttonClassName?: string;
   widthClassName?: string;
+  onItemSelect?: (item: string, selected: boolean) => void;
 }
 
 export default function FilterDropdown<T extends FilterItem>({
@@ -31,6 +32,7 @@ export default function FilterDropdown<T extends FilterItem>({
   setIsDropdownOpen,
   buttonClassName = "bg-brandGold dark:text-black",
   widthClassName = "md:w-1/2",
+  onItemSelect,
 }: FilterDropdownProps<T>) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownButtonRef = useRef<HTMLButtonElement>(null);
@@ -70,6 +72,7 @@ export default function FilterDropdown<T extends FilterItem>({
     } else {
       setSelectedItems([...selectedItems, item]);
     }
+    onItemSelect?.(item.name, !isSelected);
   };
 
   const removeItem = (itemToRemove: T) => {
