@@ -122,7 +122,7 @@ const config: Config = {
       });
     },
   ],
-  darkMode: "media",
+  darkMode: "class",
 };
 
 export default config;
