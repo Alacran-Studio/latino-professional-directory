@@ -6,6 +6,7 @@ import {
 } from "../../../drizzle/schema";
 import { eq, inArray, sql } from "drizzle-orm";
 import type { AdminOrg, OrgStatus } from "@/types/admin";
+import { generateSlug } from "@/lib/slugify";
 
 export interface FeaturedOrg {
   id: number;
@@ -62,9 +63,16 @@ export async function updateOrg(
     video_url?: string;
   }
 ) {
+  const updateData: Record<string, unknown> = {
+    ...data,
+    updated_at: new Date().toISOString(),
+  };
+  if (data.name) {
+    updateData.slug = generateSlug(data.name);
+  }
   await db
     .update(OrganizationsTable)
-    .set({ ...data, updated_at: new Date().toISOString() })
+    .set(updateData)
     .where(eq(OrganizationsTable.id, id));
 }
 

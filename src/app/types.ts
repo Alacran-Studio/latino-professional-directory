@@ -8,6 +8,7 @@ export type InternalNavigationLinks = Array<InternalNavigationLink>;
 export interface DirectoryOrgType {
   id: number;
   name: string;
+  slug: string;
   logo_url: string;
   short_description: string;
   description: string;

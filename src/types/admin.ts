@@ -5,6 +5,7 @@ export type UserRole = "system_admin" | "org_admin";
 export interface AdminOrg {
   id: number;
   name: string;
+  slug: string;
   logo_url: string | null;
   description: string | null;
   short_description: string | null;

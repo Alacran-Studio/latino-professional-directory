@@ -8,6 +8,7 @@ import { trackFeaturedOrgClick } from "@/lib/analytics";
 
 export interface FeaturedOrgCardProps {
   id: number;
+  slug: string;
   name: string;
   logoUrl: string;
   shortDescription?: string;
@@ -16,6 +17,7 @@ export interface FeaturedOrgCardProps {
 
 export default function FeaturedOrgCard({
   id,
+  slug,
   name,
   logoUrl,
   shortDescription,
@@ -23,7 +25,7 @@ export default function FeaturedOrgCard({
 }: FeaturedOrgCardProps) {
   return (
     <Link
-      href={`/organizations/${id}`}
+      href={`/organizations/${slug}`}
       onClick={() => trackFeaturedOrgClick(id, name)}
       className="group flex w-full flex-col overflow-hidden rounded-xl border-2 border-accent bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56"
     >
