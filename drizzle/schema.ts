@@ -5,6 +5,7 @@ export const lpddSchema = pgSchema("lpdd");
 export const OrganizationsTable = lpddSchema.table("organizations", {
   id: serial("id").primaryKey(),
   name: text("name").notNull().unique(),
+  slug: text("slug").notNull().unique(),
   logo_url: text("logo_url"),
   description: text("description"),
   short_description: text("short_description"),

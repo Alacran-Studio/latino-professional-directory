@@ -1,6 +1,7 @@
 import "../envConfig";
 import { and, eq } from "drizzle-orm";
 import { db } from "@/lib/drizzleClient";
+import { generateSlug } from "@/lib/slugify";
 import {
   directoryOrgs,
   orgIndustryMappings,
@@ -75,7 +76,7 @@ async function seedOrganizations() {
       continue;
     }
 
-    await db.insert(OrganizationsTable).values(org);
+    await db.insert(OrganizationsTable).values({ ...org, slug: generateSlug(org.name) });
     console.log(`Inserted organization: ${org.name}`);
   }
   console.log("Seed organizations finished...");

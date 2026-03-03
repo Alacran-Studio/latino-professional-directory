@@ -11,6 +11,7 @@ import {
 import { sendEmail } from "@/lib/email/resend";
 import { orgSubmittedEmail } from "@/lib/email/templates/orgSubmitted";
 import { orgSubmittedConfirmationEmail } from "@/lib/email/templates/orgSubmittedConfirmation";
+import { generateSlug } from "@/lib/slugify";
 
 interface SubmitData {
   name: string;
@@ -66,6 +67,7 @@ export async function submitOrganization(data: SubmitData) {
       .insert(OrganizationsTable)
       .values({
         name,
+        slug: generateSlug(name),
         description: description || null,
         short_description: short_description || null,
         website_url,
