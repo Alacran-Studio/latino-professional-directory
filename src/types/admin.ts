@@ -2,6 +2,17 @@ export type OrgStatus = "pending" | "approved" | "rejected";
 
 export type UserRole = "system_admin" | "org_admin";
 
+export interface AdminOrgPhoto {
+  id: number;
+  url: string;
+  display_order: number;
+}
+
+export interface AdminOrgRelated {
+  id: number;
+  name: string;
+}
+
 export interface AdminOrg {
   id: number;
   name: string;
@@ -14,6 +25,12 @@ export interface AdminOrg {
   status: OrgStatus;
   created_at: string;
   updated_at: string;
+  // Related data (populated by fetchOrgById)
+  industries?: AdminOrgRelated[];
+  services?: AdminOrgRelated[];
+  cities?: AdminOrgRelated[];
+  affinities?: AdminOrgRelated[];
+  gallery_photos?: AdminOrgPhoto[];
 }
 
 export interface AdminUser {

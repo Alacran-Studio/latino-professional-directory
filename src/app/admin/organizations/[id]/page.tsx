@@ -1,5 +1,12 @@
 import { requireAuth } from "@/lib/auth/requireAuth";
-import { fetchOrgById, userOwnsOrg } from "@/lib/admin/dbOperations";
+import {
+  fetchOrgById,
+  fetchAllIndustries,
+  fetchAllServices,
+  fetchAllCities,
+  fetchAllAffinities,
+  userOwnsOrg,
+} from "@/lib/admin/dbOperations";
 import { OrgForm } from "../../_components/OrgForm";
 import { StatusBadge } from "../../_components/StatusBadge";
 import { notFound, redirect } from "next/navigation";
@@ -18,13 +25,20 @@ export default async function EditOrganizationPage({
 
   if (isNaN(orgId)) notFound();
 
-  // org_admin can only edit their own orgs
   if (role === "org_admin") {
     const owns = await userOwnsOrg(user.id, orgId);
     if (!owns) redirect("/admin/organizations");
   }
 
-  const org = await fetchOrgById(orgId);
+  const [org, allIndustries, allServices, allCities, allAffinities] =
+    await Promise.all([
+      fetchOrgById(orgId),
+      fetchAllIndustries(),
+      fetchAllServices(),
+      fetchAllCities(),
+      fetchAllAffinities(),
+    ]);
+
   if (!org) notFound();
 
   return (
@@ -45,7 +59,13 @@ export default async function EditOrganizationPage({
         <StatusBadge status={org.status as OrgStatus} />
       </div>
 
-      <OrgForm org={org} />
+      <OrgForm
+        org={org}
+        allIndustries={allIndustries}
+        allServices={allServices}
+        allCities={allCities}
+        allAffinities={allAffinities}
+      />
     </div>
   );
 }

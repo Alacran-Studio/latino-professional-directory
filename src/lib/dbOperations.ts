@@ -11,9 +11,12 @@ import {
   FeaturedOrgsTable,
   KeyServicesTable,
   OrganizationServices,
+  AffinitiesTable,
+  OrganizationAffinities,
+  OrganizationPhotosTable,
 } from "../../drizzle/schema";
 import { inArray, eq, and } from "drizzle-orm";
-import { DirectoryOrgType, IndustryType, CityType, EventType, ServiceType } from "@/app/types";
+import { DirectoryOrgType, IndustryType, CityType, EventType, ServiceType, AffinityType, OrgPhotoType } from "@/app/types";
 
 // ** ENRICHMENT HELPERS **
 
@@ -22,26 +25,35 @@ async function enrichOrganizations(
 ): Promise<DirectoryOrgType[]> {
   if (organizations.length === 0) return [];
 
-  const [orgIndustryMappings, orgCityMappings, orgServiceMappings] = await Promise.all([
+  const orgIds = organizations.map((o) => o.id);
+
+  const [orgIndustryMappings, orgCityMappings, orgServiceMappings, orgAffinityMappings, orgPhotos] = await Promise.all([
     fetchOrgIndustryMappings(organizations),
     fetchOrgCityMappings(organizations),
     fetchOrgServiceMappings(organizations),
+    db
+      .select({ organization_id: OrganizationAffinities.organization_id, affinity_id: OrganizationAffinities.affinity_id })
+      .from(OrganizationAffinities)
+      .where(inArray(OrganizationAffinities.organization_id, orgIds)),
+    db
+      .select({ organization_id: OrganizationPhotosTable.organization_id, id: OrganizationPhotosTable.id, url: OrganizationPhotosTable.url, display_order: OrganizationPhotosTable.display_order })
+      .from(OrganizationPhotosTable)
+      .where(inArray(OrganizationPhotosTable.organization_id, orgIds))
+      .orderBy(OrganizationPhotosTable.display_order),
   ]);
 
-  const industryIds = orgIndustryMappings
-    .map((mapping) => mapping.industry_id)
-    .filter((id): id is number => id !== null);
-  const cityIds = orgCityMappings
-    .map((mapping) => mapping.city_id)
-    .filter((id): id is number => id !== null);
-  const serviceIds = orgServiceMappings
-    .map((mapping) => mapping.service_id)
-    .filter((id): id is number => id !== null);
+  const industryIds = orgIndustryMappings.map((m) => m.industry_id).filter((id): id is number => id !== null);
+  const cityIds = orgCityMappings.map((m) => m.city_id).filter((id): id is number => id !== null);
+  const serviceIds = orgServiceMappings.map((m) => m.service_id).filter((id): id is number => id !== null);
+  const affinityIds = orgAffinityMappings.map((m) => m.affinity_id).filter((id): id is number => id !== null);
 
-  const [industries, cities, services] = await Promise.all([
+  const [industries, cities, services, affinities] = await Promise.all([
     fetchIndustries(industryIds),
     fetchCities(cityIds),
     fetchServices(serviceIds),
+    affinityIds.length > 0
+      ? db.select({ id: AffinitiesTable.id, name: AffinitiesTable.name }).from(AffinitiesTable).where(inArray(AffinitiesTable.id, affinityIds))
+      : Promise.resolve([] as AffinityType[]),
   ]);
 
   return mapDataToOrganizations(
@@ -51,7 +63,10 @@ async function enrichOrganizations(
     orgCityMappings,
     cities,
     orgServiceMappings,
-    services
+    services,
+    orgAffinityMappings,
+    affinities,
+    orgPhotos
   );
 }
 
@@ -268,36 +283,33 @@ function mapDataToOrganizations(
   cityMappings: any[],
   cities: any[],
   serviceMappings: any[],
-  services: any[]
+  services: any[],
+  affinityMappings: any[] = [],
+  affinities: any[] = [],
+  orgPhotos: any[] = []
 ) {
-  const organizationsWithData = organizations.map((org) => ({
+  return organizations.map((org) => ({
     ...org,
     industries: industryMappings
-      .filter((mapping) => mapping.organization_id === org.id)
-      .map((mapping): IndustryType | null => {
-        const industry = industries.find(
-          (ind) => ind.id === mapping.industry_id
-        );
-        return industry || null;
-      })
-      .filter((industry): industry is IndustryType => industry !== null),
+      .filter((m) => m.organization_id === org.id)
+      .map((m): IndustryType | null => industries.find((i) => i.id === m.industry_id) || null)
+      .filter((i): i is IndustryType => i !== null),
     cities: cityMappings
-      .filter((mapping) => mapping.organization_id === org.id)
-      .map((mapping): CityType | null => {
-        const city = cities.find((c) => c.id === mapping.city_id);
-        return city || null;
-      })
-      .filter((city): city is CityType => city !== null),
+      .filter((m) => m.organization_id === org.id)
+      .map((m): CityType | null => cities.find((c) => c.id === m.city_id) || null)
+      .filter((c): c is CityType => c !== null),
     services: serviceMappings
-      .filter((mapping) => mapping.organization_id === org.id)
-      .map((mapping): ServiceType | null => {
-        const service = services.find((s) => s.id === mapping.service_id);
-        return service || null;
-      })
-      .filter((service): service is ServiceType => service !== null),
+      .filter((m) => m.organization_id === org.id)
+      .map((m): ServiceType | null => services.find((s) => s.id === m.service_id) || null)
+      .filter((s): s is ServiceType => s !== null),
+    affinities: affinityMappings
+      .filter((m) => m.organization_id === org.id)
+      .map((m): AffinityType | null => affinities.find((a) => a.id === m.affinity_id) || null)
+      .filter((a): a is AffinityType => a !== null),
+    gallery_photos: orgPhotos
+      .filter((p) => p.organization_id === org.id)
+      .map((p): OrgPhotoType => ({ id: p.id, url: p.url, display_order: p.display_order })),
   }));
-
-  return organizationsWithData;
 }
 
 // ** EVENT FETCH FUNCTIONS **

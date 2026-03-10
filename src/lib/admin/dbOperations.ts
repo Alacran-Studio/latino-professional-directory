@@ -3,9 +3,18 @@ import {
   OrganizationsTable,
   UserOrganizationsTable,
   FeaturedOrgsTable,
+  OrganizationIndustries,
+  OrganizationServices,
+  OrganizationCities,
+  OrganizationAffinities,
+  OrganizationPhotosTable,
+  IndustriesTable,
+  KeyServicesTable,
+  CitiesTable,
+  AffinitiesTable,
 } from "../../../drizzle/schema";
 import { eq, inArray, sql } from "drizzle-orm";
-import type { AdminOrg, OrgStatus } from "@/types/admin";
+import type { AdminOrg, AdminOrgPhoto, AdminOrgRelated, OrgStatus } from "@/types/admin";
 
 export interface FeaturedOrg {
   id: number;
@@ -47,7 +56,44 @@ export async function fetchOrgById(id: number): Promise<AdminOrg | null> {
     .where(eq(OrganizationsTable.id, id));
 
   if (rows.length === 0) return null;
-  return rows[0] as AdminOrg;
+  const org = rows[0] as AdminOrg;
+
+  const [industries, services, cities, affinities, gallery_photos] = await Promise.all([
+    db
+      .select({ id: IndustriesTable.id, name: IndustriesTable.name })
+      .from(OrganizationIndustries)
+      .innerJoin(IndustriesTable, eq(OrganizationIndustries.industry_id, IndustriesTable.id))
+      .where(eq(OrganizationIndustries.organization_id, id)),
+    db
+      .select({ id: KeyServicesTable.id, name: KeyServicesTable.name })
+      .from(OrganizationServices)
+      .innerJoin(KeyServicesTable, eq(OrganizationServices.service_id, KeyServicesTable.id))
+      .where(eq(OrganizationServices.organization_id, id)),
+    db
+      .select({ id: CitiesTable.id, name: CitiesTable.name })
+      .from(OrganizationCities)
+      .innerJoin(CitiesTable, eq(OrganizationCities.city_id, CitiesTable.id))
+      .where(eq(OrganizationCities.organization_id, id)),
+    db
+      .select({ id: AffinitiesTable.id, name: AffinitiesTable.name })
+      .from(OrganizationAffinities)
+      .innerJoin(AffinitiesTable, eq(OrganizationAffinities.affinity_id, AffinitiesTable.id))
+      .where(eq(OrganizationAffinities.organization_id, id)),
+    db
+      .select({ id: OrganizationPhotosTable.id, url: OrganizationPhotosTable.url, display_order: OrganizationPhotosTable.display_order })
+      .from(OrganizationPhotosTable)
+      .where(eq(OrganizationPhotosTable.organization_id, id))
+      .orderBy(OrganizationPhotosTable.display_order),
+  ]);
+
+  return {
+    ...org,
+    industries: industries as AdminOrgRelated[],
+    services: services as AdminOrgRelated[],
+    cities: cities as AdminOrgRelated[],
+    affinities: affinities as AdminOrgRelated[],
+    gallery_photos: gallery_photos as AdminOrgPhoto[],
+  };
 }
 
 export async function updateOrg(
@@ -66,6 +112,67 @@ export async function updateOrg(
     .update(OrganizationsTable)
     .set({ ...data, updated_at: new Date().toISOString() })
     .where(eq(OrganizationsTable.id, id));
+}
+
+export async function updateOrgIndustries(orgId: number, industryIds: number[]) {
+  await db.delete(OrganizationIndustries).where(eq(OrganizationIndustries.organization_id, orgId));
+  if (industryIds.length > 0) {
+    await db.insert(OrganizationIndustries).values(
+      industryIds.map((industry_id) => ({ organization_id: orgId, industry_id }))
+    );
+  }
+}
+
+export async function updateOrgServices(orgId: number, serviceIds: number[]) {
+  await db.delete(OrganizationServices).where(eq(OrganizationServices.organization_id, orgId));
+  if (serviceIds.length > 0) {
+    await db.insert(OrganizationServices).values(
+      serviceIds.map((service_id) => ({ organization_id: orgId, service_id }))
+    );
+  }
+}
+
+export async function updateOrgCities(orgId: number, cityIds: number[]) {
+  await db.delete(OrganizationCities).where(eq(OrganizationCities.organization_id, orgId));
+  if (cityIds.length > 0) {
+    await db.insert(OrganizationCities).values(
+      cityIds.map((city_id) => ({ organization_id: orgId, city_id }))
+    );
+  }
+}
+
+export async function updateOrgAffinities(orgId: number, affinityIds: number[]) {
+  await db.delete(OrganizationAffinities).where(eq(OrganizationAffinities.organization_id, orgId));
+  if (affinityIds.length > 0) {
+    await db.insert(OrganizationAffinities).values(
+      affinityIds.map((affinity_id) => ({ organization_id: orgId, affinity_id }))
+    );
+  }
+}
+
+export async function updateOrgGalleryPhotos(orgId: number, urls: string[]) {
+  await db.delete(OrganizationPhotosTable).where(eq(OrganizationPhotosTable.organization_id, orgId));
+  if (urls.length > 0) {
+    await db.insert(OrganizationPhotosTable).values(
+      urls.map((url, i) => ({ organization_id: orgId, url, display_order: i }))
+    );
+  }
+}
+
+export async function fetchAllIndustries(): Promise<AdminOrgRelated[]> {
+  return db.select({ id: IndustriesTable.id, name: IndustriesTable.name }).from(IndustriesTable).orderBy(IndustriesTable.name);
+}
+
+export async function fetchAllServices(): Promise<AdminOrgRelated[]> {
+  return db.select({ id: KeyServicesTable.id, name: KeyServicesTable.name }).from(KeyServicesTable).orderBy(KeyServicesTable.name);
+}
+
+export async function fetchAllCities(): Promise<AdminOrgRelated[]> {
+  return db.select({ id: CitiesTable.id, name: CitiesTable.name }).from(CitiesTable).orderBy(CitiesTable.name);
+}
+
+export async function fetchAllAffinities(): Promise<AdminOrgRelated[]> {
+  return db.select({ id: AffinitiesTable.id, name: AffinitiesTable.name }).from(AffinitiesTable).orderBy(AffinitiesTable.name);
 }
 
 export async function updateOrgStatus(id: number, status: OrgStatus) {

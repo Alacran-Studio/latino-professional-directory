@@ -158,3 +158,11 @@ export const OrganizationServices = lpddSchema.table("organization_services", {
   organization_id: integer("organization_id").references(() => OrganizationsTable.id),
   service_id: integer("service_id").references(() => KeyServicesTable.id),
 });
+
+export const OrganizationPhotosTable = lpddSchema.table("organization_photos", {
+  id: serial("id").primaryKey(),
+  organization_id: integer("organization_id").notNull().references(() => OrganizationsTable.id),
+  url: text("url").notNull(),
+  display_order: integer("display_order").notNull().default(0),
+  created_at: text("created_at").notNull().default("now()"),
+});
