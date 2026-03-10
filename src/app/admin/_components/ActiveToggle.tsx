@@ -14,11 +14,17 @@ export function ActiveToggle({ orgId, isActive }: ActiveToggleProps) {
 
   async function handleToggle() {
     if (loading) return;
-    setLoading(true);
     const next = !active;
-    const result = await toggleOrgActive(orgId, next);
-    if (result?.success) setActive(next);
-    setLoading(false);
+    setActive(next);
+    setLoading(true);
+    try {
+      const result = await toggleOrgActive(orgId, next);
+      if (!result?.success) setActive(!next); // revert on failure
+    } catch {
+      setActive(!next); // revert on error
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
