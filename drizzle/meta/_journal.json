@@ -141,6 +141,13 @@
       "when": 1773110639846,
       "tag": "20260310024359_nebulous_thunderbolt",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1773167393983,
+      "tag": "20260310182953_add_is_active_to_organizations",
+      "breakpoints": true
     }
   ]
 }
