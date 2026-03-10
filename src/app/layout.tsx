@@ -7,7 +7,7 @@ import StructuredData from "@/components/StructuredData";
 import { PropsWithChildren } from "react";
 import { InternalNavigationLinks } from "./types";
 import { getBodyFont, getFontVariables } from "@/lib/utils";
-import { APP_NAME, APP_DESCRIPTION, APP_DESCRIPTION_LONG } from "@/lib/constants";
+import { APP_NAME, APP_DESCRIPTION, APP_DESCRIPTION_LONG, APP_URL } from "@/lib/constants";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Toaster } from "sonner";
 
@@ -62,6 +62,7 @@ const internalLinks: InternalNavigationLinks = [
 ];
 
 export const metadata: Metadata = {
+  metadataBase: new URL(APP_URL),
   title: APP_NAME,
   description: APP_DESCRIPTION,
   openGraph: {

@@ -20,13 +20,22 @@ import {
 } from "@/lib/dbOperations";
 import { APP_NAME } from "@/lib/constants";
 
+const COVER_FALLBACK =
+  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop";
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const org = await fetchOrganizationBySlug(slug);
+
+  let org;
+  try {
+    org = await fetchOrganizationBySlug(slug);
+  } catch {
+    return {};
+  }
   if (!org) return {};
 
   const title = `${org.name} | ${APP_NAME}`;
@@ -35,7 +44,12 @@ export async function generateMetadata({
     : isValidString(org.description)
     ? org.description.slice(0, 160)
     : undefined;
-  const image = isValidString(org.photo_url) ? org.photo_url : undefined;
+
+  const image = isValidString(org.photo_url)
+    ? org.photo_url
+    : isValidString(org.logo_url)
+    ? org.logo_url
+    : COVER_FALLBACK;
 
   return {
     title,
@@ -43,19 +57,16 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      ...(image && { images: [{ url: image, width: 1200, height: 400 }] }),
+      images: [{ url: image, width: 1200, height: 400 }],
     },
     twitter: {
-      card: image ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title,
       description,
-      ...(image && { images: [image] }),
+      images: [image],
     },
   };
 }
-
-const COVER_FALLBACK =
-  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop";
 
 interface PageProps {
   slug: string;
