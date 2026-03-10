@@ -16,6 +16,7 @@ export interface AdminOrgRelated {
 export interface AdminOrg {
   id: number;
   name: string;
+  slug: string;
   logo_url: string | null;
   description: string | null;
   short_description: string | null;

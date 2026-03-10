@@ -11,13 +11,14 @@ import { trackOrgClick } from "@/lib/analytics";
 
 export default function DirectoryOrg({
   id,
+  slug,
   logo_url,
   name,
   short_description,
   industries,
 }: DirectoryOrgType) {
   return (
-    <Link href={`/organizations/${id}`} onClick={() => trackOrgClick(id, name)}>
+    <Link href={`/organizations/${slug}`} onClick={() => trackOrgClick(id, name)}>
       <div className="flex w-full cursor-pointer flex-col items-center rounded-lg border border-border bg-card p-6 shadow-lg shadow-gray-300 transition duration-300 ease-in-out hover:bg-cardHover sm:flex-row dark:shadow-gray-800">
         {/* Organization Logo */}
         {isValidString(logo_url) && (

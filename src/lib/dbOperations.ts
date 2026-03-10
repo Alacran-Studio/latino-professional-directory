@@ -161,6 +161,38 @@ export async function fetchOrganization(
   }
 }
 
+export async function fetchOrganizationBySlug(
+  slug: string
+): Promise<DirectoryOrgType | null> {
+  try {
+    const organization = await db
+      .select()
+      .from(OrganizationsTable)
+      .where(
+        and(
+          eq(OrganizationsTable.slug, slug),
+          eq(OrganizationsTable.status, "approved")
+        )
+      );
+    if (organization.length === 0) return null;
+    const enriched = await enrichOrganizations(organization);
+    return enriched[0];
+  } catch (error) {
+    console.error("Error in fetchOrganizationBySlug:", error);
+    throw error;
+  }
+}
+
+export async function fetchOrgSlugById(
+  id: number
+): Promise<string | null> {
+  const rows = await db
+    .select({ slug: OrganizationsTable.slug })
+    .from(OrganizationsTable)
+    .where(eq(OrganizationsTable.id, id));
+  return rows[0]?.slug ?? null;
+}
+
 export async function fetchIndustries(
   industryIds?: number[]
 ): Promise<IndustryType[]> {

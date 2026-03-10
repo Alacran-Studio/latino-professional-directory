@@ -1,6 +1,6 @@
 import * as React from "react";
-import { DirectoryOrgType } from "@/app/types";
-import { notFound } from "next/navigation";
+import { DirectoryOrgType, OrgPhotoType } from "@/app/types";
+import { notFound, permanentRedirect } from "next/navigation";
 import Tags from "@/components/Directory/Tags";
 import Image from "next/image";
 import Header1 from "@/components/common/Header1";
@@ -10,36 +10,40 @@ import CoverImage from "@/components/common/CoverImage";
 import { isValidString } from "@/lib/utils";
 import EventCard from "@/components/Events/EventCard";
 import { LocationMarkerIcon, GlobeAltIcon } from "@heroicons/react/outline";
-import { headers } from "next/headers";
 import OrgWebsiteLink from "./_components/OrgWebsiteLink";
+import {
+  fetchOrganizationBySlug,
+  fetchOrgSlugById,
+  fetchEventsForOrganization,
+} from "@/lib/dbOperations";
 
 const COVER_FALLBACK =
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop";
 
 interface PageProps {
-  id: string;
+  slug: string;
 }
 
 export default async function Page({ params }: { params: Promise<PageProps> }) {
-  const id = (await params).id;
+  const { slug } = await params;
 
-  const headersList = await headers();
-  const host = headersList.get("host") || "localhost:3000";
-  const protocol = headersList.get("x-forwarded-proto") || "http";
-  const baseUrl = `${protocol}://${host}`;
+  // Slug-first: try to find org by slug (handles "1871" slug correctly)
+  let org: DirectoryOrgType | null = await fetchOrganizationBySlug(slug);
 
-  const response = await fetch(`${baseUrl}/api/organizations/${id}`, {
-    cache: "no-store",
-  });
+  // Not found by slug — check if it's a legacy numeric ID and redirect
+  if (!org) {
+    const numericId = Number(slug);
+    if (Number.isInteger(numericId) && numericId > 0 && String(numericId) === slug) {
+      const resolvedSlug = await fetchOrgSlugById(numericId);
+      if (resolvedSlug) permanentRedirect(`/organizations/${resolvedSlug}`);
+    }
+    notFound();
+  }
 
-  if (!response.ok) notFound();
-
-  const { organization } = await response.json();
-  const org: DirectoryOrgType = organization;
-
-  if (undefined == org) notFound();
+  const events = await fetchEventsForOrganization(org.id);
 
   const {
+    id,
     name,
     description,
     short_description,
@@ -52,7 +56,6 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     photo_url,
     video_url,
     cities = [],
-    events = [],
   } = org;
 
   const coverSrc = isValidString(photo_url) ? photo_url : COVER_FALLBACK;
@@ -194,7 +197,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
               Gallery
             </h2>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {gallery_photos.map((photo) => (
+              {gallery_photos.map((photo: OrgPhotoType) => (
                 <div
                   key={photo.id}
                   className="relative aspect-square overflow-hidden rounded-xl border border-border"
@@ -240,6 +243,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
             </div>
           </section>
         )}
+
       </div>
     </article>
   );

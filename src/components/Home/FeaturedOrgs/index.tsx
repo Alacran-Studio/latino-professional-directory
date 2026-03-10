@@ -39,6 +39,7 @@ export default async function FeaturedOrgs({ className = "" }: { className?: str
             <FeaturedOrgCard
               key={org.id}
               id={org.id}
+              slug={org.slug}
               name={org.name}
               logoUrl={org.logo_url}
               shortDescription={org.short_description}
