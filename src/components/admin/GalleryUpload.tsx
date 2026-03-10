@@ -72,7 +72,7 @@ export function GalleryUpload({ initialUrls, folder }: GalleryUploadProps) {
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
         {photos.map((url, i) => (
           <div key={i} className="group relative aspect-square overflow-hidden rounded-lg border border-border">
-            <Image src={url} alt={`Gallery photo ${i + 1}`} fill className="object-cover" />
+            <Image src={url} alt={`Gallery photo ${i + 1}`} fill sizes="150px" className="object-cover" />
             <button
               type="button"
               onClick={() => remove(i)}

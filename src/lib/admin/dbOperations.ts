@@ -106,7 +106,12 @@ export async function updateOrg(
     website_url?: string;
     logo_url?: string;
     photo_url?: string;
+    banner_position?: string;
     video_url?: string;
+    linkedin_url?: string;
+    instagram_url?: string;
+    facebook_url?: string;
+    x_url?: string;
   }
 ) {
   const updateData: Record<string, unknown> = {

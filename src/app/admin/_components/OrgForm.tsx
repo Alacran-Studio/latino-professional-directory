@@ -6,6 +6,7 @@ import { updateOrganization } from "../organizations/[id]/_actions/updateOrganiz
 import { CloudinaryUpload } from "@/components/admin/CloudinaryUpload";
 import { MultiSelect } from "@/components/admin/MultiSelect";
 import { GalleryUpload } from "@/components/admin/GalleryUpload";
+import { RequestOptionModal } from "@/components/admin/RequestOptionModal";
 import type { AdminOrg, AdminOrgRelated } from "@/types/admin";
 
 interface OrgFormProps {
@@ -31,21 +32,14 @@ export function OrgForm({
   // Image URL state (controlled so we can inject hidden inputs)
   const [logoUrl, setLogoUrl] = useState(org.logo_url ?? "");
   const [bannerUrl, setBannerUrl] = useState(org.photo_url ?? "");
+  const [bannerPosition, setBannerPosition] = useState(org.banner_position ?? "50% 50%");
   const [videoUrl, setVideoUrl] = useState(org.video_url ?? "");
 
-  // Multi-select state
-  const [selectedIndustries, setSelectedIndustries] = useState<number[]>(
-    (org.industries ?? []).map((i) => i.id)
-  );
-  const [selectedServices, setSelectedServices] = useState<number[]>(
-    (org.services ?? []).map((s) => s.id)
-  );
-  const [selectedCities, setSelectedCities] = useState<number[]>(
-    (org.cities ?? []).map((c) => c.id)
-  );
-  const [selectedAffinities, setSelectedAffinities] = useState<number[]>(
-    (org.affinities ?? []).map((a) => a.id)
-  );
+  // Multi-select state (full objects for FilterDropdown compatibility)
+  const [selectedIndustries, setSelectedIndustries] = useState(org.industries ?? []);
+  const [selectedServices, setSelectedServices] = useState(org.services ?? []);
+  const [selectedCities, setSelectedCities] = useState(org.cities ?? []);
+  const [selectedAffinities, setSelectedAffinities] = useState(org.affinities ?? []);
 
   async function handleSubmit(formData: FormData) {
     setError(null);
@@ -61,6 +55,7 @@ export function OrgForm({
       setSuccess(true);
       router.refresh();
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return (
@@ -117,10 +112,16 @@ export function OrgForm({
           folder="lpdd/banners"
           label="Banner Image"
           currentUrl={bannerUrl}
+          currentPosition={bannerPosition}
           onUpload={setBannerUrl}
+          onPositionChange={setBannerPosition}
           aspectRatio="banner"
         />
+        <p className="-mt-1 text-xs text-secondary-foreground">
+          Use a landscape image for best results — recommended 1200×400px or wider.
+        </p>
         <input type="hidden" name="photo_url" value={bannerUrl} />
+        <input type="hidden" name="banner_position" value={bannerPosition} />
 
         <GalleryUpload
           folder="lpdd/gallery"
@@ -141,29 +142,38 @@ export function OrgForm({
           Classification
         </h2>
 
-        <MultiSelect
-          label="Focus Industries"
-          name="industry_ids"
-          options={allIndustries}
-          selected={selectedIndustries}
-          onChange={setSelectedIndustries}
-        />
+        <div className="space-y-1.5">
+          <MultiSelect
+            label="Focus Industries"
+            name="industry_ids"
+            options={allIndustries}
+            selected={selectedIndustries}
+            onChange={setSelectedIndustries}
+          />
+          <RequestOptionModal orgName={org.name} orgId={org.id} optionType="industry" />
+        </div>
 
-        <MultiSelect
-          label="Key Services"
-          name="service_ids"
-          options={allServices}
-          selected={selectedServices}
-          onChange={setSelectedServices}
-        />
+        <div className="space-y-1.5">
+          <MultiSelect
+            label="Key Services"
+            name="service_ids"
+            options={allServices}
+            selected={selectedServices}
+            onChange={setSelectedServices}
+          />
+          <RequestOptionModal orgName={org.name} orgId={org.id} optionType="service" />
+        </div>
 
-        <MultiSelect
-          label="Communities"
-          name="affinity_ids"
-          options={allAffinities}
-          selected={selectedAffinities}
-          onChange={setSelectedAffinities}
-        />
+        <div className="space-y-1.5">
+          <MultiSelect
+            label="Communities"
+            name="affinity_ids"
+            options={allAffinities}
+            selected={selectedAffinities}
+            onChange={setSelectedAffinities}
+          />
+          <RequestOptionModal orgName={org.name} orgId={org.id} optionType="community" />
+        </div>
 
         <MultiSelect
           label="Locations"
@@ -172,6 +182,17 @@ export function OrgForm({
           selected={selectedCities}
           onChange={setSelectedCities}
         />
+      </section>
+
+      {/* ── Social Links ── */}
+      <section className="space-y-5">
+        <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
+          Social Links
+        </h2>
+        <Field label="LinkedIn" name="linkedin_url" defaultValue={org.linkedin_url ?? ""} placeholder="https://linkedin.com/company/..." />
+        <Field label="Instagram" name="instagram_url" defaultValue={org.instagram_url ?? ""} placeholder="https://instagram.com/..." />
+        <Field label="Facebook" name="facebook_url" defaultValue={org.facebook_url ?? ""} placeholder="https://facebook.com/..." />
+        <Field label="X (Twitter)" name="x_url" defaultValue={org.x_url ?? ""} placeholder="https://x.com/..." />
       </section>
 
       <button

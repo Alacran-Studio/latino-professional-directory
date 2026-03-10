@@ -29,7 +29,12 @@ export interface DirectoryOrgType {
   affinities: AffinityType[];
   gallery_photos: OrgPhotoType[];
   photo_url: string;
+  banner_position: string;
   video_url: string;
+  linkedin_url: string;
+  instagram_url: string;
+  facebook_url: string;
+  x_url: string;
   cities: CityType[];
   events?: EventType[];
 }

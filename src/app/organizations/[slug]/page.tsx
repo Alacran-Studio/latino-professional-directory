@@ -11,6 +11,7 @@ import { isValidString } from "@/lib/utils";
 import EventCard from "@/components/Events/EventCard";
 import { LocationMarkerIcon, GlobeAltIcon } from "@heroicons/react/outline";
 import OrgWebsiteLink from "./_components/OrgWebsiteLink";
+import SocialLinks from "./_components/SocialLinks";
 import {
   fetchOrganizationBySlug,
   fetchOrgSlugById,
@@ -54,7 +55,12 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     affinities = [],
     gallery_photos = [],
     photo_url,
+    banner_position,
     video_url,
+    linkedin_url,
+    instagram_url,
+    facebook_url,
+    x_url,
     cities = [],
   } = org;
 
@@ -76,6 +82,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
           src={coverSrc}
           fallback={COVER_FALLBACK}
           alt={`${name} cover photo`}
+          objectPosition={banner_position ?? "50% 50%"}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/40" />
         <div className="absolute left-4 top-4 z-10 sm:left-7 md:left-14">
@@ -92,6 +99,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 src={logo_url}
                 alt={`${name} logo`}
                 fill
+                sizes="96px"
                 className="object-scale-down"
               />
             </div>
@@ -141,7 +149,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 <div className="space-y-3">
                   {isValidString(cityText) && (
                     <div className="flex items-center gap-3">
-                      <LocationMarkerIcon className="h-5 w-5 flex-shrink-0 text-brandGold" />
+                      <LocationMarkerIcon className="h-5 w-5 flex-shrink-0 text-primary" />
                       <span className="text-secondary-foreground">{cityText}</span>
                     </div>
                   )}
@@ -153,6 +161,12 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                     />
                   )}
                 </div>
+                <SocialLinks
+                  linkedin_url={linkedin_url}
+                  instagram_url={instagram_url}
+                  facebook_url={facebook_url}
+                  x_url={x_url}
+                />
               </section>
             )}
 
@@ -196,7 +210,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
             <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
               Gallery
             </h2>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               {gallery_photos.map((photo: OrgPhotoType) => (
                 <div
                   key={photo.id}
@@ -206,6 +220,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                     src={photo.url}
                     alt={`${name} gallery photo`}
                     fill
+                    sizes="(max-width: 640px) 50vw, 33vw"
                     className="object-cover"
                   />
                 </div>
@@ -225,7 +240,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 src={embedUrl}
                 title={`${name} video`}
                 className="h-full w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
                 allowFullScreen
               />
             </div>
