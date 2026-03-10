@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { StatusBadge } from "./StatusBadge";
+import { DeleteOrgButton } from "./DeleteOrgButton";
 import type { AdminOrg, OrgStatus, UserRole } from "@/types/admin";
 
 interface OrgTableProps {
@@ -88,12 +89,17 @@ export function OrgTable({ organizations, role }: OrgTableProps) {
                   {org.website_url}
                 </td>
                 <td className="px-4 py-3 text-right">
-                  <Link
-                    href={`/admin/organizations/${org.id}`}
-                    className="text-sm font-medium text-primary hover:underline"
-                  >
-                    Edit
-                  </Link>
+                  <div className="flex items-center justify-end gap-2">
+                    <Link
+                      href={`/admin/organizations/${org.id}`}
+                      className="text-sm font-medium text-primary hover:underline"
+                    >
+                      Edit
+                    </Link>
+                    {role === "system_admin" && org.status === "rejected" && (
+                      <DeleteOrgButton orgId={org.id} orgName={org.name} iconOnly />
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}
