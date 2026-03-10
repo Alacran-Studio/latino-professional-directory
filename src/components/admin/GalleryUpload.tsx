@@ -8,9 +8,10 @@ const MAX_PHOTOS = 6;
 interface GalleryUploadProps {
   initialUrls: string[];
   folder: string;
+  onPhotosChange?: (urls: string[]) => void;
 }
 
-export function GalleryUpload({ initialUrls, folder }: GalleryUploadProps) {
+export function GalleryUpload({ initialUrls, folder, onPhotosChange }: GalleryUploadProps) {
   const [photos, setPhotos] = useState<string[]>(initialUrls);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,7 +51,9 @@ export function GalleryUpload({ initialUrls, folder }: GalleryUploadProps) {
     try {
       const urls = await Promise.all(toUpload.map(uploadFile));
       const valid = urls.filter((u): u is string => u !== null);
-      setPhotos((prev) => [...prev, ...valid]);
+      const newPhotos = [...photos, ...valid];
+      setPhotos(newPhotos);
+      onPhotosChange?.(newPhotos);
     } catch {
       setError("Some uploads failed. Please try again.");
     } finally {
@@ -60,7 +63,9 @@ export function GalleryUpload({ initialUrls, folder }: GalleryUploadProps) {
   }
 
   function remove(index: number) {
-    setPhotos((prev) => prev.filter((_, i) => i !== index));
+    const newPhotos = photos.filter((_, i) => i !== index);
+    setPhotos(newPhotos);
+    onPhotosChange?.(newPhotos);
   }
 
   return (
@@ -80,7 +85,6 @@ export function GalleryUpload({ initialUrls, folder }: GalleryUploadProps) {
             >
               ×
             </button>
-            <input type="hidden" name="gallery_photo_urls" value={url} />
           </div>
         ))}
 

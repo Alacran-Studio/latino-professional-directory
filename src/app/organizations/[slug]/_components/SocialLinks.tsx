@@ -49,20 +49,26 @@ export default function SocialLinks({ linkedin_url, instagram_url, facebook_url,
 
   if (links.length === 0) return null;
 
+  function normalizeUrl(url: string) {
+    if (url.startsWith("http://") || url.startsWith("https://")) return url;
+    return `https://${url}`;
+  }
+
   return (
-    <div className="flex items-center gap-3">
+    <>
       {links.map(({ url, Icon, label }) => (
-        <a
-          key={label}
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={label}
-          className="text-secondary-foreground transition-colors hover:text-primary"
-        >
-          <Icon />
-        </a>
+        <div key={label} className="flex items-center gap-3">
+          <span className="flex-shrink-0 text-primary"><Icon /></span>
+          <a
+            href={normalizeUrl(url)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline-offset-2 hover:underline"
+          >
+            {label}
+          </a>
+        </div>
       ))}
-    </div>
+    </>
   );
 }

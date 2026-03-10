@@ -9,6 +9,7 @@ import { InternalNavigationLinks } from "./types";
 import { getBodyFont, getFontVariables } from "@/lib/utils";
 import { APP_NAME, APP_DESCRIPTION, APP_DESCRIPTION_LONG } from "@/lib/constants";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Toaster } from "sonner";
 
 const darkModeDisabled = process.env.NEXT_PUBLIC_DISABLE_DARK_MODE === "true";
 
@@ -105,5 +106,8 @@ export default function RootLayout({
 }
 
 const Providers = ({ children }: React.PropsWithChildren) => (
-  <AppSidebarProvider>{children}</AppSidebarProvider>
+  <AppSidebarProvider>
+    {children}
+    <Toaster position="bottom-center" richColors />
+  </AppSidebarProvider>
 );

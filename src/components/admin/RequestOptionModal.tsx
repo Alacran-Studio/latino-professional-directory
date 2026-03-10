@@ -26,8 +26,7 @@ export function RequestOptionModal({ orgName, orgId, optionType }: RequestOption
 
   const label = labelMap[optionType];
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleSubmit() {
     setLoading(true);
     setError(null);
 
@@ -90,7 +89,7 @@ export function RequestOptionModal({ orgName, orgId, optionType }: RequestOption
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4">
                 <div>
                   <h2 className="font-lexend text-lg font-semibold text-foreground">
                     Request a new {label}
@@ -110,7 +109,6 @@ export function RequestOptionModal({ orgName, orgId, optionType }: RequestOption
                     onChange={(e) => setValue(e.target.value)}
                     placeholder={`e.g. ${optionType === "industry" ? "Architecture" : optionType === "service" ? "Job Board" : "LGBTQ+"}`}
                     className="w-full rounded-md border-2 border-border bg-background px-3 py-2 text-sm text-foreground"
-                    required
                   />
                 </div>
 
@@ -125,14 +123,15 @@ export function RequestOptionModal({ orgName, orgId, optionType }: RequestOption
                     Cancel
                   </button>
                   <button
-                    type="submit"
-                    disabled={loading}
+                    type="button"
+                    onClick={handleSubmit}
+                    disabled={loading || !value.trim()}
                     className="rounded-xl bg-primary px-5 py-2 text-sm font-medium text-neutralLight disabled:opacity-50"
                   >
                     {loading ? "Sending…" : "Send request"}
                   </button>
                 </div>
-              </form>
+              </div>
             )}
           </div>
         </div>

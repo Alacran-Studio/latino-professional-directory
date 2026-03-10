@@ -66,6 +66,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
 
   const coverSrc = isValidString(photo_url) ? photo_url : COVER_FALLBACK;
   const cityText = cities.map((c) => c.name).join(", ");
+  const hasSocialLinks = [linkedin_url, instagram_url, facebook_url, x_url].some(isValidString);
 
   // Embed-friendly video URL (YouTube short links → embed)
   const embedUrl = isValidString(video_url)
@@ -139,9 +140,10 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
         {/* Contact Info + Focus Industries */}
         {(isValidString(cityText) ||
           isValidString(website_url) ||
+          hasSocialLinks ||
           industries.length > 0) && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {(isValidString(cityText) || isValidString(website_url)) && (
+            {(isValidString(cityText) || isValidString(website_url) || hasSocialLinks) && (
               <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
                 <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
                   Contact Info
@@ -160,13 +162,13 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                       websiteUrl={website_url}
                     />
                   )}
+                  <SocialLinks
+                    linkedin_url={linkedin_url}
+                    instagram_url={instagram_url}
+                    facebook_url={facebook_url}
+                    x_url={x_url}
+                  />
                 </div>
-                <SocialLinks
-                  linkedin_url={linkedin_url}
-                  instagram_url={instagram_url}
-                  facebook_url={facebook_url}
-                  x_url={x_url}
-                />
               </section>
             )}
 

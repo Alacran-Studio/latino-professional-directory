@@ -18,6 +18,7 @@ export default function CoverImage({ src, fallback, alt, objectPosition = "50% 5
       src={imgSrc}
       alt={alt}
       fill
+      sizes="100vw"
       className="object-cover"
       style={{ objectPosition }}
       priority

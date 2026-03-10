@@ -101,17 +101,17 @@ export async function updateOrg(
   id: number,
   data: {
     name?: string;
-    description?: string;
-    short_description?: string;
+    description?: string | null;
+    short_description?: string | null;
     website_url?: string;
-    logo_url?: string;
-    photo_url?: string;
-    banner_position?: string;
-    video_url?: string;
-    linkedin_url?: string;
-    instagram_url?: string;
-    facebook_url?: string;
-    x_url?: string;
+    logo_url?: string | null;
+    photo_url?: string | null;
+    banner_position?: string | null;
+    video_url?: string | null;
+    linkedin_url?: string | null;
+    instagram_url?: string | null;
+    facebook_url?: string | null;
+    x_url?: string | null;
   }
 ) {
   const updateData: Record<string, unknown> = {

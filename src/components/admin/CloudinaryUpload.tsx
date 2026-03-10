@@ -9,6 +9,7 @@ interface CloudinaryUploadProps {
   currentPosition?: string | null;
   onUpload: (url: string) => void;
   onPositionChange?: (position: string) => void;
+  onPositionSave?: (position: string) => void;
   label: string;
   aspectRatio?: "banner" | "square" | "free";
 }
@@ -19,6 +20,7 @@ export function CloudinaryUpload({
   currentPosition,
   onUpload,
   onPositionChange,
+  onPositionSave,
   label,
   aspectRatio = "free",
 }: CloudinaryUploadProps) {
@@ -39,6 +41,8 @@ export function CloudinaryUpload({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const positionStr = `${Math.round(position.x)}% ${Math.round(position.y)}%`;
+  const positionStrRef = useRef(positionStr);
+  positionStrRef.current = positionStr;
 
   // Emit position changes upward
   useEffect(() => {
@@ -75,6 +79,7 @@ export function CloudinaryUpload({
 
     function onMouseUp() {
       setIsDragging(false);
+      onPositionSave?.(positionStrRef.current);
     }
 
     window.addEventListener("mousemove", onMouseMove);
