@@ -18,6 +18,7 @@ export const OrganizationsTable = lpddSchema.table("organizations", {
   facebook_url: text("facebook_url"),
   x_url: text("x_url"),
   status: text("status").notNull().default("approved"),
+  is_active: text("is_active").notNull().default("true"),
   created_at: text("created_at").notNull().default("now()"),
   updated_at: text("updated_at").notNull().default("now()"),
 });

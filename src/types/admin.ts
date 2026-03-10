@@ -29,6 +29,7 @@ export interface AdminOrg {
   facebook_url: string | null;
   x_url: string | null;
   status: OrgStatus;
+  is_active: string;
   created_at: string;
   updated_at: string;
   // Related data (populated by fetchOrgById)
