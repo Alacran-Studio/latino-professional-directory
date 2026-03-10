@@ -1,6 +1,6 @@
 {
-  "id": "565b6d8c-099c-4256-a9db-8aef6dc7261c",
-  "prevId": "b74662f0-ed18-4029-96eb-6aefdc320875",
+  "id": "4519cf62-c9f0-4c8e-8c85-bef785264191",
+  "prevId": "565b6d8c-099c-4256-a9db-8aef6dc7261c",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -391,6 +391,121 @@
           "nullsNotDistinct": false,
           "columns": [
             "name"
+          ]
+        }
+      }
+    },
+    "lpdd.invites": {
+      "name": "invites",
+      "schema": "lpdd",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "invited_by": {
+          "name": "invited_by",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "accepted_at": {
+          "name": "accepted_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'now()'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "invites_organization_id_organizations_id_fk": {
+          "name": "invites_organization_id_organizations_id_fk",
+          "tableFrom": "invites",
+          "tableTo": "organizations",
+          "schemaTo": "lpdd",
+          "columnsFrom": [
+            "organization_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "invites_invited_by_users_id_fk": {
+          "name": "invites_invited_by_users_id_fk",
+          "tableFrom": "invites",
+          "tableTo": "users",
+          "schemaTo": "lpdd",
+          "columnsFrom": [
+            "invited_by"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "invites_token_unique": {
+          "name": "invites_token_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "token"
           ]
         }
       }
@@ -852,6 +967,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "logo_url": {
           "name": "logo_url",
           "type": "text",
@@ -908,13 +1029,6 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'now()'"
-        },
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "default": null
         }
       },
       "indexes": {},
@@ -928,18 +1042,18 @@
             "name"
           ]
         },
-        "organizations_website_url_unique": {
-          "name": "organizations_website_url_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "website_url"
-          ]
-        },
         "organizations_slug_unique": {
           "name": "organizations_slug_unique",
           "nullsNotDistinct": false,
           "columns": [
             "slug"
+          ]
+        },
+        "organizations_website_url_unique": {
+          "name": "organizations_website_url_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "website_url"
           ]
         }
       }

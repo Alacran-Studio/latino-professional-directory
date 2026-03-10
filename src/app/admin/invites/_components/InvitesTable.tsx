@@ -1,0 +1,135 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import type { AdminInvite, InviteStatus } from "@/types/admin";
+import { revokeInvite } from "../_actions/revokeInvite";
+
+interface InvitesTableProps {
+  invites: AdminInvite[];
+}
+
+const statusStyles: Record<InviteStatus, string> = {
+  pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
+  accepted: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
+  expired: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+};
+
+export function InvitesTable({ invites }: InvitesTableProps) {
+  const router = useRouter();
+  const [loading, setLoading] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleRevoke(inviteId: number) {
+    setLoading(inviteId);
+    setError(null);
+    const formData = new FormData();
+    formData.set("invite_id", String(inviteId));
+    const result = await revokeInvite(formData);
+    if (result?.error) {
+      setError(result.error);
+    } else {
+      router.refresh();
+    }
+    setLoading(null);
+  }
+
+  if (invites.length === 0) {
+    return (
+      <div className="rounded-lg border border-border bg-card p-8 text-center">
+        <p className="text-secondary-foreground">No invites sent yet.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {error && (
+        <div className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/30 dark:text-red-400">
+          {error}
+        </div>
+      )}
+
+      {/* Mobile: stacked cards */}
+      <div className="flex flex-col gap-3 md:hidden">
+        {invites.map((invite) => (
+          <div
+            key={invite.id}
+            className="rounded-lg border border-border bg-card p-4"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div>
+                <p className="text-sm font-medium text-foreground">
+                  {invite.first_name} {invite.last_name}
+                </p>
+                <p className="text-xs text-secondary-foreground">{invite.email}</p>
+                <p className="mt-1 text-xs text-secondary-foreground">{invite.organization_name}</p>
+              </div>
+              <span
+                className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${statusStyles[invite.status as InviteStatus]}`}
+              >
+                {invite.status}
+              </span>
+            </div>
+            {invite.status === "pending" && (
+              <button
+                onClick={() => handleRevoke(invite.id)}
+                disabled={loading !== null}
+                className="mt-3 rounded-md border border-red-300 px-3 py-1.5 text-sm text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/30"
+              >
+                {loading === invite.id ? "Revoking..." : "Revoke"}
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="hidden overflow-hidden rounded-lg border border-border md:block">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-border bg-card">
+              <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">Name</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">Email</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">Organization</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold text-foreground">Status</th>
+              <th className="px-4 py-3 text-right text-sm font-semibold text-foreground">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {invites.map((invite) => (
+              <tr
+                key={invite.id}
+                className="border-b border-border last:border-b-0 hover:bg-card-hover"
+              >
+                <td className="px-4 py-3 text-sm font-medium text-foreground">
+                  {invite.first_name} {invite.last_name}
+                </td>
+                <td className="px-4 py-3 text-sm text-secondary-foreground">{invite.email}</td>
+                <td className="px-4 py-3 text-sm text-secondary-foreground">{invite.organization_name}</td>
+                <td className="px-4 py-3 text-sm">
+                  <span
+                    className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${statusStyles[invite.status as InviteStatus]}`}
+                  >
+                    {invite.status}
+                  </span>
+                </td>
+                <td className="px-4 py-3 text-right">
+                  {invite.status === "pending" && (
+                    <button
+                      onClick={() => handleRevoke(invite.id)}
+                      disabled={loading !== null}
+                      className="text-sm font-medium text-red-600 hover:underline disabled:opacity-50 dark:text-red-400"
+                    >
+                      {loading === invite.id ? "Revoking..." : "Revoke"}
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
