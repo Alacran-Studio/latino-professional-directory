@@ -4,7 +4,7 @@ import { requireRole } from "@/lib/auth/requireAuth";
 import { setOrgActive, setOrgReadyForReview, fetchOrgById } from "@/lib/admin/dbOperations";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/drizzleClient";
-import { UserOrganizationsTable, UsersTable } from "../../../../../drizzle/schema";
+import { UserOrganizationsTable, UsersTable } from "../../../../../../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { sendEmail } from "@/lib/email/resend";
 import { orgLiveEmail } from "@/lib/email/templates/orgLive";
