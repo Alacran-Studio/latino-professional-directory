@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { acceptInvite } from "../_actions/acceptInvite";
+import { PasswordInput } from "@/components/common/PasswordInput";
 
 interface AcceptInviteFormProps {
   token: string;
@@ -80,12 +81,11 @@ export function AcceptInviteForm({ token, firstName, lastName, email }: AcceptIn
           <label className="mb-1 block text-sm font-medium text-foreground">
             Create Password
           </label>
-          <input
+          <PasswordInput
             name="password"
-            type="password"
             required
             minLength={6}
-            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            inputClassName="rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder="At least 6 characters"
           />
         </div>
@@ -94,12 +94,11 @@ export function AcceptInviteForm({ token, firstName, lastName, email }: AcceptIn
           <label className="mb-1 block text-sm font-medium text-foreground">
             Confirm Password
           </label>
-          <input
+          <PasswordInput
             name="confirm_password"
-            type="password"
             required
             minLength={6}
-            className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            inputClassName="rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             placeholder="Repeat your password"
           />
         </div>
