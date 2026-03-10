@@ -23,6 +23,7 @@ export async function addFeaturedOrgAction(formData: FormData) {
 
   revalidatePath("/admin/featured");
   revalidatePath("/");
+  revalidatePath("/directory");
 }
 
 export async function removeFeaturedOrgAction(formData: FormData) {
@@ -39,6 +40,7 @@ export async function removeFeaturedOrgAction(formData: FormData) {
 
   revalidatePath("/admin/featured");
   revalidatePath("/");
+  revalidatePath("/directory");
 }
 
 export async function swapFeaturedOrgAction(formData: FormData) {
@@ -59,4 +61,5 @@ export async function swapFeaturedOrgAction(formData: FormData) {
 
   revalidatePath("/admin/featured");
   revalidatePath("/");
+  revalidatePath("/directory");
 }

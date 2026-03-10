@@ -30,6 +30,7 @@ export interface AdminOrg {
   x_url: string | null;
   status: OrgStatus;
   is_active: string;
+  ready_for_review: string;
   created_at: string;
   updated_at: string;
   // Related data (populated by fetchOrgById)

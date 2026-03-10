@@ -133,7 +133,12 @@ export async function submitOrganization(data: SubmitData) {
   sendEmail({ to: email, subject: confirmSubject, html: confirmHtml });
 
   // 7. Auto sign-in (signUp may not auto-sign-in depending on Supabase config)
-  await supabase.auth.signInWithPassword({ email, password });
+  const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+  if (signInError) {
+    // Account and org were created — just couldn't auto-sign-in (e.g. email confirmation required).
+    // Return a flag so the client can redirect to /login instead.
+    return { success: true, requiresLogin: true };
+  }
 
   return { success: true };
 }

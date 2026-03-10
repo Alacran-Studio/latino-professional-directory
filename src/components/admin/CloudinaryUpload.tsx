@@ -100,6 +100,18 @@ export function CloudinaryUpload({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ folder }),
       });
+
+      if (!signRes.ok) {
+        const signErr = await signRes.json().catch(() => ({}));
+        fetch("/api/cloudinary/log-error", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ stage: "sign", status: signRes.status, error: signErr }),
+        }).catch(() => {});
+        setError(signRes.status === 401 ? "Session expired — please refresh and try again." : "Upload failed. Please try again.");
+        return;
+      }
+
       const { signature, timestamp, cloudName, apiKey } = await signRes.json();
 
       const formData = new FormData();
@@ -120,9 +132,19 @@ export function CloudinaryUpload({
         setPosition({ x: 50, y: 50 }); // reset position on new upload
         onUpload(data.secure_url);
       } else {
-        setError("Upload failed. Please try again.");
+        fetch("/api/cloudinary/log-error", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ stage: "upload", status: uploadRes.status, error: data.error }),
+        }).catch(() => {});
+        setError(data.error?.message ?? "Upload failed. Please try again.");
       }
-    } catch {
+    } catch (err) {
+      fetch("/api/cloudinary/log-error", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stage: "upload", message: String(err) }),
+      }).catch(() => {});
       setError("Upload failed. Please try again.");
     } finally {
       setUploading(false);

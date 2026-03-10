@@ -8,6 +8,8 @@ import {
   OrganizationCities,
   OrganizationAffinities,
   OrganizationPhotosTable,
+  OrganizationContacts,
+  InvitesTable,
   IndustriesTable,
   KeyServicesTable,
   CitiesTable,
@@ -195,11 +197,31 @@ export async function updateOrgStatus(id: number, status: OrgStatus) {
     .where(eq(OrganizationsTable.id, id));
 }
 
+export async function setOrgReadyForReview(id: number, ready: boolean) {
+  await db
+    .update(OrganizationsTable)
+    .set({ ready_for_review: ready ? "true" : "false", updated_at: new Date().toISOString() })
+    .where(eq(OrganizationsTable.id, id));
+}
+
 export async function setOrgActive(id: number, isActive: boolean) {
   await db
     .update(OrganizationsTable)
     .set({ is_active: isActive ? "true" : "false", updated_at: new Date().toISOString() })
     .where(eq(OrganizationsTable.id, id));
+}
+
+export async function deleteOrg(id: number): Promise<void> {
+  await db.delete(InvitesTable).where(eq(InvitesTable.organization_id, id));
+  await db.delete(UserOrganizationsTable).where(eq(UserOrganizationsTable.organization_id, id));
+  await db.delete(OrganizationPhotosTable).where(eq(OrganizationPhotosTable.organization_id, id));
+  await db.delete(FeaturedOrgsTable).where(eq(FeaturedOrgsTable.org_id, id));
+  await db.delete(OrganizationIndustries).where(eq(OrganizationIndustries.organization_id, id));
+  await db.delete(OrganizationServices).where(eq(OrganizationServices.organization_id, id));
+  await db.delete(OrganizationCities).where(eq(OrganizationCities.organization_id, id));
+  await db.delete(OrganizationAffinities).where(eq(OrganizationAffinities.organization_id, id));
+  await db.delete(OrganizationContacts).where(eq(OrganizationContacts.organization_id, id));
+  await db.delete(OrganizationsTable).where(eq(OrganizationsTable.id, id));
 }
 
 export async function fetchPendingOrgs(): Promise<AdminOrg[]> {

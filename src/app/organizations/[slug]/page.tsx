@@ -1,4 +1,5 @@
 import * as React from "react";
+import type { Metadata } from "next";
 import { DirectoryOrgType, OrgPhotoType } from "@/app/types";
 import { notFound, permanentRedirect } from "next/navigation";
 import Tags from "@/components/Directory/Tags";
@@ -17,6 +18,41 @@ import {
   fetchOrgSlugById,
   fetchEventsForOrganization,
 } from "@/lib/dbOperations";
+import { APP_NAME } from "@/lib/constants";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const org = await fetchOrganizationBySlug(slug);
+  if (!org) return {};
+
+  const title = `${org.name} | ${APP_NAME}`;
+  const description = isValidString(org.short_description)
+    ? org.short_description
+    : isValidString(org.description)
+    ? org.description.slice(0, 160)
+    : undefined;
+  const image = isValidString(org.photo_url) ? org.photo_url : undefined;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      ...(image && { images: [{ url: image, width: 1200, height: 400 }] }),
+    },
+    twitter: {
+      card: image ? "summary_large_image" : "summary",
+      title,
+      description,
+      ...(image && { images: [image] }),
+    },
+  };
+}
 
 const COVER_FALLBACK =
   "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&h=400&fit=crop";
