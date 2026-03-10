@@ -18,7 +18,7 @@ export default async function OrganizationsPage() {
         {role === "system_admin" ? "All Organizations" : "My Organizations"}
       </h1>
 
-      <OrgTable organizations={organizations} />
+      <OrgTable organizations={organizations} role={role} />
     </div>
   );
 }

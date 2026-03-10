@@ -13,6 +13,7 @@ export function ActiveToggle({ orgId, isActive }: ActiveToggleProps) {
   const [loading, setLoading] = useState(false);
 
   async function handleToggle() {
+    if (loading) return;
     setLoading(true);
     const next = !active;
     const result = await toggleOrgActive(orgId, next);
@@ -21,17 +22,27 @@ export function ActiveToggle({ orgId, isActive }: ActiveToggleProps) {
   }
 
   return (
-    <button
-      onClick={handleToggle}
-      disabled={loading}
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium transition-colors disabled:opacity-50 ${
-        active
-          ? "bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50"
-          : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
-      }`}
-    >
-      <span className={`h-1.5 w-1.5 rounded-full ${active ? "bg-green-500" : "bg-gray-400"}`} />
-      {loading ? "Saving..." : active ? "Active" : "Inactive"}
-    </button>
+    <div className="flex items-center gap-2">
+      <button
+        role="switch"
+        aria-checked={active}
+        onClick={handleToggle}
+        disabled={loading}
+        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed ${
+          active
+            ? "bg-green-500 dark:bg-green-600"
+            : "bg-gray-300 dark:bg-gray-600"
+        } ${loading ? "opacity-60" : ""}`}
+      >
+        <span
+          className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform duration-300 ${
+            active ? "translate-x-6" : "translate-x-1"
+          }`}
+        />
+      </button>
+      <span className="text-xs font-medium text-secondary-foreground">
+        {loading ? "Saving…" : active ? "Active" : "Inactive"}
+      </span>
+    </div>
   );
 }

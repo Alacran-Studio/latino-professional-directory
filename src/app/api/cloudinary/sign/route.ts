@@ -11,11 +11,13 @@ cloudinary.config({
 export async function POST(request: Request) {
   const authUser = await getAuthUser();
   if (!authUser) {
+    console.error("[cloudinary/sign] Unauthorized request — no valid session");
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const body = await request.json();
   const { folder, public_id } = body;
+  console.log(`[cloudinary/sign] Signing upload for user=${authUser.dbUser.id} folder=${folder}`);
 
   const timestamp = Math.round(new Date().getTime() / 1000);
 

@@ -47,7 +47,11 @@ export function JoinForm() {
       trackJoinSubmitError(result.error);
     } else {
       trackJoinSubmitted();
-      router.push("/admin?submitted=true");
+      if (result?.requiresLogin) {
+        router.push("/login?submitted=true");
+      } else {
+        router.push("/admin?submitted=true");
+      }
     }
   }
 

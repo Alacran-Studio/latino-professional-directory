@@ -22,6 +22,17 @@ export function GalleryUpload({ initialUrls, folder, onPhotosChange }: GalleryUp
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ folder }),
     });
+
+    if (!signRes.ok) {
+      const signErr = await signRes.json().catch(() => ({}));
+      fetch("/api/cloudinary/log-error", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stage: "sign", status: signRes.status, error: signErr }),
+      }).catch(() => {});
+      throw new Error(signRes.status === 401 ? "session_expired" : "sign_failed");
+    }
+
     const { signature, timestamp, cloudName, apiKey } = await signRes.json();
 
     const formData = new FormData();
@@ -36,7 +47,17 @@ export function GalleryUpload({ initialUrls, folder, onPhotosChange }: GalleryUp
       { method: "POST", body: formData }
     );
     const data = await res.json();
-    return data.secure_url ?? null;
+
+    if (!data.secure_url) {
+      fetch("/api/cloudinary/log-error", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stage: "upload", status: res.status, error: data.error }),
+      }).catch(() => {});
+      throw new Error(data.error?.message ?? "upload_failed");
+    }
+
+    return data.secure_url;
   }
 
   async function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
@@ -49,13 +70,29 @@ export function GalleryUpload({ initialUrls, folder, onPhotosChange }: GalleryUp
     setUploading(true);
 
     try {
-      const urls = await Promise.all(toUpload.map(uploadFile));
-      const valid = urls.filter((u): u is string => u !== null);
-      const newPhotos = [...photos, ...valid];
-      setPhotos(newPhotos);
-      onPhotosChange?.(newPhotos);
-    } catch {
-      setError("Some uploads failed. Please try again.");
+      const results = await Promise.allSettled(toUpload.map(uploadFile));
+      const valid = results
+        .filter((r): r is PromiseFulfilledResult<string> => r.status === "fulfilled")
+        .map((r) => r.value);
+      const failures = results.filter((r) => r.status === "rejected");
+
+      if (failures.length > 0) {
+        const firstErr = (failures[0] as PromiseRejectedResult).reason?.message ?? "";
+        if (firstErr === "session_expired") {
+          setError("Session expired — please refresh the page and try again.");
+        } else {
+          setError(`${failures.length} photo(s) failed to upload. Please try again.`);
+        }
+      }
+
+      if (valid.length > 0) {
+        const newPhotos = [...photos, ...valid];
+        setPhotos(newPhotos);
+        onPhotosChange?.(newPhotos);
+      }
+    } catch (err) {
+      console.error("[GalleryUpload] Unexpected error:", err);
+      setError("Upload failed. Please try again.");
     } finally {
       setUploading(false);
       e.target.value = "";
