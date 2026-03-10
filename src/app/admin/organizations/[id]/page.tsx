@@ -52,10 +52,13 @@ export default async function EditOrganizationPage({
         </Link>
       </div>
 
-      <div className="mb-6 flex items-center gap-3">
-        <h1 className="font-lexend text-2xl font-semibold text-foreground">
-          {org.name}
-        </h1>
+      <div className="mb-6 flex items-start gap-3">
+        <div>
+          <h1 className="font-lexend text-2xl font-semibold text-foreground">
+            {org.name}
+          </h1>
+          <p className="mt-0.5 text-sm text-secondary-foreground">Organization Profile</p>
+        </div>
         <StatusBadge status={org.status as OrgStatus} />
       </div>
 

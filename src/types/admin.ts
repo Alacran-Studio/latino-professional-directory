@@ -22,7 +22,12 @@ export interface AdminOrg {
   short_description: string | null;
   website_url: string;
   photo_url: string | null;
+  banner_position: string | null;
   video_url: string | null;
+  linkedin_url: string | null;
+  instagram_url: string | null;
+  facebook_url: string | null;
+  x_url: string | null;
   status: OrgStatus;
   created_at: string;
   updated_at: string;
