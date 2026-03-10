@@ -1,3 +1,5 @@
+import { PasswordInput } from "@/components/common/PasswordInput";
+
 interface StepContactInfoProps {
   data: {
     first_name: string;
@@ -85,14 +87,13 @@ export function StepContactInfo({
         <label htmlFor="password" className="mb-1.5 text-sm font-bold text-foreground">
           Password *
         </label>
-        <input
+        <PasswordInput
           id="password"
-          type="password"
           required
           minLength={6}
           value={data.password}
           onChange={(e) => onChange("password", e.target.value)}
-          className={inputClass}
+          inputClassName={inputClass}
           placeholder="At least 6 characters"
         />
       </div>

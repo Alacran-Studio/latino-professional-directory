@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { login } from "./_actions/login";
 import { FullBrand } from "@/components/common/FullBrand";
+import { PasswordInput } from "@/components/common/PasswordInput";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
@@ -56,12 +57,11 @@ export default function LoginPage() {
               <label htmlFor="password" className="mb-2 text-sm font-bold text-foreground">
                 Password
               </label>
-              <input
+              <PasswordInput
                 id="password"
                 name="password"
-                type="password"
                 required
-                className="h-12 rounded-md border-2 border-border bg-background pl-3 text-foreground"
+                inputClassName="h-12 rounded-md border-2 border-border bg-background pl-3 text-foreground"
                 placeholder="Your password"
               />
             </div>
