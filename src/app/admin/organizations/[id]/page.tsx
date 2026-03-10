@@ -9,6 +9,7 @@ import {
 } from "@/lib/admin/dbOperations";
 import { OrgForm } from "../../_components/OrgForm";
 import { StatusBadge } from "../../_components/StatusBadge";
+import { ActiveToggle } from "../../_components/ActiveToggle";
 import { notFound, redirect } from "next/navigation";
 import type { UserRole, OrgStatus } from "@/types/admin";
 import Link from "next/link";
@@ -60,6 +61,9 @@ export default async function EditOrganizationPage({
           <p className="mt-0.5 text-sm text-secondary-foreground">Organization Profile</p>
         </div>
         <StatusBadge status={org.status as OrgStatus} />
+        {role === "system_admin" && (
+          <ActiveToggle orgId={org.id} isActive={org.is_active !== "false"} />
+        )}
       </div>
 
       <OrgForm

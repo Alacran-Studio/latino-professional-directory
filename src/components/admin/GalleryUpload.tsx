@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 
 const MAX_PHOTOS = 6;
@@ -15,6 +15,9 @@ export function GalleryUpload({ initialUrls, folder, onPhotosChange }: GalleryUp
   const [photos, setPhotos] = useState<string[]>(initialUrls);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
+  const dragIndex = useRef<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   async function uploadFile(file: File): Promise<string | null> {
     const signRes = await fetch("/api/cloudinary/sign", {
@@ -65,26 +68,108 @@ export function GalleryUpload({ initialUrls, folder, onPhotosChange }: GalleryUp
   function remove(index: number) {
     const newPhotos = photos.filter((_, i) => i !== index);
     setPhotos(newPhotos);
+    setConfirmIndex(null);
     onPhotosChange?.(newPhotos);
+  }
+
+  function handleDragStart(index: number) {
+    dragIndex.current = index;
+  }
+
+  function handleDragOver(e: React.DragEvent, index: number) {
+    e.preventDefault();
+    setDragOverIndex(index);
+  }
+
+  function handleDrop(e: React.DragEvent, dropIndex: number) {
+    e.preventDefault();
+    const from = dragIndex.current;
+    if (from === null || from === dropIndex) {
+      dragIndex.current = null;
+      setDragOverIndex(null);
+      return;
+    }
+
+    const reordered = [...photos];
+    const [moved] = reordered.splice(from, 1);
+    reordered.splice(dropIndex, 0, moved);
+
+    setPhotos(reordered);
+    onPhotosChange?.(reordered);
+    dragIndex.current = null;
+    setDragOverIndex(null);
+  }
+
+  function handleDragEnd() {
+    dragIndex.current = null;
+    setDragOverIndex(null);
   }
 
   return (
     <div className="flex flex-col gap-3">
       <label className="text-sm font-bold text-foreground">
-        Photo Gallery <span className="font-normal text-secondary-foreground">({photos.length}/{MAX_PHOTOS})</span>
+        Photo Gallery{" "}
+        <span className="font-normal text-secondary-foreground">
+          ({photos.length}/{MAX_PHOTOS})
+        </span>
       </label>
+
+      {photos.length > 1 && (
+        <p className="text-xs text-secondary-foreground">Drag photos to reorder.</p>
+      )}
 
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
         {photos.map((url, i) => (
-          <div key={i} className="group relative aspect-square overflow-hidden rounded-lg border border-border">
-            <Image src={url} alt={`Gallery photo ${i + 1}`} fill sizes="150px" className="object-cover" />
-            <button
-              type="button"
-              onClick={() => remove(i)}
-              className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100"
-            >
-              ×
-            </button>
+          <div
+            key={url}
+            draggable
+            onDragStart={() => handleDragStart(i)}
+            onDragOver={(e) => handleDragOver(e, i)}
+            onDrop={(e) => handleDrop(e, i)}
+            onDragEnd={handleDragEnd}
+            className={`group relative aspect-square cursor-grab overflow-hidden rounded-lg border transition-all active:cursor-grabbing ${
+              dragOverIndex === i
+                ? "scale-105 border-primary ring-2 ring-primary"
+                : "border-border"
+            }`}
+          >
+            <Image
+              src={url}
+              alt={`Gallery photo ${i + 1}`}
+              fill
+              sizes="150px"
+              className="pointer-events-none object-cover"
+            />
+
+            {confirmIndex === i ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/70 p-1">
+                <p className="text-center text-xs font-medium text-white">Remove?</p>
+                <div className="flex gap-1">
+                  <button
+                    type="button"
+                    onClick={() => remove(i)}
+                    className="rounded bg-red-500 px-2 py-0.5 text-xs font-medium text-white hover:bg-red-600"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmIndex(null)}
+                    className="rounded bg-white/20 px-2 py-0.5 text-xs font-medium text-white hover:bg-white/30"
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmIndex(i)}
+                className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100"
+              >
+                ×
+              </button>
+            )}
           </div>
         ))}
 

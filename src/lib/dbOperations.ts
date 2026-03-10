@@ -15,7 +15,7 @@ import {
   OrganizationAffinities,
   OrganizationPhotosTable,
 } from "../../drizzle/schema";
-import { inArray, eq, and } from "drizzle-orm";
+import { inArray, eq, and, notInArray } from "drizzle-orm";
 import { DirectoryOrgType, IndustryType, CityType, EventType, ServiceType, AffinityType, OrgPhotoType } from "@/app/types";
 
 // ** ENRICHMENT HELPERS **
@@ -119,7 +119,7 @@ export async function fetchFeaturedOrganizations(): Promise<DirectoryOrgType[]> 
     const organizations = await db
       .select()
       .from(OrganizationsTable)
-      .where(inArray(OrganizationsTable.id, orgIds));
+      .where(and(inArray(OrganizationsTable.id, orgIds), eq(OrganizationsTable.is_active, "true")));
 
     // Preserve display_order ordering
     const orderedOrgs = orgIds
@@ -171,7 +171,8 @@ export async function fetchOrganizationBySlug(
       .where(
         and(
           eq(OrganizationsTable.slug, slug),
-          eq(OrganizationsTable.status, "approved")
+          eq(OrganizationsTable.status, "approved"),
+          eq(OrganizationsTable.is_active, "true")
         )
       );
     if (organization.length === 0) return null;
@@ -250,7 +251,7 @@ async function fetchOrganizationsData(offset: number, limit: number) {
   const organizations = await db
     .select()
     .from(OrganizationsTable)
-    .where(eq(OrganizationsTable.status, "approved"))
+    .where(and(eq(OrganizationsTable.status, "approved"), eq(OrganizationsTable.is_active, "true")))
     .offset(offset)
     .limit(limit);
   return organizations;
@@ -260,7 +261,7 @@ async function fetchOrganizationData(id: number) {
   return await db
     .select()
     .from(OrganizationsTable)
-    .where(and(eq(OrganizationsTable.id, id), eq(OrganizationsTable.status, "approved")));
+    .where(and(eq(OrganizationsTable.id, id), eq(OrganizationsTable.status, "approved"), eq(OrganizationsTable.is_active, "true")));
 }
 
 async function fetchOrgIndustryMappings(organizations: any[]) {
@@ -404,12 +405,35 @@ export async function fetchEventsForOrganization(
 // ** EVENT HELPER METHODS **
 
 async function fetchEventsData(offset: number, limit: number) {
-  const events = await db
-    .select()
-    .from(EventsTable)
-    .offset(offset)
-    .limit(limit);
-  return events;
+  // Exclude events linked to any inactive org
+  const inactiveOrgs = await db
+    .select({ id: OrganizationsTable.id })
+    .from(OrganizationsTable)
+    .where(eq(OrganizationsTable.is_active, "false"));
+
+  const inactiveOrgIds = inactiveOrgs.map((o) => o.id);
+
+  if (inactiveOrgIds.length > 0) {
+    const links = await db
+      .select({ event_id: EventOrganizations.event_id })
+      .from(EventOrganizations)
+      .where(inArray(EventOrganizations.organization_id, inactiveOrgIds));
+
+    const excludedEventIds = links
+      .map((l) => l.event_id)
+      .filter((id): id is number => id !== null);
+
+    if (excludedEventIds.length > 0) {
+      return db
+        .select()
+        .from(EventsTable)
+        .where(notInArray(EventsTable.id, excludedEventIds))
+        .offset(offset)
+        .limit(limit);
+    }
+  }
+
+  return db.select().from(EventsTable).offset(offset).limit(limit);
 }
 
 async function fetchEventData(id: number) {

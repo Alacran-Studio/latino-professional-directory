@@ -1,0 +1,1 @@
+ALTER TABLE "lpdd"."organizations" ADD COLUMN "is_active" text DEFAULT 'true' NOT NULL;

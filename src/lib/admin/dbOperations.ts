@@ -195,6 +195,13 @@ export async function updateOrgStatus(id: number, status: OrgStatus) {
     .where(eq(OrganizationsTable.id, id));
 }
 
+export async function setOrgActive(id: number, isActive: boolean) {
+  await db
+    .update(OrganizationsTable)
+    .set({ is_active: isActive ? "true" : "false", updated_at: new Date().toISOString() })
+    .where(eq(OrganizationsTable.id, id));
+}
+
 export async function fetchPendingOrgs(): Promise<AdminOrg[]> {
   const rows = await db
     .select()
