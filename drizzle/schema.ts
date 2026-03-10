@@ -11,7 +11,12 @@ export const OrganizationsTable = lpddSchema.table("organizations", {
   short_description: text("short_description"),
   website_url: text("website_url").notNull().unique(),
   photo_url: text("photo_url"),
+  banner_position: text("banner_position").default("50% 50%"),
   video_url: text("video_url"),
+  linkedin_url: text("linkedin_url"),
+  instagram_url: text("instagram_url"),
+  facebook_url: text("facebook_url"),
+  x_url: text("x_url"),
   status: text("status").notNull().default("approved"),
   created_at: text("created_at").notNull().default("now()"),
   updated_at: text("updated_at").notNull().default("now()"),
@@ -158,4 +163,12 @@ export const OrganizationServices = lpddSchema.table("organization_services", {
   id: serial("id").primaryKey(),
   organization_id: integer("organization_id").references(() => OrganizationsTable.id),
   service_id: integer("service_id").references(() => KeyServicesTable.id),
+});
+
+export const OrganizationPhotosTable = lpddSchema.table("organization_photos", {
+  id: serial("id").primaryKey(),
+  organization_id: integer("organization_id").notNull().references(() => OrganizationsTable.id),
+  url: text("url").notNull(),
+  display_order: integer("display_order").notNull().default(0),
+  created_at: text("created_at").notNull().default("now()"),
 });

@@ -5,6 +5,17 @@ export interface InternalNavigationLink {
 
 export type InternalNavigationLinks = Array<InternalNavigationLink>;
 
+export interface AffinityType {
+  id: number;
+  name: string;
+}
+
+export interface OrgPhotoType {
+  id: number;
+  url: string;
+  display_order: number;
+}
+
 export interface DirectoryOrgType {
   id: number;
   name: string;
@@ -15,8 +26,15 @@ export interface DirectoryOrgType {
   website_url: string;
   industries: IndustryType[];
   services: ServiceType[];
+  affinities: AffinityType[];
+  gallery_photos: OrgPhotoType[];
   photo_url: string;
+  banner_position: string;
   video_url: string;
+  linkedin_url: string;
+  instagram_url: string;
+  facebook_url: string;
+  x_url: string;
   cities: CityType[];
   events?: EventType[];
 }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DirectoryOrgType } from "@/app/types";
+import { DirectoryOrgType, OrgPhotoType } from "@/app/types";
 import { notFound, permanentRedirect } from "next/navigation";
 import Tags from "@/components/Directory/Tags";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import { isValidString } from "@/lib/utils";
 import EventCard from "@/components/Events/EventCard";
 import { LocationMarkerIcon, GlobeAltIcon } from "@heroicons/react/outline";
 import OrgWebsiteLink from "./_components/OrgWebsiteLink";
+import SocialLinks from "./_components/SocialLinks";
 import {
   fetchOrganizationBySlug,
   fetchOrgSlugById,
@@ -51,40 +52,55 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     website_url,
     industries,
     services = [],
+    affinities = [],
+    gallery_photos = [],
     photo_url,
+    banner_position,
+    video_url,
+    linkedin_url,
+    instagram_url,
+    facebook_url,
+    x_url,
     cities = [],
   } = org;
 
   const coverSrc = isValidString(photo_url) ? photo_url : COVER_FALLBACK;
   const cityText = cities.map((c) => c.name).join(", ");
+  const hasSocialLinks = [linkedin_url, instagram_url, facebook_url, x_url].some(isValidString);
+
+  // Embed-friendly video URL (YouTube short links → embed)
+  const embedUrl = isValidString(video_url)
+    ? video_url
+        .replace("youtube.com/watch?v=", "youtube.com/embed/")
+        .replace("youtu.be/", "youtube.com/embed/")
+    : null;
 
   return (
     <article className="mx-auto mb-8 w-full max-w-7xl lg:mb-16">
-      {/* Cover photo banner */}
+      {/* Banner */}
       <div className="relative h-48 w-full overflow-hidden rounded-b-2xl sm:h-56 md:h-72 lg:h-80">
         <CoverImage
           src={coverSrc}
           fallback={COVER_FALLBACK}
           alt={`${name} cover photo`}
+          objectPosition={banner_position ?? "50% 50%"}
         />
-        {/* Dark gradient mask */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/40" />
-        {/* Back button overlapping cover photo */}
         <div className="absolute left-4 top-4 z-10 sm:left-7 md:left-14">
           <BackButton href="/directory" label="Directory" />
         </div>
       </div>
 
-      {/* Org info card (overlaps banner) */}
+      {/* Org info card */}
       <div className="-mt-16 relative z-10 mx-4 rounded-xl border border-border bg-card p-6 shadow-lg sm:mx-7 md:mx-14">
         <div className="flex flex-col items-center gap-4 font-lexend sm:flex-row sm:items-start">
-          {/* Logo */}
           {isValidString(logo_url) ? (
             <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg border border-border sm:h-24 sm:w-24">
               <Image
                 src={logo_url}
                 alt={`${name} logo`}
                 fill
+                sizes="96px"
                 className="object-scale-down"
               />
             </div>
@@ -94,7 +110,6 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
             </div>
           )}
 
-          {/* Name & short description */}
           <div className="text-center sm:text-left">
             <h1 className="text-xl font-bold uppercase tracking-wide sm:text-2xl">
               {name}
@@ -122,13 +137,13 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
           </section>
         )}
 
-        {/* Contact Info + Focus Industries (two-column) */}
+        {/* Contact Info + Focus Industries */}
         {(isValidString(cityText) ||
           isValidString(website_url) ||
+          hasSocialLinks ||
           industries.length > 0) && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {/* Contact card */}
-            {(isValidString(cityText) || isValidString(website_url)) && (
+            {(isValidString(cityText) || isValidString(website_url) || hasSocialLinks) && (
               <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
                 <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
                   Contact Info
@@ -136,10 +151,8 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 <div className="space-y-3">
                   {isValidString(cityText) && (
                     <div className="flex items-center gap-3">
-                      <LocationMarkerIcon className="h-5 w-5 flex-shrink-0 text-brandGold" />
-                      <span className="text-secondary-foreground">
-                        {cityText}
-                      </span>
+                      <LocationMarkerIcon className="h-5 w-5 flex-shrink-0 text-primary" />
+                      <span className="text-secondary-foreground">{cityText}</span>
                     </div>
                   )}
                   {isValidString(website_url) && (
@@ -149,11 +162,16 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                       websiteUrl={website_url}
                     />
                   )}
+                  <SocialLinks
+                    linkedin_url={linkedin_url}
+                    instagram_url={instagram_url}
+                    facebook_url={facebook_url}
+                    x_url={x_url}
+                  />
                 </div>
               </section>
             )}
 
-            {/* Focus Industries card */}
             {industries.length > 0 && (
               <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
                 <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
@@ -165,19 +183,73 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
           </div>
         )}
 
-        {/* Key Services */}
-        {services.length > 0 && (
+        {/* Key Services + Communities */}
+        {(services.length > 0 || affinities.length > 0) && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
-              <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
-                Key Services
-              </h2>
-              <Tags tags={services} type="services" />
-            </section>
+            {services.length > 0 && (
+              <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
+                <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
+                  Key Services
+                </h2>
+                <Tags tags={services} type="services" />
+              </section>
+            )}
+
+            {affinities.length > 0 && (
+              <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
+                <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
+                  Communities
+                </h2>
+                <Tags tags={affinities} />
+              </section>
+            )}
           </div>
         )}
 
-        {/* Events section */}
+        {/* Photo Gallery */}
+        {gallery_photos.length > 0 && (
+          <section>
+            <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
+              Gallery
+            </h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {gallery_photos.map((photo: OrgPhotoType) => (
+                <div
+                  key={photo.id}
+                  className="relative aspect-square overflow-hidden rounded-xl border border-border"
+                >
+                  <Image
+                    src={photo.url}
+                    alt={`${name} gallery photo`}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Video */}
+        {embedUrl && (
+          <section>
+            <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
+              Video
+            </h2>
+            <div className="aspect-video w-full overflow-hidden rounded-xl border border-border">
+              <iframe
+                src={embedUrl}
+                title={`${name} video`}
+                className="h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+                allowFullScreen
+              />
+            </div>
+          </section>
+        )}
+
+        {/* Events */}
         {events.length > 0 && (
           <section>
             <Header1 className="mb-6">Events from {name}</Header1>

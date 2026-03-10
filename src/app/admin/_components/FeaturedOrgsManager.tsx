@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import type { FeaturedOrg } from "@/lib/admin/dbOperations";
 import type { AdminOrg } from "@/types/admin";
 import {
@@ -22,7 +23,6 @@ export function FeaturedOrgsManager({
 }: FeaturedOrgsManagerProps) {
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
   const featuredOrgIds = new Set(featuredOrgs.map((f) => f.org_id));
   const availableOrgs = allOrgs.filter((org) => !featuredOrgIds.has(org.id));
@@ -31,12 +31,11 @@ export function FeaturedOrgsManager({
 
   async function handleRemove(orgId: number) {
     setLoading(`remove-${orgId}`);
-    setError(null);
     const formData = new FormData();
     formData.set("orgId", String(orgId));
     const result = await removeFeaturedOrgAction(formData);
     if (result?.error) {
-      setError(result.error);
+      toast.error(result.error);
     } else {
       router.refresh();
     }
@@ -49,13 +48,12 @@ export function FeaturedOrgsManager({
     if (!orgId) return;
 
     setLoading(`add-${displayOrder}`);
-    setError(null);
     const formData = new FormData();
     formData.set("orgId", String(orgId));
     formData.set("displayOrder", String(displayOrder));
     const result = await addFeaturedOrgAction(formData);
     if (result?.error) {
-      setError(result.error);
+      toast.error(result.error);
     } else {
       router.refresh();
     }
@@ -64,12 +62,6 @@ export function FeaturedOrgsManager({
 
   return (
     <div className="space-y-4">
-      {error && (
-        <div className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/30 dark:text-red-400">
-          {error}
-        </div>
-      )}
-
       <p className="text-sm text-secondary-foreground">
         Up to {MAX_FEATURED} organizations are shown as featured on the homepage.
       </p>

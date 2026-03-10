@@ -7,9 +7,10 @@ interface CoverImageProps {
   src: string;
   fallback: string;
   alt: string;
+  objectPosition?: string;
 }
 
-export default function CoverImage({ src, fallback, alt }: CoverImageProps) {
+export default function CoverImage({ src, fallback, alt, objectPosition = "50% 50%" }: CoverImageProps) {
   const [imgSrc, setImgSrc] = useState(src);
 
   return (
@@ -17,7 +18,9 @@ export default function CoverImage({ src, fallback, alt }: CoverImageProps) {
       src={imgSrc}
       alt={alt}
       fill
+      sizes="100vw"
       className="object-cover"
+      style={{ objectPosition }}
       priority
       onError={() => setImgSrc(fallback)}
     />
