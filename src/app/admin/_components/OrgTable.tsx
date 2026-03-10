@@ -90,15 +90,15 @@ export function OrgTable({ organizations, role }: OrgTableProps) {
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-2">
+                    {role === "system_admin" && (org.status === "rejected" || org.is_active === "false") && (
+                      <DeleteOrgButton orgId={org.id} orgName={org.name} iconOnly />
+                    )}
                     <Link
                       href={`/admin/organizations/${org.id}`}
                       className="text-sm font-medium text-primary hover:underline"
                     >
                       Edit
                     </Link>
-                    {role === "system_admin" && org.status === "rejected" && (
-                      <DeleteOrgButton orgId={org.id} orgName={org.name} iconOnly />
-                    )}
                   </div>
                 </td>
               </tr>
