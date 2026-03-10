@@ -129,7 +129,7 @@ export async function fetchFeaturedOrganizations(): Promise<DirectoryOrgType[]> 
     return await enrichOrganizations(orderedOrgs);
   } catch (error) {
     console.error("Error in fetchFeaturedOrganizations:", error);
-    throw error;
+    return [];
   }
 }
 
