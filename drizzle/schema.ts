@@ -173,3 +173,17 @@ export const OrganizationPhotosTable = lpddSchema.table("organization_photos", {
   display_order: integer("display_order").notNull().default(0),
   created_at: text("created_at").notNull().default("now()"),
 });
+
+export const InvitesTable = lpddSchema.table("invites", {
+  id: serial("id").primaryKey(),
+  token: text("token").notNull().unique(),
+  email: text("email").notNull(),
+  first_name: text("first_name").notNull(),
+  last_name: text("last_name").notNull(),
+  organization_id: integer("organization_id").notNull().references(() => OrganizationsTable.id),
+  invited_by: integer("invited_by").notNull().references(() => UsersTable.id),
+  status: text("status").notNull().default("pending"),
+  expires_at: text("expires_at").notNull(),
+  accepted_at: text("accepted_at"),
+  created_at: text("created_at").notNull().default("now()"),
+});
