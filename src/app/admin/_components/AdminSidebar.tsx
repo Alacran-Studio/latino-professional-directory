@@ -17,6 +17,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   StarIcon,
+  UserAddIcon,
 } from "@heroicons/react/outline";
 import {
   Tooltip,
@@ -54,6 +55,12 @@ const navItems = [
     label: "Featured Orgs",
     roles: ["system_admin"],
     icon: StarIcon,
+  },
+  {
+    href: "/admin/invites",
+    label: "Manage Admins",
+    roles: ["system_admin"],
+    icon: UserAddIcon,
   },
 ];
 

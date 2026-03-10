@@ -50,6 +50,23 @@ export interface AdminUser {
   updated_at: string;
 }
 
+export type InviteStatus = "pending" | "accepted" | "expired";
+
+export interface AdminInvite {
+  id: number;
+  token: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  organization_id: number;
+  organization_name: string;
+  invited_by: number;
+  status: InviteStatus;
+  expires_at: string;
+  accepted_at: string | null;
+  created_at: string;
+}
+
 export interface JoinFormData {
   // Step 1: Organization info
   name: string;

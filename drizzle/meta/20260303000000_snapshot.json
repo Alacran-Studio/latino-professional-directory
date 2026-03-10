@@ -1,6 +1,6 @@
 {
-  "id": "565b6d8c-099c-4256-a9db-8aef6dc7261c",
-  "prevId": "728ea367-9547-45e0-9908-0f02ddc13fe4",
+  "id": "728ea367-9547-45e0-9908-0f02ddc13fe4",
+  "prevId": "b74662f0-ed18-4029-96eb-6aefdc320875",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -722,63 +722,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "lpdd.organization_photos": {
-      "name": "organization_photos",
-      "schema": "lpdd",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "organization_id": {
-          "name": "organization_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "url": {
-          "name": "url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "display_order": {
-          "name": "display_order",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 0
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'now()'"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "organization_photos_organization_id_organizations_id_fk": {
-          "name": "organization_photos_organization_id_organizations_id_fk",
-          "tableFrom": "organization_photos",
-          "tableTo": "organizations",
-          "schemaTo": "lpdd",
-          "columnsFrom": [
-            "organization_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "lpdd.organization_services": {
       "name": "organization_services",
       "schema": "lpdd",
@@ -908,13 +851,6 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'now()'"
-        },
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "default": null
         }
       },
       "indexes": {},
@@ -933,13 +869,6 @@
           "nullsNotDistinct": false,
           "columns": [
             "website_url"
-          ]
-        },
-        "organizations_slug_unique": {
-          "name": "organizations_slug_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "slug"
           ]
         }
       }
