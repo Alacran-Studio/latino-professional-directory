@@ -16,6 +16,32 @@ import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import DateFilter from "./DateFilter";
 import NoEvents from "./NoEvents";
 import LoadingEvents from "./LoadingEvents";
+
+// ---------------------------------------------------------------------------
+// Filter config — keep in sync with Directory/index.tsx.
+// TODO [KEY_SERVICES_FILTER]: Add when key_services table is ready (issue #99)
+// TODO [COMMUNITIES_FILTER]: Add when communities table is ready (issue #99)
+// ---------------------------------------------------------------------------
+
+const filterConfigs = [
+  {
+    key: "industry",
+    label: "Filter by Industry",
+    icon: <FilterIcon />,
+    buttonClassName: "bg-brandGold dark:text-black",
+    analyticsKey: "industry",
+  },
+  {
+    key: "location",
+    label: "Filter by City",
+    icon: <LocationIcon />,
+    buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
+    chipClassName: "bg-gray-300 dark:bg-gray-400",
+    accentColor: "#D1D5DB",
+    analyticsKey: "location",
+  },
+];
+
 export default function EventsDirectory({
   className = "",
 }: {
@@ -23,13 +49,9 @@ export default function EventsDirectory({
 }) {
   const [openFilter, setOpenFilter] = useState<string | null>(null);
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false);
-  const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>(
-    []
-  );
+  const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>([]);
   const [selectedCities, setSelectedCities] = useState<CityType[]>([]);
-  const [dateFilter, setDateFilter] = useState<"all" | "upcoming" | "past">(
-    "upcoming"
-  );
+  const [dateFilter, setDateFilter] = useState<"all" | "upcoming" | "past">("upcoming");
   const [events, setEvents] = useState<EventType[]>([]);
   const [industries, setIndustries] = useState<IndustryType[]>([]);
   const [cities, setCities] = useState<CityType[]>([]);
@@ -64,21 +86,33 @@ export default function EventsDirectory({
     fetchData();
   }, []);
 
+  const filterItems: Record<string, IndustryType[] | CityType[]> = {
+    industry: industries,
+    location: cities,
+  };
+
+  const selectedItems: Record<string, IndustryType[] | CityType[]> = {
+    industry: selectedIndustries,
+    location: selectedCities,
+  };
+
+  const setSelectedItemsMap: Record<string, (items: any[]) => void> = {
+    industry: setSelectedIndustries,
+    location: setSelectedCities,
+  };
+
   const filteredEvents = events.filter((event) => {
-    // Industry filter
     const matchesIndustry =
       selectedIndustries.length === 0 ||
       event.industries.some((industry) =>
         selectedIndustries.some((selected) => selected.id === industry.id)
       );
 
-    // City filter
     const matchesCity =
       selectedCities.length === 0 ||
       (event.city &&
         selectedCities.some((selected) => selected.id === event.city.id));
 
-    // Date filter
     const eventDate = new Date(event.event_date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -97,38 +131,29 @@ export default function EventsDirectory({
     <section
       className={`${className} mb-4 flex w-10/12 flex-col items-center pb-4 pt-8`}
     >
-      {isLoading ? (
-        <></>
-      ) : (
+      {!isLoading && (
         <div className="mb-6 flex w-full flex-col gap-y-4 md:flex-row md:gap-x-2 md:gap-y-0 lg:max-w-6xl">
-          <FilterDropdown
-            label="Filter by Industry"
-            icon={<FilterIcon />}
-            items={industries}
-            selectedItems={selectedIndustries}
-            setSelectedItems={setSelectedIndustries}
-            isDropdownOpen={openFilter === "industry"}
-            setIsDropdownOpen={(isOpen) => setOpenFilter(isOpen ? "industry" : null)}
-            buttonClassName="bg-brandGold dark:text-black"
-            widthClassName="md:w-1/2"
-            onItemSelect={(val, selected) =>
-              selected ? trackFilterApplied("industry", val) : trackFilterRemoved("industry", val)
-            }
-          />
-          <FilterDropdown
-            label="Filter by City"
-            icon={<LocationIcon />}
-            items={cities}
-            selectedItems={selectedCities}
-            setSelectedItems={setSelectedCities}
-            isDropdownOpen={openFilter === "location"}
-            setIsDropdownOpen={(isOpen) => setOpenFilter(isOpen ? "location" : null)}
-            buttonClassName="bg-gray-300 dark:bg-gray-400 dark:text-black"
-            widthClassName="md:w-1/2"
-            onItemSelect={(val, selected) =>
-              selected ? trackFilterApplied("location", val) : trackFilterRemoved("location", val)
-            }
-          />
+          {filterConfigs.map((config) => (
+            <FilterDropdown
+              key={config.key}
+              label={config.label}
+              icon={config.icon}
+              items={filterItems[config.key]}
+              selectedItems={selectedItems[config.key]}
+              setSelectedItems={setSelectedItemsMap[config.key]}
+              isDropdownOpen={openFilter === config.key}
+              setIsDropdownOpen={(isOpen) => setOpenFilter(isOpen ? config.key : null)}
+              buttonClassName={config.buttonClassName}
+              chipClassName={config.chipClassName}
+              accentColor={config.accentColor}
+              widthClassName="md:w-1/2"
+              onItemSelect={(val, selected) =>
+                selected
+                  ? trackFilterApplied(config.analyticsKey, val)
+                  : trackFilterRemoved(config.analyticsKey, val)
+              }
+            />
+          ))}
           {/* TODO: DateFilter – Upcoming/Past Events toggle
            * Component ready at ./DateFilter/index.tsx
            * State already wired: dateFilter, isDateDropdownOpen
