@@ -18,6 +18,7 @@ interface FilterDropdownProps<T extends FilterItem> {
   isDropdownOpen: boolean;
   setIsDropdownOpen: (isOpen: boolean) => void;
   buttonClassName?: string;
+  chipClassName?: string;
   widthClassName?: string;
   onItemSelect?: (item: string, selected: boolean) => void;
 }
@@ -31,6 +32,7 @@ export default function FilterDropdown<T extends FilterItem>({
   isDropdownOpen,
   setIsDropdownOpen,
   buttonClassName = "bg-brandGold dark:text-black",
+  chipClassName = "bg-accent dark:bg-accent",
   widthClassName = "md:w-1/2",
   onItemSelect,
 }: FilterDropdownProps<T>) {
@@ -152,7 +154,7 @@ export default function FilterDropdown<T extends FilterItem>({
           <button
             key={item.id !== undefined ? item.id : item.name}
             onClick={() => removeItem(item)}
-            className="flex items-center space-x-2 rounded-full bg-accent px-3 py-1 focus:outline-none dark:bg-accent"
+            className={`flex items-center space-x-2 rounded-full px-3 py-1 focus:outline-none ${chipClassName}`}
           >
             <Paragraph className="text-label font-lexend">{item.name}</Paragraph>
             <XIcon />

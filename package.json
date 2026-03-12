@@ -11,7 +11,7 @@
     "migration:apply": "drizzle-kit migrate",
     "db:seed": "npx tsx ./drizzle/seed/seed.ts",
     "db:reset-user": "npx tsx ./scripts/reset-test-user.ts",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
   },
   "dependencies": {

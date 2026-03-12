@@ -54,6 +54,7 @@ const filterConfigs = [
     label: "Filter by City",
     icon: <LocationIcon />,
     buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
+    chipClassName: "bg-gray-300 dark:bg-gray-400",
     analyticsKey: "location",
   },
 ];
@@ -149,6 +150,7 @@ export default function Directory({ className = "" }: { className?: string }) {
                   setOpenFilter(isOpen ? config.key : null)
                 }
                 buttonClassName={config.buttonClassName}
+                chipClassName={config.chipClassName}
                 widthClassName="md:w-1/2"
                 onItemSelect={(val, selected) =>
                   selected
