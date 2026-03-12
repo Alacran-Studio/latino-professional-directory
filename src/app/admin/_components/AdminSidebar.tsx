@@ -32,7 +32,15 @@ interface AdminSidebarProps {
   userName: string;
 }
 
-const navItems = [
+interface NavItem {
+  href: string | null;
+  label: string;
+  roles: string[];
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  comingSoon?: boolean;
+}
+
+const navItems: NavItem[] = [
   {
     href: "/admin",
     label: "Dashboard",
