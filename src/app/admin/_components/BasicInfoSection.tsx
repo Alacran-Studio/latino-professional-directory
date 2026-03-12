@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { updateBasicInfo } from "../organizations/[id]/_actions/updateBasicInfo";
 import type { AdminOrg } from "@/types/admin";
+import { useOrgFormContext } from "./OrgFormContext";
 
 
 function getYoutubeEmbedUrl(url: string): string | null {
@@ -13,7 +14,7 @@ function getYoutubeEmbedUrl(url: string): string | null {
     if (u.hostname === "youtu.be") {
       videoId = u.pathname.slice(1);
     } else if (u.pathname.includes("/embed/")) {
-      return url; // already an embed URL
+      return url;
     } else {
       videoId = u.searchParams.get("v");
     }
@@ -42,9 +43,9 @@ function VideoPreview({ url }: { url: string }) {
 }
 
 function Field({
-  label, name, defaultValue, required, textarea, rows = 3, placeholder,
+  label, name, value, onChange, required, textarea, rows = 3, placeholder,
 }: {
-  label: string; name: string; defaultValue: string;
+  label: string; name: string; value: string; onChange: (v: string) => void;
   required?: boolean; textarea?: boolean; rows?: number; placeholder?: string;
 }) {
   const cls = "w-full rounded-md border-2 border-border bg-background px-3 py-2 text-sm text-foreground";
@@ -52,9 +53,9 @@ function Field({
     <div className="flex flex-col">
       <label htmlFor={name} className="mb-1.5 text-sm font-bold text-foreground">{label}</label>
       {textarea ? (
-        <textarea id={name} name={name} defaultValue={defaultValue} rows={rows} placeholder={placeholder} className={cls} />
+        <textarea id={name} name={name} value={value} onChange={(e) => onChange(e.target.value)} rows={rows} placeholder={placeholder} className={cls} />
       ) : (
-        <input id={name} name={name} type="text" defaultValue={defaultValue} required={required} placeholder={placeholder} className={cls} />
+        <input id={name} name={name} type="text" value={value} onChange={(e) => onChange(e.target.value)} required={required} placeholder={placeholder} className={cls} />
       )}
     </div>
   );
@@ -72,6 +73,7 @@ function DisplayRow({ label, value }: { label: string; value: string }) {
 }
 
 export function BasicInfoSection({ org }: { org: AdminOrg }) {
+  const { updatePreview } = useOrgFormContext();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState({
@@ -81,7 +83,24 @@ export function BasicInfoSection({ org }: { org: AdminOrg }) {
     description: org.description ?? "",
     video_url: org.video_url ?? "",
   });
-  const [videoUrlDraft, setVideoUrlDraft] = useState(org.video_url ?? "");
+  const [draft, setDraft] = useState(saved);
+  const previewTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  function schedulePreviewUpdate(newDraft: typeof draft) {
+    clearTimeout(previewTimerRef.current);
+    previewTimerRef.current = setTimeout(() => updatePreview(newDraft), 800);
+  }
+
+  function handleDraftChange(field: keyof typeof draft, value: string) {
+    const updated = { ...draft, [field]: value };
+    setDraft(updated);
+    schedulePreviewUpdate(updated);
+  }
+
+  function startEditing() {
+    setDraft(saved);
+    setEditing(true);
+  }
 
   async function handleSubmit(formData: FormData) {
     setSaving(true);
@@ -91,15 +110,16 @@ export function BasicInfoSection({ org }: { org: AdminOrg }) {
     if (result?.error) {
       toast.error(result.error);
     } else {
-      const newVideoUrl = (formData.get("video_url") as string) ?? "";
-      setSaved({
+      const newSaved = {
         name: (formData.get("name") as string) ?? saved.name,
         website_url: (formData.get("website_url") as string) ?? saved.website_url,
         short_description: (formData.get("short_description") as string) ?? "",
         description: (formData.get("description") as string) ?? "",
-        video_url: newVideoUrl,
-      });
-      setVideoUrlDraft(newVideoUrl);
+        video_url: (formData.get("video_url") as string) ?? "",
+      };
+      setSaved(newSaved);
+      setDraft(newSaved);
+      updatePreview(newSaved);
       setEditing(false);
       toast.success("Basic info saved.");
     }
@@ -112,7 +132,7 @@ export function BasicInfoSection({ org }: { org: AdminOrg }) {
           Basic Info
         </h2>
         {!editing && (
-          <button type="button" onClick={() => setEditing(true)}
+          <button type="button" onClick={startEditing}
             className="text-sm text-primary hover:underline">
             Edit
           </button>
@@ -121,10 +141,10 @@ export function BasicInfoSection({ org }: { org: AdminOrg }) {
 
       {editing ? (
         <form action={handleSubmit} className="space-y-5">
-          <Field label="Name" name="name" defaultValue={saved.name} required />
-          <Field label="Website URL" name="website_url" defaultValue={saved.website_url} required />
-          <Field label="Short Description" name="short_description" defaultValue={saved.short_description} textarea />
-          <Field label="Description" name="description" defaultValue={saved.description} textarea rows={6} />
+          <Field label="Name" name="name" value={draft.name} onChange={(v) => handleDraftChange("name", v)} required />
+          <Field label="Website URL" name="website_url" value={draft.website_url} onChange={(v) => handleDraftChange("website_url", v)} required />
+          <Field label="Short Description" name="short_description" value={draft.short_description} onChange={(v) => handleDraftChange("short_description", v)} textarea />
+          <Field label="Description" name="description" value={draft.description} onChange={(v) => handleDraftChange("description", v)} textarea rows={6} />
           <div className="flex flex-col gap-2">
             <div className="flex flex-col">
               <label htmlFor="video_url" className="mb-1.5 text-sm font-bold text-foreground">Video URL</label>
@@ -132,20 +152,20 @@ export function BasicInfoSection({ org }: { org: AdminOrg }) {
                 id="video_url"
                 name="video_url"
                 type="text"
-                value={videoUrlDraft}
-                onChange={(e) => setVideoUrlDraft(e.target.value)}
+                value={draft.video_url}
+                onChange={(e) => handleDraftChange("video_url", e.target.value)}
                 placeholder="https://youtube.com/embed/..."
                 className="w-full rounded-md border-2 border-border bg-background px-3 py-2 text-sm text-foreground"
               />
             </div>
-            <VideoPreview url={videoUrlDraft} />
+            <VideoPreview url={draft.video_url} />
           </div>
           <div className="flex gap-3">
             <button type="submit" disabled={saving}
               className="rounded-xl bg-primary px-5 py-2 text-sm font-medium text-neutralLight hover:bg-primary-hover disabled:opacity-50">
               {saving ? "Saving..." : "Save"}
             </button>
-            <button type="button" onClick={() => { setEditing(false); setVideoUrlDraft(saved.video_url); }}
+            <button type="button" onClick={() => { setDraft(saved); setEditing(false); }}
               className="rounded-xl border border-border px-5 py-2 text-sm text-secondary-foreground hover:text-foreground">
               Cancel
             </button>

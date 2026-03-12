@@ -7,6 +7,7 @@ import { MultiSelect } from "@/components/admin/MultiSelect";
 import { RequestOptionModal } from "@/components/admin/RequestOptionModal";
 import { updateClassificationAction } from "../organizations/[id]/_actions/updateClassification";
 import type { AdminOrg, AdminOrgRelated } from "@/types/admin";
+import { useOrgFormContext } from "./OrgFormContext";
 
 type Category = "industries" | "services" | "cities" | "affinities";
 
@@ -26,6 +27,7 @@ export function ClassificationSection({
   allAffinities,
 }: ClassificationSectionProps) {
   const router = useRouter();
+  const { updatePreview } = useOrgFormContext();
   const [industries, setIndustries] = useState<AdminOrgRelated[]>(org.industries ?? []);
   const [services, setServices] = useState<AdminOrgRelated[]>(org.services ?? []);
   const [cities, setCities] = useState<AdminOrgRelated[]>(org.cities ?? []);
@@ -38,13 +40,14 @@ export function ClassificationSection({
     setter: React.Dispatch<React.SetStateAction<AdminOrgRelated[]>>,
     newItems: AdminOrgRelated[]
   ) {
-    setter(newItems); // optimistic update
+    setter(newItems);
+    updatePreview({ [category]: newItems });
     if (timers.current[category] !== undefined) clearTimeout(timers.current[category]);
     timers.current[category] = setTimeout(async () => {
       const result = await updateClassificationAction(org.id, category, newItems.map((i) => i.id));
       if (result?.error) {
         toast.error(result.error);
-        router.refresh(); // revert to server state on error
+        router.refresh();
       }
     }, 400);
   }

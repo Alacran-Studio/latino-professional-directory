@@ -9,11 +9,7 @@ interface OrgWebsiteLinkProps {
   websiteUrl: string;
 }
 
-export default function OrgWebsiteLink({
-  orgId,
-  orgName,
-  websiteUrl,
-}: OrgWebsiteLinkProps) {
+export default function OrgWebsiteLink({ orgId, orgName, websiteUrl }: OrgWebsiteLinkProps) {
   return (
     <div className="flex items-center gap-3">
       <GlobeAltIcon className="h-5 w-5 flex-shrink-0 text-primary" />

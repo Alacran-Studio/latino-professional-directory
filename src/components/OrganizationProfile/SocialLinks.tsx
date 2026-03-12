@@ -1,10 +1,10 @@
 import { isValidString } from "@/lib/utils";
 
 interface SocialLinksProps {
-  linkedin_url: string;
-  instagram_url: string;
-  facebook_url: string;
-  x_url: string;
+  linkedin_url: string | null;
+  instagram_url: string | null;
+  facebook_url: string | null;
+  x_url: string | null;
 }
 
 function LinkedInIcon() {
@@ -60,7 +60,7 @@ export default function SocialLinks({ linkedin_url, instagram_url, facebook_url,
         <div key={label} className="flex items-center gap-3">
           <span className="flex-shrink-0 text-primary"><Icon /></span>
           <a
-            href={normalizeUrl(url)}
+            href={normalizeUrl(url!)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary underline-offset-2 hover:underline"

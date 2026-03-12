@@ -11,15 +11,20 @@ import {
   updateGalleryAction,
 } from "../organizations/[id]/_actions/updateMedia";
 import type { AdminOrg } from "@/types/admin";
+import { useOrgFormContext } from "./OrgFormContext";
 
 export function MediaSection({ org }: { org: AdminOrg }) {
+  const { updatePreview } = useOrgFormContext();
   const [bannerUrl, setBannerUrl] = useState(org.photo_url ?? "");
   const bannerUrlRef = useRef(org.photo_url ?? "");
 
   async function handleLogoUpload(url: string) {
     const result = await updateLogoAction(org.id, url);
     if (result?.error) toast.error(result.error);
-    else toast.success("Logo saved.");
+    else {
+      updatePreview({ logo_url: url });
+      toast.success("Logo saved.");
+    }
   }
 
   async function handleBannerUpload(url: string) {
@@ -27,19 +32,27 @@ export function MediaSection({ org }: { org: AdminOrg }) {
     bannerUrlRef.current = url;
     const result = await updateBannerAction(org.id, url, "50% 50%");
     if (result?.error) toast.error(result.error);
-    else toast.success("Banner saved.");
+    else {
+      updatePreview({ photo_url: url, banner_position: "50% 50%" });
+      toast.success("Banner saved.");
+    }
   }
 
   async function handlePositionSave(position: string) {
     const result = await updateBannerPositionAction(org.id, position);
     if (result?.error) toast.error(result.error);
-    // No success toast for position — too noisy on drag end
+    else updatePreview({ banner_position: position });
   }
 
   async function handlePhotosChange(urls: string[]) {
     const result = await updateGalleryAction(org.id, urls);
     if (result?.error) toast.error(result.error);
-    else toast.success("Gallery saved.");
+    else {
+      updatePreview({
+        gallery_photos: urls.map((url, i) => ({ id: i, url, display_order: i })),
+      });
+      toast.success("Gallery saved.");
+    }
   }
 
   return (
