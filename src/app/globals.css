@@ -17,6 +17,7 @@
   --primary-hover: hsl(222 60% 34% / 1);
   --neutral-dark: hsl(0 0% 0% / 1);
   --neutral-light: hsl(0 0% 100% / 1);
+  --neutral: hsl(0 0% 82% / 1);
   --brand: hsl(210deg 53% 15%);
   --secondary: hsl(209deg 54% 72%);
   --accent: hsl(43deg 79% 72%);
@@ -63,6 +64,7 @@ html.dark {
   --chip-gradient-via: hsl(240deg 42% 18%);
   --chip-gradient-to: hsl(240deg 49% 34%);
 
+  --neutral: hsl(0 0% 70% / 1);
   --logo-line-mobile: hsl(0deg 0% 100%);
 
   /* shadcn */

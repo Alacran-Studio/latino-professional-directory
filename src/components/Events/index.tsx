@@ -9,27 +9,50 @@ import {
   EventsApiResponse,
 } from "@/app/types";
 import { fetchFilterData } from "@/lib/fetchFilterData";
-
-import IndustryFilter from "@/components/Directory/IndustryFilter";
-import LocationFilter from "@/components/Directory/LocationFilter";
+import FilterDropdown from "@/components/Directory/FilterDropdown";
+import FilterIcon from "@/components/Directory/icons/Filter";
+import LocationIcon from "@/components/Directory/icons/Location";
+import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import DateFilter from "./DateFilter";
+import type { FilterConfig } from "@/types/filters";
 import NoEvents from "./NoEvents";
 import LoadingEvents from "./LoadingEvents";
+
+// ---------------------------------------------------------------------------
+// Filter config — keep in sync with Directory/index.tsx.
+// TODO [KEY_SERVICES_FILTER]: Add when key_services table is ready (issue #99)
+// TODO [COMMUNITIES_FILTER]: Add when communities table is ready (issue #99)
+// ---------------------------------------------------------------------------
+
+const filterConfigs: FilterConfig[] = [
+  {
+    key: "industry",
+    label: "Filter by Industry",
+    icon: <FilterIcon />,
+    buttonClassName: "bg-brandGold dark:text-black",
+    analyticsKey: "industry",
+  },
+  {
+    key: "location",
+    label: "Filter by City",
+    icon: <LocationIcon />,
+    buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
+    chipClassName: "bg-gray-300 dark:bg-gray-400",
+    accentColor: "var(--neutral)",
+    analyticsKey: "location",
+  },
+];
+
 export default function EventsDirectory({
   className = "",
 }: {
   className?: string;
 }) {
-  const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
-  const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState<string | null>(null);
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false);
-  const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>(
-    []
-  );
+  const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>([]);
   const [selectedCities, setSelectedCities] = useState<CityType[]>([]);
-  const [dateFilter, setDateFilter] = useState<"all" | "upcoming" | "past">(
-    "upcoming"
-  );
+  const [dateFilter, setDateFilter] = useState<"all" | "upcoming" | "past">("upcoming");
   const [events, setEvents] = useState<EventType[]>([]);
   const [industries, setIndustries] = useState<IndustryType[]>([]);
   const [cities, setCities] = useState<CityType[]>([]);
@@ -64,21 +87,33 @@ export default function EventsDirectory({
     fetchData();
   }, []);
 
+  const filterItems: Record<string, IndustryType[] | CityType[]> = {
+    industry: industries,
+    location: cities,
+  };
+
+  const selectedItems: Record<string, IndustryType[] | CityType[]> = {
+    industry: selectedIndustries,
+    location: selectedCities,
+  };
+
+  const setSelectedItemsMap: Record<string, (items: any[]) => void> = {
+    industry: setSelectedIndustries,
+    location: setSelectedCities,
+  };
+
   const filteredEvents = events.filter((event) => {
-    // Industry filter
     const matchesIndustry =
       selectedIndustries.length === 0 ||
       event.industries.some((industry) =>
         selectedIndustries.some((selected) => selected.id === industry.id)
       );
 
-    // City filter
     const matchesCity =
       selectedCities.length === 0 ||
       (event.city &&
         selectedCities.some((selected) => selected.id === event.city.id));
 
-    // Date filter
     const eventDate = new Date(event.event_date);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -97,24 +132,29 @@ export default function EventsDirectory({
     <section
       className={`${className} mb-4 flex w-10/12 flex-col items-center pb-4 pt-8`}
     >
-      {isLoading ? (
-        <></>
-      ) : (
+      {!isLoading && (
         <div className="mb-6 flex w-full flex-col gap-y-4 md:flex-row md:gap-x-2 md:gap-y-0 lg:max-w-6xl">
-          <IndustryFilter
-            industries={industries}
-            selectedIndustries={selectedIndustries}
-            setSelectedIndustries={setSelectedIndustries}
-            isIndustryDropdownOpen={isIndustryDropdownOpen}
-            setIsIndustryDropdownOpen={setIsIndustryDropdownOpen}
-          />
-          <LocationFilter
-            cities={cities}
-            selectedCities={selectedCities}
-            setSelectedCities={setSelectedCities}
-            isCityDropdownOpen={isCityDropdownOpen}
-            setIsCityDropdownOpen={setIsCityDropdownOpen}
-          />
+          {filterConfigs.map((config) => (
+            <FilterDropdown
+              key={config.key}
+              label={config.label}
+              icon={config.icon}
+              items={filterItems[config.key]}
+              selectedItems={selectedItems[config.key]}
+              setSelectedItems={setSelectedItemsMap[config.key]}
+              isDropdownOpen={openFilter === config.key}
+              setIsDropdownOpen={(isOpen) => setOpenFilter(isOpen ? config.key : null)}
+              buttonClassName={config.buttonClassName}
+              chipClassName={config.chipClassName}
+              accentColor={config.accentColor}
+              widthClassName="md:w-1/2"
+              onItemSelect={(val, selected) =>
+                selected
+                  ? trackFilterApplied(config.analyticsKey, val, "events")
+                  : trackFilterRemoved(config.analyticsKey, val, "events")
+              }
+            />
+          ))}
           {/* TODO: DateFilter – Upcoming/Past Events toggle
            * Component ready at ./DateFilter/index.tsx
            * State already wired: dateFilter, isDateDropdownOpen

@@ -9,19 +9,61 @@ import {
   OrganizationsApiResponse,
 } from "@/app/types";
 import { fetchFilterData } from "@/lib/fetchFilterData";
-
-import IndustryFilter from "./IndustryFilter";
-import LocationFilter from "./LocationFilter";
+import FilterDropdown from "./FilterDropdown";
+import FilterIcon from "@/components/Directory/icons/Filter";
+import LocationIcon from "@/components/Directory/icons/Location";
+import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import NoResults from "./NoResults";
 import LoadingResults from "./LoadingResults";
 import Header1 from "../common/Header1";
+import type { FilterConfig } from "@/types/filters";
+
+// ---------------------------------------------------------------------------
+// Filter config — add new filters here as new taxonomy tables are built out.
+//
+// TODO [KEY_SERVICES_FILTER]: Uncomment and implement when key_services table
+// and org mapping are ready (issue #99).
+// {
+//   key: "keyServices",
+//   label: "Filter by Key Service",
+//   icon: <ServiceIcon />,
+//   buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
+//   analyticsKey: "key_service",
+// },
+//
+// TODO [COMMUNITIES_FILTER]: Uncomment and implement when communities table
+// and org mapping are ready (issue #99).
+// {
+//   key: "communities",
+//   label: "Filter by Community",
+//   icon: <CommunityIcon />,
+//   buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
+//   analyticsKey: "community",
+// },
+// ---------------------------------------------------------------------------
+
+const filterConfigs: FilterConfig[] = [
+  {
+    key: "industry",
+    label: "Filter by Industry",
+    icon: <FilterIcon />,
+    buttonClassName: "bg-brandGold dark:text-black",
+    analyticsKey: "industry",
+  },
+  {
+    key: "location",
+    label: "Filter by City",
+    icon: <LocationIcon />,
+    buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
+    chipClassName: "bg-gray-300 dark:bg-gray-400",
+    accentColor: "var(--neutral)",
+    analyticsKey: "location",
+  },
+];
 
 export default function Directory({ className = "" }: { className?: string }) {
-  const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
-  const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
-  const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>(
-    []
-  );
+  const [openFilter, setOpenFilter] = useState<string | null>(null);
+  const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>([]);
   const [selectedCities, setSelectedCities] = useState<CityType[]>([]);
   const [organizations, setOrganizations] = useState<DirectoryOrgType[]>([]);
   const [industries, setIndustries] = useState<IndustryType[]>([]);
@@ -57,6 +99,21 @@ export default function Directory({ className = "" }: { className?: string }) {
     fetchData();
   }, []);
 
+  const filterItems: Record<string, IndustryType[] | CityType[]> = {
+    industry: industries,
+    location: cities,
+  };
+
+  const selectedItems: Record<string, IndustryType[] | CityType[]> = {
+    industry: selectedIndustries,
+    location: selectedCities,
+  };
+
+  const setSelectedItemsMap: Record<string, (items: any[]) => void> = {
+    industry: setSelectedIndustries,
+    location: setSelectedCities,
+  };
+
   const filteredOrganizations = organizations.filter((org) => {
     const matchesIndustry =
       selectedIndustries.length === 0 ||
@@ -79,25 +136,32 @@ export default function Directory({ className = "" }: { className?: string }) {
     >
       <Header1 className="pb-8 text-center">The Directory</Header1>
       <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
-        {isLoading ? (
-          <></>
-        ) : (
+        {!isLoading && (
           //TODO: Fix spacing on desktop
           <div className="mb-6 flex flex-col gap-y-4 md:flex-row md:gap-x-2 md:gap-y-0">
-            <IndustryFilter
-              industries={industries}
-              selectedIndustries={selectedIndustries}
-              setSelectedIndustries={setSelectedIndustries}
-              isIndustryDropdownOpen={isIndustryDropdownOpen}
-              setIsIndustryDropdownOpen={setIsIndustryDropdownOpen}
-            />
-            <LocationFilter
-              cities={cities}
-              selectedCities={selectedCities}
-              setSelectedCities={setSelectedCities}
-              isCityDropdownOpen={isCityDropdownOpen}
-              setIsCityDropdownOpen={setIsCityDropdownOpen}
-            />
+            {filterConfigs.map((config) => (
+              <FilterDropdown
+                key={config.key}
+                label={config.label}
+                icon={config.icon}
+                items={filterItems[config.key]}
+                selectedItems={selectedItems[config.key]}
+                setSelectedItems={setSelectedItemsMap[config.key]}
+                isDropdownOpen={openFilter === config.key}
+                setIsDropdownOpen={(isOpen) =>
+                  setOpenFilter(isOpen ? config.key : null)
+                }
+                buttonClassName={config.buttonClassName}
+                chipClassName={config.chipClassName}
+                accentColor={config.accentColor}
+                widthClassName="md:w-1/2"
+                onItemSelect={(val, selected) =>
+                  selected
+                    ? trackFilterApplied(config.analyticsKey, val, "directory")
+                    : trackFilterRemoved(config.analyticsKey, val, "directory")
+                }
+              />
+            ))}
           </div>
         )}
 
