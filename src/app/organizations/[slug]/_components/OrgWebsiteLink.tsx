@@ -1,6 +1,6 @@
 "use client";
 
-import { GlobeAltIcon } from "@heroicons/react/outline";
+import { GlobeAltIcon } from "@heroicons/react/24/outline";
 import { trackOrgWebsiteClick } from "@/lib/analytics";
 
 interface OrgWebsiteLinkProps {

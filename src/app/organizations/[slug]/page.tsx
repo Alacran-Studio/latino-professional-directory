@@ -10,7 +10,7 @@ import BackButton from "@/components/common/BackButton";
 import CoverImage from "@/components/common/CoverImage";
 import { isValidString } from "@/lib/utils";
 import EventCard from "@/components/Events/EventCard";
-import { LocationMarkerIcon, GlobeAltIcon } from "@heroicons/react/outline";
+import { MapPinIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 import OrgWebsiteLink from "./_components/OrgWebsiteLink";
 import SocialLinks from "./_components/SocialLinks";
 import {
@@ -198,7 +198,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 <div className="space-y-3">
                   {isValidString(cityText) && (
                     <div className="flex items-center gap-3">
-                      <LocationMarkerIcon className="h-5 w-5 flex-shrink-0 text-primary" />
+                      <MapPinIcon className="h-5 w-5 flex-shrink-0 text-primary" />
                       <span className="text-secondary-foreground">{cityText}</span>
                     </div>
                   )}
