@@ -19,6 +19,7 @@ interface FilterDropdownProps<T extends FilterItem> {
   setIsDropdownOpen: (isOpen: boolean) => void;
   buttonClassName?: string;
   chipClassName?: string;
+  accentColor?: string;
   widthClassName?: string;
   onItemSelect?: (item: string, selected: boolean) => void;
 }
@@ -33,6 +34,7 @@ export default function FilterDropdown<T extends FilterItem>({
   setIsDropdownOpen,
   buttonClassName = "bg-brandGold dark:text-black",
   chipClassName = "bg-accent dark:bg-accent",
+  accentColor,
   widthClassName = "md:w-1/2",
   onItemSelect,
 }: FilterDropdownProps<T>) {
@@ -41,6 +43,7 @@ export default function FilterDropdown<T extends FilterItem>({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      if (!isDropdownOpen) return;
       const target = event.target as Node;
       if (
         dropdownRef.current?.contains(target) ||
@@ -56,7 +59,7 @@ export default function FilterDropdown<T extends FilterItem>({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setIsDropdownOpen]);
+  }, [isDropdownOpen, setIsDropdownOpen]);
 
   const handleItemChange = (item: T) => {
     const isSelected = selectedItems.some((selected) =>
@@ -96,7 +99,10 @@ export default function FilterDropdown<T extends FilterItem>({
   };
 
   return (
-    <div className={`relative mt-4 md:mt-0 ${widthClassName}`}>
+    <div
+      className={`relative mt-4 md:mt-0 ${widthClassName}`}
+      style={accentColor ? { "--filter-accent-color": accentColor } as React.CSSProperties : undefined}
+    >
       {/* Filter Button */}
       <button
         ref={dropdownButtonRef}
