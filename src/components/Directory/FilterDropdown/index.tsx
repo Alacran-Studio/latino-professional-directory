@@ -154,7 +154,7 @@ export default function FilterDropdown<T extends FilterItem>({
       <div
         className={`flex w-full flex-wrap gap-2 ${
           selectedItems.length === 0 ? "mt-0" : "mt-4"
-        } ${isDropdownOpen ? "hidden" : "block"}`}
+        }`}
       >
         {selectedItems.map((item: T) => (
           <button
