@@ -18,20 +18,14 @@ export function trackEventClick(eventId: number | string, eventName: string) {
   });
 }
 
-export function trackFilterApplied(
-  filterType: "industry" | "location",
-  filterValue: string
-) {
+export function trackFilterApplied(filterType: string, filterValue: string) {
   sendGAEvent("event", "filter_applied", {
     filter_type: filterType,
     filter_value: filterValue,
   });
 }
 
-export function trackFilterRemoved(
-  filterType: "industry" | "location",
-  filterValue: string
-) {
+export function trackFilterRemoved(filterType: string, filterValue: string) {
   sendGAEvent("event", "filter_removed", {
     filter_type: filterType,
     filter_value: filterValue,

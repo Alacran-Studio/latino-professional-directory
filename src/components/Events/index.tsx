@@ -9,9 +9,10 @@ import {
   EventsApiResponse,
 } from "@/app/types";
 import { fetchFilterData } from "@/lib/fetchFilterData";
-
-import IndustryFilter from "@/components/Directory/IndustryFilter";
-import LocationFilter from "@/components/Directory/LocationFilter";
+import FilterDropdown from "@/components/Directory/FilterDropdown";
+import FilterIcon from "@/components/Directory/icons/Filter";
+import LocationIcon from "@/components/Directory/icons/Location";
+import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import DateFilter from "./DateFilter";
 import NoEvents from "./NoEvents";
 import LoadingEvents from "./LoadingEvents";
@@ -20,8 +21,7 @@ export default function EventsDirectory({
 }: {
   className?: string;
 }) {
-  const [isIndustryDropdownOpen, setIsIndustryDropdownOpen] = useState(false);
-  const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState<string | null>(null);
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false);
   const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>(
     []
@@ -101,19 +101,33 @@ export default function EventsDirectory({
         <></>
       ) : (
         <div className="mb-6 flex w-full flex-col gap-y-4 md:flex-row md:gap-x-2 md:gap-y-0 lg:max-w-6xl">
-          <IndustryFilter
-            industries={industries}
-            selectedIndustries={selectedIndustries}
-            setSelectedIndustries={setSelectedIndustries}
-            isIndustryDropdownOpen={isIndustryDropdownOpen}
-            setIsIndustryDropdownOpen={setIsIndustryDropdownOpen}
+          <FilterDropdown
+            label="Filter by Industry"
+            icon={<FilterIcon />}
+            items={industries}
+            selectedItems={selectedIndustries}
+            setSelectedItems={setSelectedIndustries}
+            isDropdownOpen={openFilter === "industry"}
+            setIsDropdownOpen={(isOpen) => setOpenFilter(isOpen ? "industry" : null)}
+            buttonClassName="bg-brandGold dark:text-black"
+            widthClassName="md:w-1/2"
+            onItemSelect={(val, selected) =>
+              selected ? trackFilterApplied("industry", val) : trackFilterRemoved("industry", val)
+            }
           />
-          <LocationFilter
-            cities={cities}
-            selectedCities={selectedCities}
-            setSelectedCities={setSelectedCities}
-            isCityDropdownOpen={isCityDropdownOpen}
-            setIsCityDropdownOpen={setIsCityDropdownOpen}
+          <FilterDropdown
+            label="Filter by City"
+            icon={<LocationIcon />}
+            items={cities}
+            selectedItems={selectedCities}
+            setSelectedItems={setSelectedCities}
+            isDropdownOpen={openFilter === "location"}
+            setIsDropdownOpen={(isOpen) => setOpenFilter(isOpen ? "location" : null)}
+            buttonClassName="bg-gray-300 dark:bg-gray-400 dark:text-black"
+            widthClassName="md:w-1/2"
+            onItemSelect={(val, selected) =>
+              selected ? trackFilterApplied("location", val) : trackFilterRemoved("location", val)
+            }
           />
           {/* TODO: DateFilter – Upcoming/Past Events toggle
            * Component ready at ./DateFilter/index.tsx
