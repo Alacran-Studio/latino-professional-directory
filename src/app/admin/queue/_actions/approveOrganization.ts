@@ -7,7 +7,7 @@ import { db } from "@/lib/drizzleClient";
 import {
   UserOrganizationsTable,
   UsersTable,
-} from "../../../../../drizzle/schema";
+} from "@drizzle/schema";
 import { eq } from "drizzle-orm";
 import { sendEmail } from "@/lib/email/resend";
 import { orgApprovedEmail } from "@/lib/email/templates/orgApproved";

@@ -14,7 +14,7 @@ import {
   AffinitiesTable,
   OrganizationAffinities,
   OrganizationPhotosTable,
-} from "../../drizzle/schema";
+} from "@drizzle/schema";
 import { inArray, eq, and, notInArray } from "drizzle-orm";
 import { DirectoryOrgType, IndustryType, CityType, EventType, ServiceType, AffinityType, OrgPhotoType } from "@/app/types";
 
