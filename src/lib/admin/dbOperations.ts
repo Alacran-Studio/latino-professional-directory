@@ -14,7 +14,7 @@ import {
   KeyServicesTable,
   CitiesTable,
   AffinitiesTable,
-} from "../../../drizzle/schema";
+} from "@drizzle/schema";
 import { eq, inArray, sql } from "drizzle-orm";
 import type { AdminOrg, AdminOrgPhoto, AdminOrgRelated, OrgStatus } from "@/types/admin";
 import { generateSlug } from "@/lib/slugify";

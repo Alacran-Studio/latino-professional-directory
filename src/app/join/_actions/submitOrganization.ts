@@ -7,7 +7,7 @@ import {
   OrganizationContacts,
   UsersTable,
   UserOrganizationsTable,
-} from "../../../../drizzle/schema";
+} from "@drizzle/schema";
 import { sendEmail } from "@/lib/email/resend";
 import { orgSubmittedEmail } from "@/lib/email/templates/orgSubmitted";
 import { orgSubmittedConfirmationEmail } from "@/lib/email/templates/orgSubmittedConfirmation";

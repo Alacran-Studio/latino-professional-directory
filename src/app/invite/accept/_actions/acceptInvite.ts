@@ -5,7 +5,7 @@ import { db } from "@/lib/drizzleClient";
 import {
   UsersTable,
   UserOrganizationsTable,
-} from "../../../../../drizzle/schema";
+} from "@drizzle/schema";
 import {
   fetchInviteByToken,
   markInviteAccepted,

@@ -1,6 +1,6 @@
 import { requireAuth } from "@/lib/auth/requireAuth";
 import { db } from "@/lib/drizzleClient";
-import { OrganizationsTable, UserOrganizationsTable } from "../../../drizzle/schema";
+import { OrganizationsTable, UserOrganizationsTable } from "@drizzle/schema";
 import { eq, sql, inArray } from "drizzle-orm";
 import { DashboardStats } from "./_components/DashboardStats";
 import { SubmittedBanner } from "./_components/SubmittedBanner";

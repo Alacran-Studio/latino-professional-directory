@@ -1,5 +1,5 @@
 import { db } from "@/lib/drizzleClient";
-import { InvitesTable, OrganizationsTable } from "../../../drizzle/schema";
+import { InvitesTable, OrganizationsTable } from "@drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import type { AdminInvite, InviteStatus } from "@/types/admin";
 

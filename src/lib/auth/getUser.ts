@@ -1,6 +1,6 @@
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { db } from "@/lib/drizzleClient";
-import { UsersTable } from "../../../drizzle/schema";
+import { UsersTable } from "@drizzle/schema";
 import { eq } from "drizzle-orm";
 
 export type DbUser = {
