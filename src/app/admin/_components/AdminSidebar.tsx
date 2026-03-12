@@ -18,7 +18,6 @@ import {
   ChevronRightIcon,
   StarIcon,
   UserAddIcon,
-  CalendarIcon,
 } from "@heroicons/react/outline";
 import {
   Tooltip,
@@ -33,11 +32,10 @@ interface AdminSidebarProps {
 }
 
 interface NavItem {
-  href: string | null;
+  href: string;
   label: string;
   roles: string[];
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  comingSoon?: boolean;
 }
 
 const navItems: NavItem[] = [
@@ -129,45 +127,14 @@ export function AdminSidebar({ role, userName }: AdminSidebarProps) {
             {visibleItems.map((item) => {
               const Icon = item.icon;
 
-              if (item.comingSoon) {
-                const comingSoonContent = (
-                  <span
-                    className={cn(
-                      "text-secondary-foreground/50 flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm",
-                      collapsed && "justify-center px-0"
-                    )}
-                  >
-                    <Icon className="h-5 w-5 shrink-0" />
-                    {!collapsed && <span>{item.label}</span>}
-                  </span>
-                );
-
-                return (
-                  <li key={item.label}>
-                    {collapsed ? (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          {comingSoonContent}
-                        </TooltipTrigger>
-                        <TooltipContent side="right">
-                          Events (Coming Soon)
-                        </TooltipContent>
-                      </Tooltip>
-                    ) : (
-                      comingSoonContent
-                    )}
-                  </li>
-                );
-              }
-
               const isActive =
                 item.href === "/admin"
                   ? pathname === "/admin"
-                  : pathname.startsWith(item.href!);
+                  : pathname.startsWith(item.href);
 
               const linkContent = (
                 <Link
-                  href={item.href!}
+                  href={item.href}
                   className={cn(
                     "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
                     collapsed && "justify-center px-0",
