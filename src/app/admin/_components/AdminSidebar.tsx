@@ -10,15 +10,15 @@ import { cn } from "@/lib/utils";
 import {
   HomeIcon,
   UserGroupIcon,
-  ClipboardListIcon,
+  ClipboardDocumentListIcon,
   UserCircleIcon,
-  LogoutIcon,
+  ArrowRightOnRectangleIcon,
   ArrowLeftIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   StarIcon,
-  UserAddIcon,
-} from "@heroicons/react/outline";
+  UserPlusIcon,
+} from "@heroicons/react/24/outline";
 import {
   Tooltip,
   TooltipContent,
@@ -55,7 +55,7 @@ const navItems: NavItem[] = [
     href: "/admin/queue",
     label: "Approval Queue",
     roles: ["system_admin"],
-    icon: ClipboardListIcon,
+    icon: ClipboardDocumentListIcon,
   },
   {
     href: "/admin/featured",
@@ -67,7 +67,7 @@ const navItems: NavItem[] = [
     href: "/admin/invites",
     label: "Manage Admins",
     roles: ["system_admin"],
-    icon: UserAddIcon,
+    icon: UserPlusIcon,
   },
 ];
 
@@ -180,7 +180,7 @@ export function AdminSidebar({ role, userName }: AdminSidebarProps) {
                   type="submit"
                   className="flex items-center gap-3 text-sm text-secondary-foreground hover:text-foreground"
                 >
-                  <LogoutIcon className="h-5 w-5 shrink-0" />
+                  <ArrowRightOnRectangleIcon className="h-5 w-5 shrink-0" />
                   <span>Sign out</span>
                 </button>
               </form>

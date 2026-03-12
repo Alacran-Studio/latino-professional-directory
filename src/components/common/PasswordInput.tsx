@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 interface PasswordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   inputClassName?: string;
@@ -25,7 +25,7 @@ export function PasswordInput({ inputClassName, className, ...props }: PasswordI
         aria-label={show ? "Hide password" : "Show password"}
       >
         {show ? (
-          <EyeOffIcon className="h-4 w-4" />
+          <EyeSlashIcon className="h-4 w-4" />
         ) : (
           <EyeIcon className="h-4 w-4" />
         )}

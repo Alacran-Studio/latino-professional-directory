@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TrashIcon } from "@heroicons/react/outline";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { deleteOrgAction } from "../organizations/[id]/_actions/deleteOrg";
 
 interface DeleteOrgButtonProps {

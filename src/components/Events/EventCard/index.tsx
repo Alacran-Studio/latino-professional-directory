@@ -8,8 +8,8 @@ import { trackEventClick } from "@/lib/analytics";
 import {
   CalendarIcon,
   ClockIcon,
-  LocationMarkerIcon,
-} from "@heroicons/react/outline";
+  MapPinIcon,
+} from "@heroicons/react/24/outline";
 
 const DEFAULT_IMAGES: Record<string, string> = {
   Tech: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&h=400&fit=crop",
@@ -113,7 +113,7 @@ export default function EventCard({
             )}
             {isValidString(locationText) && (
               <div className="flex items-center gap-2">
-                <LocationMarkerIcon className="h-4 w-4 flex-shrink-0" />
+                <MapPinIcon className="h-4 w-4 flex-shrink-0" />
                 <span>{locationText}</span>
               </div>
             )}
