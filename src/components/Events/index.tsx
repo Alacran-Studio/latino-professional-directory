@@ -14,6 +14,7 @@ import FilterIcon from "@/components/Directory/icons/Filter";
 import LocationIcon from "@/components/Directory/icons/Location";
 import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import DateFilter from "./DateFilter";
+import type { FilterConfig } from "@/types/filters";
 import NoEvents from "./NoEvents";
 import LoadingEvents from "./LoadingEvents";
 
@@ -23,7 +24,7 @@ import LoadingEvents from "./LoadingEvents";
 // TODO [COMMUNITIES_FILTER]: Add when communities table is ready (issue #99)
 // ---------------------------------------------------------------------------
 
-const filterConfigs = [
+const filterConfigs: FilterConfig[] = [
   {
     key: "industry",
     label: "Filter by Industry",
@@ -37,7 +38,7 @@ const filterConfigs = [
     icon: <LocationIcon />,
     buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
     chipClassName: "bg-gray-300 dark:bg-gray-400",
-    accentColor: "#D1D5DB",
+    accentColor: "var(--neutral)",
     analyticsKey: "location",
   },
 ];

@@ -16,6 +16,7 @@ import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import NoResults from "./NoResults";
 import LoadingResults from "./LoadingResults";
 import Header1 from "../common/Header1";
+import type { FilterConfig } from "@/types/filters";
 
 // ---------------------------------------------------------------------------
 // Filter config — add new filters here as new taxonomy tables are built out.
@@ -41,7 +42,7 @@ import Header1 from "../common/Header1";
 // },
 // ---------------------------------------------------------------------------
 
-const filterConfigs = [
+const filterConfigs: FilterConfig[] = [
   {
     key: "industry",
     label: "Filter by Industry",
@@ -55,7 +56,7 @@ const filterConfigs = [
     icon: <LocationIcon />,
     buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
     chipClassName: "bg-gray-300 dark:bg-gray-400",
-    accentColor: "#D1D5DB",
+    accentColor: "var(--neutral)",
     analyticsKey: "location",
   },
 ];
