@@ -18,7 +18,6 @@ import {
   ChevronRightIcon,
   StarIcon,
   UserAddIcon,
-  CalendarIcon,
 } from "@heroicons/react/outline";
 import {
   Tooltip,
@@ -32,7 +31,14 @@ interface AdminSidebarProps {
   userName: string;
 }
 
-const navItems = [
+interface NavItem {
+  href: string;
+  label: string;
+  roles: string[];
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+}
+
+const navItems: NavItem[] = [
   {
     href: "/admin",
     label: "Dashboard",
@@ -44,14 +50,6 @@ const navItems = [
     label: "Organizations",
     roles: ["system_admin", "org_admin"],
     icon: UserGroupIcon,
-  },
-  {
-    href: null,
-    label: "Events",
-    roles: ["system_admin", "org_admin"],
-    icon: CalendarIcon,
-    comingSoon: true,
-    indented: true,
   },
   {
     href: "/admin/queue",
@@ -116,7 +114,7 @@ export function AdminSidebar({ role, userName }: AdminSidebarProps) {
             <>
               <p className="text-sm text-secondary-foreground">Signed in as</p>
               <p className="font-semibold text-foreground">{userName}</p>
-              <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+              <span className="bg-primary/10 mt-1 inline-block rounded-full px-2 py-0.5 text-xs font-medium text-primary">
                 {roleLabel}
               </span>
             </>
@@ -129,43 +127,20 @@ export function AdminSidebar({ role, userName }: AdminSidebarProps) {
             {visibleItems.map((item) => {
               const Icon = item.icon;
 
-              if (item.comingSoon) {
-                const comingSoonContent = (
-                  <span
-                    className={cn(
-                      "flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm text-secondary-foreground/50",
-                      collapsed ? "justify-center px-0" : "pl-8"
-                    )}
-                  >
-                    <Icon className="h-4 w-4 shrink-0" />
-                    {!collapsed && <span>{item.label}</span>}
-                  </span>
-                );
-
-                return (
-                  <li key={item.label}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>{comingSoonContent}</TooltipTrigger>
-                      <TooltipContent side="right">Coming Soon...</TooltipContent>
-                    </Tooltip>
-                  </li>
-                );
-              }
-
               const isActive =
                 item.href === "/admin"
                   ? pathname === "/admin"
-                  : pathname.startsWith(item.href!);
+                  : pathname.startsWith(item.href);
 
               const linkContent = (
                 <Link
-                  href={item.href!}
+                  href={item.href}
                   className={cn(
                     "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
                     collapsed && "justify-center px-0",
                     isActive
                       ? "bg-primary/10 font-medium text-primary"
-                      : "text-foreground hover:bg-card-hover"
+                      : "hover:bg-card-hover text-foreground"
                   )}
                 >
                   <Icon className="h-5 w-5 shrink-0" />
@@ -178,9 +153,7 @@ export function AdminSidebar({ role, userName }: AdminSidebarProps) {
                   {collapsed ? (
                     <Tooltip>
                       <TooltipTrigger asChild>{linkContent}</TooltipTrigger>
-                      <TooltipContent side="right">
-                        {item.label}
-                      </TooltipContent>
+                      <TooltipContent side="right">{item.label}</TooltipContent>
                     </Tooltip>
                   ) : (
                     linkContent
