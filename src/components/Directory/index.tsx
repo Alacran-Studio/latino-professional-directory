@@ -156,8 +156,8 @@ export default function Directory({ className = "" }: { className?: string }) {
                 widthClassName="md:w-1/2"
                 onItemSelect={(val, selected) =>
                   selected
-                    ? trackFilterApplied(config.analyticsKey, val)
-                    : trackFilterRemoved(config.analyticsKey, val)
+                    ? trackFilterApplied(config.analyticsKey, val, "directory")
+                    : trackFilterRemoved(config.analyticsKey, val, "directory")
                 }
               />
             ))}

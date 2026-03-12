@@ -149,8 +149,8 @@ export default function EventsDirectory({
               widthClassName="md:w-1/2"
               onItemSelect={(val, selected) =>
                 selected
-                  ? trackFilterApplied(config.analyticsKey, val)
-                  : trackFilterRemoved(config.analyticsKey, val)
+                  ? trackFilterApplied(config.analyticsKey, val, "events")
+                  : trackFilterRemoved(config.analyticsKey, val, "events")
               }
             />
           ))}
