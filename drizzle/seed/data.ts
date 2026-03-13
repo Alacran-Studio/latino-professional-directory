@@ -197,22 +197,22 @@ export const directoryServices = [
   { name: "Networking Events" },
   { name: "Mentorship Programs" },
   { name: "Professional Cohorts" },
-  { name: "In-Person Conferences & Summits" },
-  { name: "Virtual Summits" },
+  { name: "Conferences" },
+  { name: "Summits" },
   { name: "Educational Events" },
   { name: "Job Board" },
 ];
 
 export const orgServiceMappings = [
-  { directoryName: "Techqueria", services: ["Networking Events", "Virtual Summits", "Professional Cohorts"] },
+  { directoryName: "Techqueria", services: ["Networking Events", "Summits", "Professional Cohorts"] },
   { directoryName: "ALPFA", services: ["Networking Events", "Mentorship Programs", "Educational Events"] },
-  { directoryName: "1871", services: ["Networking Events", "Mentorship Programs", "In-Person Conferences & Summits"] },
-  { directoryName: "SHPE", services: ["Networking Events", "Mentorship Programs", "Educational Events", "In-Person Conferences & Summits"] },
+  { directoryName: "1871", services: ["Networking Events", "Mentorship Programs", "Conferences"] },
+  { directoryName: "SHPE", services: ["Networking Events", "Mentorship Programs", "Educational Events", "Conferences"] },
   { directoryName: "Latinas in Nursing", services: ["Networking Events", "Mentorship Programs"] },
   { directoryName: "Latinas in Tech", services: ["Networking Events", "Mentorship Programs", "Educational Events"] },
   { directoryName: "Angeles Investors", services: ["Networking Events", "Job Board"] },
   { directoryName: "Hispanic Alliance for Career Enhancement (HACE)", services: ["Mentorship Programs", "Professional Cohorts", "Educational Events"] },
-  { directoryName: "Chicago Innovation", services: ["Networking Events", "In-Person Conferences & Summits"] },
+  { directoryName: "Chicago Innovation", services: ["Networking Events", "Conferences"] },
 ];
 
 export const directoryEvents = [

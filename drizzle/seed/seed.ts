@@ -453,7 +453,6 @@ async function seedFeaturedOrgs() {
   console.log("Seed featured orgs started...");
   const FEATURED = [
     { name: "Techqueria", displayOrder: 1 },
-    { name: "ALPFA", displayOrder: 2 },
     { name: "1871", displayOrder: 3 },
   ];
 
