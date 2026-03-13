@@ -20,8 +20,8 @@ import LoadingEvents from "./LoadingEvents";
 
 // ---------------------------------------------------------------------------
 // Filter config — keep in sync with Directory/index.tsx.
-// TODO [KEY_SERVICES_FILTER]: Add when key_services table is ready (issue #99)
-// TODO [COMMUNITIES_FILTER]: Add when communities table is ready (issue #99)
+// TODO [KEY_SERVICES_FILTER / COMMUNITIES_FILTER]: EventType needs services +
+// communities fields added to API + enrichEvents() before filters can be wired. Follow-up to #99.
 // ---------------------------------------------------------------------------
 
 const filterConfigs: FilterConfig[] = [

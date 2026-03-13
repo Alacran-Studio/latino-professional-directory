@@ -162,6 +162,20 @@
       "when": 1773175269182,
       "tag": "20260310204109_default_is_active_false",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1773264000000,
+      "tag": "20260312000000_rename_affinities_to_communities_drop_categories",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1773264001000,
+      "tag": "20260312000001_cleanup_taxonomy_data",
+      "breakpoints": true
     }
   ]
 }

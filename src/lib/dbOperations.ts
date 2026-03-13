@@ -11,12 +11,12 @@ import {
   FeaturedOrgsTable,
   KeyServicesTable,
   OrganizationServices,
-  AffinitiesTable,
-  OrganizationAffinities,
+  CommunitiesTable,
+  OrganizationCommunities,
   OrganizationPhotosTable,
 } from "@drizzle/schema";
 import { inArray, eq, and, notInArray } from "drizzle-orm";
-import { DirectoryOrgType, IndustryType, CityType, EventType, ServiceType, AffinityType, OrgPhotoType } from "@/app/types";
+import { DirectoryOrgType, IndustryType, CityType, EventType, ServiceType, CommunityType, OrgPhotoType } from "@/app/types";
 
 // ** ENRICHMENT HELPERS **
 
@@ -27,14 +27,14 @@ async function enrichOrganizations(
 
   const orgIds = organizations.map((o) => o.id);
 
-  const [orgIndustryMappings, orgCityMappings, orgServiceMappings, orgAffinityMappings, orgPhotos] = await Promise.all([
+  const [orgIndustryMappings, orgCityMappings, orgServiceMappings, orgCommunityMappings, orgPhotos] = await Promise.all([
     fetchOrgIndustryMappings(organizations),
     fetchOrgCityMappings(organizations),
     fetchOrgServiceMappings(organizations),
     db
-      .select({ organization_id: OrganizationAffinities.organization_id, affinity_id: OrganizationAffinities.affinity_id })
-      .from(OrganizationAffinities)
-      .where(inArray(OrganizationAffinities.organization_id, orgIds)),
+      .select({ organization_id: OrganizationCommunities.organization_id, community_id: OrganizationCommunities.community_id })
+      .from(OrganizationCommunities)
+      .where(inArray(OrganizationCommunities.organization_id, orgIds)),
     db
       .select({ organization_id: OrganizationPhotosTable.organization_id, id: OrganizationPhotosTable.id, url: OrganizationPhotosTable.url, display_order: OrganizationPhotosTable.display_order })
       .from(OrganizationPhotosTable)
@@ -45,15 +45,15 @@ async function enrichOrganizations(
   const industryIds = orgIndustryMappings.map((m) => m.industry_id).filter((id): id is number => id !== null);
   const cityIds = orgCityMappings.map((m) => m.city_id).filter((id): id is number => id !== null);
   const serviceIds = orgServiceMappings.map((m) => m.service_id).filter((id): id is number => id !== null);
-  const affinityIds = orgAffinityMappings.map((m) => m.affinity_id).filter((id): id is number => id !== null);
+  const communityIds = orgCommunityMappings.map((m) => m.community_id).filter((id): id is number => id !== null);
 
-  const [industries, cities, services, affinities] = await Promise.all([
+  const [industries, cities, services, communities] = await Promise.all([
     fetchIndustries(industryIds),
     fetchCities(cityIds),
     fetchServices(serviceIds),
-    affinityIds.length > 0
-      ? db.select({ id: AffinitiesTable.id, name: AffinitiesTable.name }).from(AffinitiesTable).where(inArray(AffinitiesTable.id, affinityIds))
-      : Promise.resolve([] as AffinityType[]),
+    communityIds.length > 0
+      ? db.select({ id: CommunitiesTable.id, name: CommunitiesTable.name }).from(CommunitiesTable).where(inArray(CommunitiesTable.id, communityIds))
+      : Promise.resolve([] as CommunityType[]),
   ]);
 
   return mapDataToOrganizations(
@@ -64,8 +64,8 @@ async function enrichOrganizations(
     cities,
     orgServiceMappings,
     services,
-    orgAffinityMappings,
-    affinities,
+    orgCommunityMappings,
+    communities,
     orgPhotos
   );
 }
@@ -229,6 +229,23 @@ export async function fetchServices(
   return await query;
 }
 
+export async function fetchCommunities(
+  communityIds?: number[]
+): Promise<CommunityType[]> {
+  const query = db
+    .select({
+      id: CommunitiesTable.id,
+      name: CommunitiesTable.name,
+    })
+    .from(CommunitiesTable);
+
+  if (communityIds && communityIds.length > 0) {
+    query.where(inArray(CommunitiesTable.id, communityIds));
+  }
+
+  return await query;
+}
+
 export async function fetchCities(cityIds?: number[]): Promise<CityType[]> {
   const query = db
     .select({
@@ -317,8 +334,8 @@ function mapDataToOrganizations(
   cities: any[],
   serviceMappings: any[],
   services: any[],
-  affinityMappings: any[] = [],
-  affinities: any[] = [],
+  communityMappings: any[] = [],
+  communities: any[] = [],
   orgPhotos: any[] = []
 ) {
   return organizations.map((org) => ({
@@ -335,10 +352,10 @@ function mapDataToOrganizations(
       .filter((m) => m.organization_id === org.id)
       .map((m): ServiceType | null => services.find((s) => s.id === m.service_id) || null)
       .filter((s): s is ServiceType => s !== null),
-    affinities: affinityMappings
+    communities: communityMappings
       .filter((m) => m.organization_id === org.id)
-      .map((m): AffinityType | null => affinities.find((a) => a.id === m.affinity_id) || null)
-      .filter((a): a is AffinityType => a !== null),
+      .map((m): CommunityType | null => communities.find((c) => c.id === m.community_id) || null)
+      .filter((c): c is CommunityType => c !== null),
     gallery_photos: orgPhotos
       .filter((p) => p.organization_id === org.id)
       .map((p): OrgPhotoType => ({ id: p.id, url: p.url, display_order: p.display_order })),

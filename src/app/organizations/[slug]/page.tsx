@@ -99,7 +99,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     website_url,
     industries,
     services = [],
-    affinities = [],
+    communities = [],
     gallery_photos = [],
     photo_url,
     banner_position,
@@ -231,7 +231,7 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
         )}
 
         {/* Key Services + Communities */}
-        {(services.length > 0 || affinities.length > 0) && (
+        {(services.length > 0 || communities.length > 0) && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {services.length > 0 && (
               <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
@@ -242,12 +242,12 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
               </section>
             )}
 
-            {affinities.length > 0 && (
+            {communities.length > 0 && (
               <section className="rounded-xl border border-border bg-card p-6 shadow-lg">
                 <h2 className="mb-4 font-lexend text-lg font-bold uppercase tracking-wide sm:text-xl">
                   Communities
                 </h2>
-                <Tags tags={affinities} />
+                <Tags tags={communities} />
               </section>
             )}
           </div>

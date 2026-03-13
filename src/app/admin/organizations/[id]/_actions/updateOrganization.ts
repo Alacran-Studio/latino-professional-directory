@@ -6,7 +6,7 @@ import {
   updateOrgIndustries,
   updateOrgServices,
   updateOrgCities,
-  updateOrgAffinities,
+  updateOrgCommunities,
   updateOrgGalleryPhotos,
   userOwnsOrg,
 } from "@/lib/admin/dbOperations";
@@ -59,7 +59,7 @@ export async function updateOrganization(orgId: number, formData: FormData) {
       updateOrgIndustries(orgId, parseIds(formData, "industry_ids")),
       updateOrgServices(orgId, parseIds(formData, "service_ids")),
       updateOrgCities(orgId, parseIds(formData, "city_ids")),
-      updateOrgAffinities(orgId, parseIds(formData, "affinity_ids")),
+      updateOrgCommunities(orgId, parseIds(formData, "community_ids")),
       updateOrgGalleryPhotos(orgId, parseStrings(formData, "gallery_photo_urls")),
     ]);
   } catch {

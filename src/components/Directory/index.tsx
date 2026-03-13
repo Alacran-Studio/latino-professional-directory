@@ -6,41 +6,20 @@ import {
   DirectoryOrgType,
   IndustryType,
   CityType,
+  ServiceType,
+  CommunityType,
   OrganizationsApiResponse,
 } from "@/app/types";
 import { fetchFilterData } from "@/lib/fetchFilterData";
 import FilterDropdown from "./FilterDropdown";
 import FilterIcon from "@/components/Directory/icons/Filter";
 import LocationIcon from "@/components/Directory/icons/Location";
+import { UserGroupIcon } from "@heroicons/react/24/outline";
 import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import NoResults from "./NoResults";
 import LoadingResults from "./LoadingResults";
 import Header1 from "../common/Header1";
 import type { FilterConfig } from "@/types/filters";
-
-// ---------------------------------------------------------------------------
-// Filter config — add new filters here as new taxonomy tables are built out.
-//
-// TODO [KEY_SERVICES_FILTER]: Uncomment and implement when key_services table
-// and org mapping are ready (issue #99).
-// {
-//   key: "keyServices",
-//   label: "Filter by Key Service",
-//   icon: <ServiceIcon />,
-//   buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
-//   analyticsKey: "key_service",
-// },
-//
-// TODO [COMMUNITIES_FILTER]: Uncomment and implement when communities table
-// and org mapping are ready (issue #99).
-// {
-//   key: "communities",
-//   label: "Filter by Community",
-//   icon: <CommunityIcon />,
-//   buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
-//   analyticsKey: "community",
-// },
-// ---------------------------------------------------------------------------
 
 const filterConfigs: FilterConfig[] = [
   {
@@ -59,15 +38,37 @@ const filterConfigs: FilterConfig[] = [
     accentColor: "var(--neutral)",
     analyticsKey: "location",
   },
+  {
+    key: "services",
+    label: "Filter by Key Service",
+    icon: <FilterIcon />,
+    buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
+    chipClassName: "bg-gray-300 dark:bg-gray-400",
+    accentColor: "var(--neutral)",
+    analyticsKey: "key_service",
+  },
+  {
+    key: "communities",
+    label: "Filter by Community",
+    icon: <UserGroupIcon className="h-5 w-5" />,
+    buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
+    chipClassName: "bg-gray-300 dark:bg-gray-400",
+    accentColor: "var(--neutral)",
+    analyticsKey: "community",
+  },
 ];
 
 export default function Directory({ className = "" }: { className?: string }) {
   const [openFilter, setOpenFilter] = useState<string | null>(null);
   const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>([]);
   const [selectedCities, setSelectedCities] = useState<CityType[]>([]);
+  const [selectedServices, setSelectedServices] = useState<ServiceType[]>([]);
+  const [selectedCommunities, setSelectedCommunities] = useState<CommunityType[]>([]);
   const [organizations, setOrganizations] = useState<DirectoryOrgType[]>([]);
   const [industries, setIndustries] = useState<IndustryType[]>([]);
   const [cities, setCities] = useState<CityType[]>([]);
+  const [services, setServices] = useState<ServiceType[]>([]);
+  const [communities, setCommunities] = useState<CommunityType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -89,6 +90,8 @@ export default function Directory({ className = "" }: { className?: string }) {
         setOrganizations(orgData.organizations);
         setIndustries(filterData.industries);
         setCities(filterData.cities);
+        setServices(filterData.services);
+        setCommunities(filterData.communities);
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
@@ -99,19 +102,25 @@ export default function Directory({ className = "" }: { className?: string }) {
     fetchData();
   }, []);
 
-  const filterItems: Record<string, IndustryType[] | CityType[]> = {
+  const filterItems: Record<string, IndustryType[] | CityType[] | ServiceType[] | CommunityType[]> = {
     industry: industries,
     location: cities,
+    services: services,
+    communities: communities,
   };
 
-  const selectedItems: Record<string, IndustryType[] | CityType[]> = {
+  const selectedItems: Record<string, IndustryType[] | CityType[] | ServiceType[] | CommunityType[]> = {
     industry: selectedIndustries,
     location: selectedCities,
+    services: selectedServices,
+    communities: selectedCommunities,
   };
 
   const setSelectedItemsMap: Record<string, (items: any[]) => void> = {
     industry: setSelectedIndustries,
     location: setSelectedCities,
+    services: setSelectedServices,
+    communities: setSelectedCommunities,
   };
 
   const filteredOrganizations = organizations.filter((org) => {
@@ -127,7 +136,19 @@ export default function Directory({ className = "" }: { className?: string }) {
         selectedCities.some((selected) => selected.id === city.id)
       );
 
-    return matchesIndustry && matchesCity;
+    const matchesService =
+      selectedServices.length === 0 ||
+      org.services.some((service) =>
+        selectedServices.some((selected) => selected.id === service.id)
+      );
+
+    const matchesCommunity =
+      selectedCommunities.length === 0 ||
+      org.communities.some((community) =>
+        selectedCommunities.some((selected) => selected.id === community.id)
+      );
+
+    return matchesIndustry && matchesCity && matchesService && matchesCommunity;
   });
 
   return (
@@ -138,7 +159,7 @@ export default function Directory({ className = "" }: { className?: string }) {
       <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
         {!isLoading && (
           //TODO: Fix spacing on desktop
-          <div className="mb-6 flex flex-col gap-y-4 md:flex-row md:gap-x-2 md:gap-y-0">
+          <div className="mb-6 flex flex-col gap-y-4 md:flex-row md:flex-wrap md:gap-x-2 md:gap-y-2">
             {filterConfigs.map((config) => (
               <FilterDropdown
                 key={config.key}
@@ -154,7 +175,7 @@ export default function Directory({ className = "" }: { className?: string }) {
                 buttonClassName={config.buttonClassName}
                 chipClassName={config.chipClassName}
                 accentColor={config.accentColor}
-                widthClassName="md:w-1/2"
+                widthClassName="md:w-[calc(50%-0.25rem)]"
                 onItemSelect={(val, selected) =>
                   selected
                     ? trackFilterApplied(config.analyticsKey, val, "directory")

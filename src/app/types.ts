@@ -5,7 +5,7 @@ export interface InternalNavigationLink {
 
 export type InternalNavigationLinks = Array<InternalNavigationLink>;
 
-export interface AffinityType {
+export interface CommunityType {
   id: number;
   name: string;
 }
@@ -26,7 +26,7 @@ export interface DirectoryOrgType {
   website_url: string;
   industries: IndustryType[];
   services: ServiceType[];
-  affinities: AffinityType[];
+  communities: CommunityType[];
   gallery_photos: OrgPhotoType[];
   photo_url: string;
   banner_position: string;
@@ -68,11 +68,6 @@ export interface CardType {
   borderColor: string;
 }
 
-export enum Affinity {
-  LatinoServing = "Latino-serving",
-  WomenServing = "Women-serving",
-  LGBTQ = "LGBTQ+",
-}
 
 export enum Category {
   Networking = "Networking",
@@ -89,6 +84,10 @@ export interface IndustriesApiResponse {
 
 export interface ServicesApiResponse {
   services: ServiceType[];
+}
+
+export interface CommunitiesApiResponse {
+  communities: CommunityType[];
 }
 
 export interface CitiesApiResponse {

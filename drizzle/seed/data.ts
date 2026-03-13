@@ -107,6 +107,7 @@ export const directoryIndustries = [
   { name: "Venture Capital" },
   { name: "Education" },
   { name: "Engineering" },
+  { name: "Entrepreneurship" },
   { name: "Real Estate" },
   { name: "Law" },
 ];
@@ -117,7 +118,7 @@ export const orgIndustryMappings = [
     directoryName: "ALPFA",
     directoryIndustries: ["Finance", "Professional Services"],
   },
-  { directoryName: "1871", directoryIndustries: ["Tech", "Venture Capital"] },
+  { directoryName: "1871", directoryIndustries: ["Tech", "Entrepreneurship"] },
   { directoryName: "SHPE", directoryIndustries: ["Engineering", "Tech"] },
   { directoryName: "Latinas in Nursing", directoryIndustries: ["Healthcare"] },
   { directoryName: "Latinas in Tech", directoryIndustries: ["Tech"] },
@@ -135,117 +136,40 @@ export const orgIndustryMappings = [
   },
 ];
 
-export const directoryCategories = [
-  "Networking",
-  "Mentorship",
-  "Community Impact",
-  "Entrepreneurship / Innovation",
+export const directoryCommunities = [
+  { name: "Latine" },
+  { name: "Women" },
+  { name: "LGBTQ+" },
 ];
 
-export const orgCategoryMappings = [
+export const orgCommunityMappings = [
   {
     directoryName: "Techqueria",
-    categories: ["Networking", "Mentorship", "Community Impact"],
+    communities: ["Latine", "LGBTQ+"],
   },
   {
     directoryName: "ALPFA",
-    categories: ["Networking", "Mentorship", "Community Impact"],
-  },
-  {
-    directoryName: "1871",
-    categories: ["Entrepreneurship / Innovation", "Networking", "Mentorship"],
+    communities: ["Latine", "Women"],
   },
   {
     directoryName: "SHPE",
-    categories: ["Mentorship", "Networking", "Community Impact"],
+    communities: ["Latine"],
   },
   {
     directoryName: "Latinas in Nursing",
-    categories: ["Mentorship", "Community Impact", "Networking"],
+    communities: ["Latine", "Women"],
   },
   {
     directoryName: "Latinas in Tech",
-    categories: ["Networking", "Mentorship", "Entrepreneurship / Innovation"],
+    communities: ["Latine", "Women"],
   },
   {
     directoryName: "Angeles Investors",
-    categories: [
-      "Entrepreneurship / Innovation",
-      "Mentorship",
-      "Community Impact",
-    ],
+    communities: ["Latine"],
   },
   {
     directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
-    categories: ["Mentorship", "Community Impact", "Networking"],
-  },
-  {
-    directoryName: "Chicago Innovation",
-    categories: ["Networking", "Entrepreneurship / Innovation"],
-  },
-];
-
-export const directoryAffinities = [
-  "Latiné Professionals",
-  "Women in Leadership",
-  "LGBTQ+",
-  "First-Generation Professionals",
-  "Immigrant & Refugee",
-  "Afro-Latiné",
-  "Indigenous Latiné",
-  "Young Professionals",
-  "Experienced Professionals",
-  "Bilingual/Bicultural",
-  "Veterans & Military",
-  "Parents & Caregivers",
-  "Disability Inclusion",
-];
-
-export const orgAffinityMappings = [
-  {
-    directoryName: "Techqueria",
-    affinities: [
-      "Latiné Professionals",
-      "LGBTQ+",
-      "First-Generation Professionals",
-    ],
-  },
-  {
-    directoryName: "ALPFA",
-    affinities: [
-      "Latiné Professionals",
-      "Women in Leadership",
-      "Bilingual/Bicultural",
-    ],
-  },
-  {
-    directoryName: "1871",
-    affinities: [
-      "Women in Leadership",
-      "Young Professionals",
-      "Experienced Professionals",
-      "Latiné Professionals",
-    ],
-  },
-  {
-    directoryName: "SHPE",
-    affinities: ["Latiné Professionals", "Afro-Latiné", "Young Professionals"],
-  },
-  {
-    directoryName: "Latinas in Nursing",
-    affinities: ["Latiné Professionals", "Women in Leadership"],
-  },
-  {
-    directoryName: "Latinas in Tech",
-    affinities: ["Latiné Professionals", "Women in Leadership"],
-  },
-  {
-    directoryName: "Angeles Investors",
-    affinities: ["Latiné Professionals"],
-  },
-  {
-    directoryName: "Hispanic Alliance for Career Enhancement (HACE)",
-    affinities: ["Latiné Professionals"],
+    communities: ["Latine", "Women"],
   },
 ];
 
@@ -270,25 +194,25 @@ export const orgCityMappings = [
 ];
 
 export const directoryServices = [
-  { name: "Mentorship" },
-  { name: "Networking" },
-  { name: "Leadership Development" },
-  { name: "Career Advancement" },
-  { name: "Professional Development" },
-  { name: "Entrepreneurship" },
-  { name: "Funding & Investment" },
-  { name: "Community Building" },
+  { name: "Networking Events" },
+  { name: "Mentorship Programs" },
+  { name: "Professional Cohorts" },
+  { name: "In-Person Conferences & Summits" },
+  { name: "Virtual Summits" },
+  { name: "Educational Events" },
+  { name: "Job Board" },
 ];
 
 export const orgServiceMappings = [
-  { directoryName: "Techqueria", services: ["Mentorship", "Networking", "Career Advancement", "Professional Development", "Community Building"] },
-  { directoryName: "ALPFA", services: ["Networking", "Leadership Development", "Career Advancement", "Professional Development"] },
-  { directoryName: "Hispanic Alliance for Career Enhancement (HACE)", services: ["Mentorship", "Leadership Development", "Career Advancement", "Professional Development"] },
-  { directoryName: "Angeles Investors", services: ["Mentorship", "Entrepreneurship", "Funding & Investment"] },
-  { directoryName: "SHPE", services: ["Mentorship", "Networking", "Leadership Development", "Professional Development", "Community Building"] },
-  { directoryName: "Latinas in Tech", services: ["Networking", "Career Advancement", "Professional Development", "Community Building"] },
-  { directoryName: "Chicago Innovation", services: ["Networking", "Entrepreneurship", "Community Building"] },
-  { directoryName: "1871", services: ["Mentorship", "Networking", "Professional Development", "Entrepreneurship", "Funding & Investment"] },
+  { directoryName: "Techqueria", services: ["Networking Events", "Virtual Summits", "Professional Cohorts"] },
+  { directoryName: "ALPFA", services: ["Networking Events", "Mentorship Programs", "Educational Events"] },
+  { directoryName: "1871", services: ["Networking Events", "Mentorship Programs", "In-Person Conferences & Summits"] },
+  { directoryName: "SHPE", services: ["Networking Events", "Mentorship Programs", "Educational Events", "In-Person Conferences & Summits"] },
+  { directoryName: "Latinas in Nursing", services: ["Networking Events", "Mentorship Programs"] },
+  { directoryName: "Latinas in Tech", services: ["Networking Events", "Mentorship Programs", "Educational Events"] },
+  { directoryName: "Angeles Investors", services: ["Networking Events", "Job Board"] },
+  { directoryName: "Hispanic Alliance for Career Enhancement (HACE)", services: ["Mentorship Programs", "Professional Cohorts", "Educational Events"] },
+  { directoryName: "Chicago Innovation", services: ["Networking Events", "In-Person Conferences & Summits"] },
 ];
 
 export const directoryEvents = [

@@ -9,10 +9,10 @@ interface OrgFormProps {
   allIndustries: AdminOrgRelated[];
   allServices: AdminOrgRelated[];
   allCities: AdminOrgRelated[];
-  allAffinities: AdminOrgRelated[];
+  allCommunities: AdminOrgRelated[];
 }
 
-export function OrgForm({ org, allIndustries, allServices, allCities, allAffinities }: OrgFormProps) {
+export function OrgForm({ org, allIndustries, allServices, allCities, allCommunities }: OrgFormProps) {
   return (
     <div className="max-w-2xl space-y-10">
       <BasicInfoSection org={org} />
@@ -24,7 +24,7 @@ export function OrgForm({ org, allIndustries, allServices, allCities, allAffinit
         allIndustries={allIndustries}
         allServices={allServices}
         allCities={allCities}
-        allAffinities={allAffinities}
+        allCommunities={allCommunities}
       />
       <hr className="border-border" />
       <SocialLinksSection org={org} />

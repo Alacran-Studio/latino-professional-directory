@@ -4,7 +4,7 @@ import {
   fetchAllIndustries,
   fetchAllServices,
   fetchAllCities,
-  fetchAllAffinities,
+  fetchAllCommunities,
   userOwnsOrg,
 } from "@/lib/admin/dbOperations";
 import { OrgForm } from "../../_components/OrgForm";
@@ -33,13 +33,13 @@ export default async function EditOrganizationPage({
     if (!owns) redirect("/admin/organizations");
   }
 
-  const [org, allIndustries, allServices, allCities, allAffinities] =
+  const [org, allIndustries, allServices, allCities, allCommunities] =
     await Promise.all([
       fetchOrgById(orgId),
       fetchAllIndustries(),
       fetchAllServices(),
       fetchAllCities(),
-      fetchAllAffinities(),
+      fetchAllCommunities(),
     ]);
 
   if (!org) notFound();
@@ -115,7 +115,7 @@ export default async function EditOrganizationPage({
         allIndustries={allIndustries}
         allServices={allServices}
         allCities={allCities}
-        allAffinities={allAffinities}
+        allCommunities={allCommunities}
       />
     </div>
   );

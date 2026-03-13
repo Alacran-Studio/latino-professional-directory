@@ -51,35 +51,19 @@ export const OrganizationIndustries = lpddSchema.table(
   }
 );
 
-export const AffinitiesTable = lpddSchema.table("affinities", {
+export const CommunitiesTable = lpddSchema.table("communities", {
   id: serial("id").primaryKey(),
   name: text("name").notNull().unique(),
 });
 
-export const OrganizationAffinities = lpddSchema.table(
-  "organization_affinities",
+export const OrganizationCommunities = lpddSchema.table(
+  "organization_communities",
   {
     id: serial("id").primaryKey(),
     organization_id: integer("organization_id").references(
       () => OrganizationsTable.id
     ),
-    affinity_id: integer("affinity_id").references(() => AffinitiesTable.id),
-  }
-);
-
-export const CategoriesTable = lpddSchema.table("categories", {
-  id: serial("id").primaryKey(),
-  name: text("name").notNull().unique(),
-});
-
-export const OrganizationCategories = lpddSchema.table(
-  "organization_categories",
-  {
-    id: serial("id").primaryKey(),
-    organization_id: integer("organization_id").references(
-      () => OrganizationsTable.id
-    ),
-    category_id: integer("category_id").references(() => CategoriesTable.id),
+    community_id: integer("community_id").references(() => CommunitiesTable.id),
   }
 );
 
