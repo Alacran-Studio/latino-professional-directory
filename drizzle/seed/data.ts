@@ -107,6 +107,7 @@ export const directoryIndustries = [
   { name: "Venture Capital" },
   { name: "Education" },
   { name: "Engineering" },
+  { name: "Entrepreneurship" },
   { name: "Real Estate" },
   { name: "Law" },
 ];
@@ -117,7 +118,7 @@ export const orgIndustryMappings = [
     directoryName: "ALPFA",
     directoryIndustries: ["Finance", "Professional Services"],
   },
-  { directoryName: "1871", directoryIndustries: ["Tech", "Venture Capital"] },
+  { directoryName: "1871", directoryIndustries: ["Tech", "Entrepreneurship"] },
   { directoryName: "SHPE", directoryIndustries: ["Engineering", "Tech"] },
   { directoryName: "Latinas in Nursing", directoryIndustries: ["Healthcare"] },
   { directoryName: "Latinas in Tech", directoryIndustries: ["Tech"] },
