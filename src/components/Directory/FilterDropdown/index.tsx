@@ -1,4 +1,4 @@
-import { useRef, useEffect, ReactNode } from "react";
+import { useRef, useEffect, useLayoutEffect, useState, ReactNode } from "react";
 import "./checkbox.css";
 import XIcon from "@/components/Directory/icons/X";
 import Paragraph from "@/components/common/Paragraph";
@@ -40,6 +40,39 @@ export default function FilterDropdown<T extends FilterItem>({
 }: FilterDropdownProps<T>) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const [clampState, setClampState] = useState<{ visibleCount: number; overflow: number } | null>(null);
+
+  useLayoutEffect(() => {
+    const el = measureRef.current;
+    if (!el || selectedItems.length === 0) {
+      setClampState(null);
+      return;
+    }
+
+    const chips = Array.from(el.querySelectorAll("[data-chip]")) as HTMLElement[];
+    if (chips.length === 0) return;
+
+    const tops = [...new Set(chips.map((c) => c.offsetTop))].sort((a, b) => a - b);
+
+    if (tops.length <= 2) {
+      setClampState(null);
+      return;
+    }
+
+    const row3Top = tops[2];
+    const visibleCount = chips.filter((c) => c.offsetTop < row3Top).length;
+    const overflow = chips.length - visibleCount;
+
+    setClampState((prev) =>
+      prev?.visibleCount === visibleCount && prev?.overflow === overflow
+        ? prev
+        : { visibleCount, overflow }
+    );
+  }, [selectedItems]);
+
+  const overflow = clampState?.overflow ?? 0;
+  const visibleItems = clampState ? selectedItems.slice(0, clampState.visibleCount) : selectedItems;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -151,22 +184,49 @@ export default function FilterDropdown<T extends FilterItem>({
       </div>
 
       {/* Item Chips Container */}
-      <div
-        className={`flex w-full flex-wrap gap-2 ${
-          selectedItems.length === 0 ? "mt-0" : "mt-4"
-        }`}
-      >
-        {selectedItems.map((item: T) => (
-          <button
-            key={item.id !== undefined ? item.id : item.name}
-            onClick={() => removeItem(item)}
-            className={`flex items-center space-x-2 rounded-full px-3 py-1 focus:outline-none ${chipClassName}`}
+      {selectedItems.length > 0 && (
+        <div className="relative mt-4">
+          {/* Hidden measurement div — always renders all chips at full width for accurate row detection */}
+          <div
+            ref={measureRef}
+            className="invisible absolute w-full flex flex-wrap gap-2 pointer-events-none"
+            aria-hidden="true"
           >
-            <Paragraph className="text-label font-lexend">{item.name}</Paragraph>
-            <XIcon />
-          </button>
-        ))}
-      </div>
+            {selectedItems.map((item: T) => (
+              <button
+                data-chip
+                key={item.id !== undefined ? item.id : item.name}
+                className={`flex items-center space-x-2 rounded-full px-3 py-1 ${chipClassName}`}
+              >
+                <Paragraph className="text-label font-lexend">{item.name}</Paragraph>
+                <XIcon />
+              </button>
+            ))}
+          </div>
+
+          {/* Visible chips + inline overflow badge */}
+          <div className="flex w-full flex-wrap gap-2">
+            {visibleItems.map((item: T) => (
+              <button
+                key={item.id !== undefined ? item.id : item.name}
+                onClick={() => removeItem(item)}
+                className={`flex items-center space-x-2 rounded-full px-3 py-1 focus:outline-none ${chipClassName}`}
+              >
+                <Paragraph className="text-label font-lexend">{item.name}</Paragraph>
+                <XIcon />
+              </button>
+            ))}
+            {overflow > 0 && (
+              <button
+                onClick={() => setIsDropdownOpen(true)}
+                className="rounded-full border border-border px-3 py-1 text-secondary-foreground hover:bg-muted"
+              >
+                <Paragraph className="text-label font-lexend">And {overflow} more...</Paragraph>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

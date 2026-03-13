@@ -21,6 +21,10 @@ import LoadingResults from "./LoadingResults";
 import Header1 from "../common/Header1";
 import type { FilterConfig } from "@/types/filters";
 
+// Keys listed here are hidden from the directory filter UI.
+// Remove a key to re-enable it when the backing feature is ready.
+const HIDDEN_FILTERS: string[] = ["communities"];
+
 const filterConfigs: FilterConfig[] = [
   {
     key: "industry",
@@ -40,10 +44,10 @@ const filterConfigs: FilterConfig[] = [
   },
   {
     key: "services",
-    label: "Filter by Key Service",
+    label: "Filter by Key Services",
     icon: <FilterIcon />,
-    buttonClassName: "bg-gray-300 dark:bg-gray-400 dark:text-black",
-    chipClassName: "bg-gray-300 dark:bg-gray-400",
+    buttonClassName: "bg-primary text-white",
+    chipClassName: "bg-primary text-white",
     accentColor: "var(--neutral)",
     analyticsKey: "key_service",
   },
@@ -158,31 +162,32 @@ export default function Directory({ className = "" }: { className?: string }) {
       <Header1 className="pb-8 text-center">The Directory</Header1>
       <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
         {!isLoading && (
-          //TODO: Fix spacing on desktop
-          <div className="mb-6 flex flex-col gap-y-4 md:flex-row md:flex-wrap md:gap-x-2 md:gap-y-2">
-            {filterConfigs.map((config) => (
-              <FilterDropdown
-                key={config.key}
-                label={config.label}
-                icon={config.icon}
-                items={filterItems[config.key]}
-                selectedItems={selectedItems[config.key]}
-                setSelectedItems={setSelectedItemsMap[config.key]}
-                isDropdownOpen={openFilter === config.key}
-                setIsDropdownOpen={(isOpen) =>
-                  setOpenFilter(isOpen ? config.key : null)
-                }
-                buttonClassName={config.buttonClassName}
-                chipClassName={config.chipClassName}
-                accentColor={config.accentColor}
-                widthClassName="md:w-[calc(50%-0.25rem)]"
-                onItemSelect={(val, selected) =>
-                  selected
-                    ? trackFilterApplied(config.analyticsKey, val, "directory")
-                    : trackFilterRemoved(config.analyticsKey, val, "directory")
-                }
-              />
-            ))}
+          <div className="mb-6 flex flex-col gap-2 md:flex-row">
+            {filterConfigs
+              .filter((config) => !HIDDEN_FILTERS.includes(config.key))
+              .map((config) => (
+                <FilterDropdown
+                  key={config.key}
+                  label={config.label}
+                  icon={config.icon}
+                  items={filterItems[config.key]}
+                  selectedItems={selectedItems[config.key]}
+                  setSelectedItems={setSelectedItemsMap[config.key]}
+                  isDropdownOpen={openFilter === config.key}
+                  setIsDropdownOpen={(isOpen) =>
+                    setOpenFilter(isOpen ? config.key : null)
+                  }
+                  buttonClassName={config.buttonClassName}
+                  chipClassName={config.chipClassName}
+                  accentColor={config.accentColor}
+                  widthClassName="md:flex-1"
+                  onItemSelect={(val, selected) =>
+                    selected
+                      ? trackFilterApplied(config.analyticsKey, val, "directory")
+                      : trackFilterRemoved(config.analyticsKey, val, "directory")
+                  }
+                />
+              ))}
           </div>
         )}
 

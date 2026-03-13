@@ -176,6 +176,13 @@
       "when": 1773264001000,
       "tag": "20260312000001_cleanup_taxonomy_data",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1773350400000,
+      "tag": "20260313000000_rename_service_tags_conferences_summits",
+      "breakpoints": true
     }
   ]
 }
