@@ -6,14 +6,14 @@ import {
   OrganizationIndustries,
   OrganizationServices,
   OrganizationCities,
-  OrganizationAffinities,
+  OrganizationCommunities,
   OrganizationPhotosTable,
   OrganizationContacts,
   InvitesTable,
   IndustriesTable,
   KeyServicesTable,
   CitiesTable,
-  AffinitiesTable,
+  CommunitiesTable,
 } from "@drizzle/schema";
 import { eq, inArray, sql } from "drizzle-orm";
 import type { AdminOrg, AdminOrgPhoto, AdminOrgRelated, OrgStatus } from "@/types/admin";
@@ -78,10 +78,10 @@ export async function fetchOrgById(id: number): Promise<AdminOrg | null> {
       .innerJoin(CitiesTable, eq(OrganizationCities.city_id, CitiesTable.id))
       .where(eq(OrganizationCities.organization_id, id)),
     db
-      .select({ id: AffinitiesTable.id, name: AffinitiesTable.name })
-      .from(OrganizationAffinities)
-      .innerJoin(AffinitiesTable, eq(OrganizationAffinities.affinity_id, AffinitiesTable.id))
-      .where(eq(OrganizationAffinities.organization_id, id)),
+      .select({ id: CommunitiesTable.id, name: CommunitiesTable.name })
+      .from(OrganizationCommunities)
+      .innerJoin(CommunitiesTable, eq(OrganizationCommunities.community_id, CommunitiesTable.id))
+      .where(eq(OrganizationCommunities.organization_id, id)),
     db
       .select({ id: OrganizationPhotosTable.id, url: OrganizationPhotosTable.url, display_order: OrganizationPhotosTable.display_order })
       .from(OrganizationPhotosTable)
@@ -94,7 +94,7 @@ export async function fetchOrgById(id: number): Promise<AdminOrg | null> {
     industries: industries as AdminOrgRelated[],
     services: services as AdminOrgRelated[],
     cities: cities as AdminOrgRelated[],
-    affinities: affinities as AdminOrgRelated[],
+    communities: affinities as AdminOrgRelated[],
     gallery_photos: gallery_photos as AdminOrgPhoto[],
   };
 }
@@ -156,11 +156,11 @@ export async function updateOrgCities(orgId: number, cityIds: number[]) {
   }
 }
 
-export async function updateOrgAffinities(orgId: number, affinityIds: number[]) {
-  await db.delete(OrganizationAffinities).where(eq(OrganizationAffinities.organization_id, orgId));
-  if (affinityIds.length > 0) {
-    await db.insert(OrganizationAffinities).values(
-      affinityIds.map((affinity_id) => ({ organization_id: orgId, affinity_id }))
+export async function updateOrgCommunities(orgId: number, communityIds: number[]) {
+  await db.delete(OrganizationCommunities).where(eq(OrganizationCommunities.organization_id, orgId));
+  if (communityIds.length > 0) {
+    await db.insert(OrganizationCommunities).values(
+      communityIds.map((community_id) => ({ organization_id: orgId, community_id }))
     );
   }
 }
@@ -186,8 +186,8 @@ export async function fetchAllCities(): Promise<AdminOrgRelated[]> {
   return db.select({ id: CitiesTable.id, name: CitiesTable.name }).from(CitiesTable).orderBy(CitiesTable.name);
 }
 
-export async function fetchAllAffinities(): Promise<AdminOrgRelated[]> {
-  return db.select({ id: AffinitiesTable.id, name: AffinitiesTable.name }).from(AffinitiesTable).orderBy(AffinitiesTable.name);
+export async function fetchAllCommunities(): Promise<AdminOrgRelated[]> {
+  return db.select({ id: CommunitiesTable.id, name: CommunitiesTable.name }).from(CommunitiesTable).orderBy(CommunitiesTable.name);
 }
 
 export async function updateOrgStatus(id: number, status: OrgStatus) {
@@ -219,7 +219,7 @@ export async function deleteOrg(id: number): Promise<void> {
   await db.delete(OrganizationIndustries).where(eq(OrganizationIndustries.organization_id, id));
   await db.delete(OrganizationServices).where(eq(OrganizationServices.organization_id, id));
   await db.delete(OrganizationCities).where(eq(OrganizationCities.organization_id, id));
-  await db.delete(OrganizationAffinities).where(eq(OrganizationAffinities.organization_id, id));
+  await db.delete(OrganizationCommunities).where(eq(OrganizationCommunities.organization_id, id));
   await db.delete(OrganizationContacts).where(eq(OrganizationContacts.organization_id, id));
   await db.delete(OrganizationsTable).where(eq(OrganizationsTable.id, id));
 }

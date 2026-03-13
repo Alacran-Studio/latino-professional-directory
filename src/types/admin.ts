@@ -37,7 +37,7 @@ export interface AdminOrg {
   industries?: AdminOrgRelated[];
   services?: AdminOrgRelated[];
   cities?: AdminOrgRelated[];
-  affinities?: AdminOrgRelated[];
+  communities?: AdminOrgRelated[];
   gallery_photos?: AdminOrgPhoto[];
 }
 

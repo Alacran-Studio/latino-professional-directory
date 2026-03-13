@@ -5,13 +5,13 @@ import {
   updateOrgIndustries,
   updateOrgServices,
   updateOrgCities,
-  updateOrgAffinities,
+  updateOrgCommunities,
   userOwnsOrg,
 } from "@/lib/admin/dbOperations";
 import type { UserRole } from "@/types/admin";
 import { revalidatePath } from "next/cache";
 
-type Category = "industries" | "services" | "cities" | "affinities";
+type Category = "industries" | "services" | "cities" | "communities";
 
 export async function updateClassificationAction(
   orgId: number,
@@ -29,7 +29,7 @@ export async function updateClassificationAction(
       case "industries": await updateOrgIndustries(orgId, ids); break;
       case "services":   await updateOrgServices(orgId, ids);   break;
       case "cities":     await updateOrgCities(orgId, ids);     break;
-      case "affinities": await updateOrgAffinities(orgId, ids); break;
+      case "communities": await updateOrgCommunities(orgId, ids); break;
     }
   } catch {
     return { error: `Failed to update ${category}. Please try again.` };
