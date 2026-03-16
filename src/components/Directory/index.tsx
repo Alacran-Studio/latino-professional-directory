@@ -14,7 +14,7 @@ import { fetchFilterData } from "@/lib/fetchFilterData";
 import FilterDropdown from "./FilterDropdown";
 import FilterIcon from "@/components/Directory/icons/Filter";
 import LocationIcon from "@/components/Directory/icons/Location";
-import { UserGroupIcon } from "@heroicons/react/24/outline";
+import { UserGroupIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import NoResults from "./NoResults";
 import LoadingResults from "./LoadingResults";
@@ -45,7 +45,7 @@ const filterConfigs: FilterConfig[] = [
   {
     key: "services",
     label: "Filter by Key Services",
-    icon: <FilterIcon />,
+    icon: <KeyIcon className="h-5 w-5" />,
     buttonClassName: "bg-primary text-white",
     chipClassName: "bg-primary text-white",
     accentColor: "var(--neutral)",
