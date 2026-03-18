@@ -2,6 +2,7 @@ import { db } from "@/lib/drizzleClient";
 import {
   OrganizationsTable,
   UserOrganizationsTable,
+  UsersTable,
   FeaturedOrgsTable,
   OrganizationIndustries,
   OrganizationServices,
@@ -16,7 +17,7 @@ import {
   CommunitiesTable,
 } from "@drizzle/schema";
 import { eq, inArray, sql } from "drizzle-orm";
-import type { AdminOrg, AdminOrgPhoto, AdminOrgRelated, OrgStatus } from "@/types/admin";
+import type { AdminOrg, AdminOrgPhoto, AdminOrgRelated, OrgAdmin, OrgStatus } from "@/types/admin";
 import { generateSlug } from "@/lib/slugify";
 
 export interface FeaturedOrg {
@@ -24,6 +25,24 @@ export interface FeaturedOrg {
   org_id: number;
   display_order: number;
   name: string;
+}
+
+export async function fetchOrgAdmins(): Promise<OrgAdmin[]> {
+  const rows = await db
+    .select({
+      user_id: UsersTable.id,
+      first_name: UsersTable.first_name,
+      last_name: UsersTable.last_name,
+      email: UsersTable.email,
+      organization_id: OrganizationsTable.id,
+      organization_name: OrganizationsTable.name,
+      created_at: UserOrganizationsTable.created_at,
+    })
+    .from(UserOrganizationsTable)
+    .innerJoin(UsersTable, eq(UserOrganizationsTable.user_id, UsersTable.id))
+    .innerJoin(OrganizationsTable, eq(UserOrganizationsTable.organization_id, OrganizationsTable.id))
+    .orderBy(OrganizationsTable.name, UsersTable.last_name);
+  return rows;
 }
 
 export async function fetchAllOrgs(): Promise<AdminOrg[]> {
