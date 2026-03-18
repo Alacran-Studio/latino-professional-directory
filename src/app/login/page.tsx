@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { login } from "./_actions/login";
 import { FullBrand } from "@/components/common/FullBrand";
 import { PasswordInput } from "@/components/common/PasswordInput";
@@ -54,9 +55,17 @@ export default function LoginPage() {
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="password" className="mb-2 text-sm font-bold text-foreground">
-                Password
-              </label>
+              <div className="mb-2 flex items-center justify-between">
+                <label htmlFor="password" className="text-sm font-bold text-foreground">
+                  Password
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs font-medium text-primary hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <PasswordInput
                 id="password"
                 name="password"
