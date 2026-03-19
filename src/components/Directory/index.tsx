@@ -149,13 +149,14 @@ export default function Directory({
     >
       <Header1 className="pb-8 text-center">The Directory</Header1>
       <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
-        <div className="mb-4">
-          <Suspense fallback={<div className="h-9 w-full rounded-lg border border-border bg-background" />}>
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
-          </Suspense>
-        </div>
+        <div className="mb-4 rounded-lg bg-card p-3">
+          <div className="mb-2">
+            <Suspense fallback={<div className="h-9 w-full rounded-lg border border-border bg-background" />}>
+              <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            </Suspense>
+          </div>
 
-        <div className="mb-6 flex flex-col gap-2 md:flex-row">
+          <div className="flex flex-col gap-2 md:flex-row">
           {filterConfigs
             .filter((config) => !HIDDEN_FILTERS.includes(config.key))
             .map((config) => (
@@ -181,6 +182,7 @@ export default function Directory({
                 }
               />
             ))}
+          </div>
         </div>
 
         {filteredOrganizations.length === 0 ? (
