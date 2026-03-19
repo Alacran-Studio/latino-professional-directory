@@ -10,13 +10,13 @@ export default async function ApprovalQueuePage() {
   return (
     <div>
       <h1 className="font-lexend mb-6 text-2xl font-semibold text-foreground">
-        Approval Queue
+        Activation Inbox
       </h1>
 
       {pendingOrgs.length === 0 ? (
         <div className="rounded-lg border border-border bg-card p-8 text-center">
           <p className="text-secondary-foreground">
-            No organizations pending review.
+            No organizations ready for activation.
           </p>
         </div>
       ) : (

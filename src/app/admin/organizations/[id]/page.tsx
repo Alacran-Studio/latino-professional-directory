@@ -13,7 +13,7 @@ import { ActiveToggle } from "../../_components/ActiveToggle";
 import { DeleteOrgButton } from "../../_components/DeleteOrgButton";
 import { SubmitForReviewButton } from "../../_components/SubmitForReviewButton";
 import { notFound, redirect } from "next/navigation";
-import type { UserRole, OrgStatus } from "@/types/admin";
+import type { UserRole } from "@/types/admin";
 import Link from "next/link";
 
 export default async function EditOrganizationPage({
@@ -63,7 +63,7 @@ export default async function EditOrganizationPage({
           <p className="mt-0.5 text-sm text-secondary-foreground">Organization Profile</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <StatusBadge status={org.status as OrgStatus} isActive={org.is_active !== "false"} />
+          <StatusBadge isActive={org.is_active !== "false"} />
           {role === "system_admin" && (
             <ActiveToggle orgId={org.id} isActive={org.is_active !== "false"} />
           )}
@@ -74,7 +74,7 @@ export default async function EditOrganizationPage({
       </div>
 
       {/* Org admin: profile completion prompt */}
-      {role === "org_admin" && org.status === "approved" && org.is_active === "false" && (
+      {role === "org_admin" && org.is_active === "false" && (
         <div className="mb-6 rounded-md border border-blue-200 bg-blue-50 px-4 py-4 dark:border-blue-800 dark:bg-blue-950/20">
           {org.ready_for_review === "true" ? (
             <p className="text-sm font-medium text-blue-700 dark:text-blue-300">
@@ -100,13 +100,6 @@ export default async function EditOrganizationPage({
       {role === "system_admin" && org.ready_for_review === "true" && org.is_active === "false" && (
         <div className="mb-6 rounded-md border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-800 dark:border-yellow-800 dark:bg-yellow-950/20 dark:text-yellow-300">
           This organization has submitted their profile for final review. Toggle <strong>Active</strong> above to publish their listing.
-        </div>
-      )}
-
-      {/* System admin: rejected org warning */}
-      {role === "system_admin" && org.status === "rejected" && (
-        <div className="mb-6 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/20 dark:text-red-400">
-          This organization was rejected. Rejected organizations should be deleted when no longer needed.
         </div>
       )}
 
