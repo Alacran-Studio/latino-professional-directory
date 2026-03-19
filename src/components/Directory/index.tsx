@@ -15,6 +15,7 @@ import LocationIcon from "@/components/Directory/icons/Location";
 import { UserGroupIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import NoResults from "./NoResults";
+import SearchBar from "./SearchBar";
 import Header1 from "../common/Header1";
 import type { FilterConfig } from "@/types/filters";
 
@@ -66,6 +67,7 @@ interface DirectoryProps {
   cities: CityType[];
   services: ServiceType[];
   communities: CommunityType[];
+  initialQuery?: string;
 }
 
 export default function Directory({
@@ -75,8 +77,10 @@ export default function Directory({
   cities,
   services,
   communities,
+  initialQuery = "",
 }: DirectoryProps) {
   const [openFilter, setOpenFilter] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedIndustries, setSelectedIndustries] = useState<IndustryType[]>([]);
   const [selectedCities, setSelectedCities] = useState<CityType[]>([]);
   const [selectedServices, setSelectedServices] = useState<ServiceType[]>([]);
@@ -104,6 +108,13 @@ export default function Directory({
   };
 
   const filteredOrganizations = organizations.filter((org) => {
+    const q = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      !q ||
+      org.name.toLowerCase().includes(q) ||
+      org.short_description?.toLowerCase().includes(q) ||
+      org.description?.toLowerCase().includes(q);
+
     const matchesIndustry =
       selectedIndustries.length === 0 ||
       org.industries.some((industry) =>
@@ -128,7 +139,7 @@ export default function Directory({
         selectedCommunities.some((selected) => selected.id === community.id)
       );
 
-    return matchesIndustry && matchesCity && matchesService && matchesCommunity;
+    return matchesSearch && matchesIndustry && matchesCity && matchesService && matchesCommunity;
   });
 
   return (
@@ -137,6 +148,10 @@ export default function Directory({
     >
       <Header1 className="pb-8 text-center">The Directory</Header1>
       <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
+        <div className="mb-4">
+          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        </div>
+
         <div className="mb-6 flex flex-col gap-2 md:flex-row">
           {filterConfigs
             .filter((config) => !HIDDEN_FILTERS.includes(config.key))

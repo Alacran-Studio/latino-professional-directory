@@ -18,7 +18,12 @@ export const metadata: Metadata = {
     "Browse organizations dedicated to the professional development of Latino professionals across all industries.",
 };
 
-export default async function DirectoryPage() {
+export default async function DirectoryPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>;
+}) {
+  const { q } = await searchParams;
   const [organizations, industries, cities, services, communities] =
     await Promise.all([
       fetchOrganizations(1, 100),
@@ -43,6 +48,7 @@ export default async function DirectoryPage() {
         cities={sortedCities}
         services={sortedServices}
         communities={sortedCommunities}
+        initialQuery={q ?? ""}
       />
     </main>
   );
