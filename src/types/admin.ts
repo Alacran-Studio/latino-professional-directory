@@ -54,6 +54,16 @@ export interface AdminUser {
 
 export type InviteStatus = "pending" | "accepted" | "expired";
 
+export interface OrgAdmin {
+  user_id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  organization_id: number;
+  organization_name: string;
+  created_at: string;
+}
+
 export interface AdminInvite {
   id: number;
   token: string;
