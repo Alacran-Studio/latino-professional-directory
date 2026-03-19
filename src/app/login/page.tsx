@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { login } from "./_actions/login";
 import { FullBrand } from "@/components/common/FullBrand";
 import { PasswordInput } from "@/components/common/PasswordInput";
@@ -73,6 +74,15 @@ export default function LoginPage() {
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
+
+            <div className="text-center">
+              <Link
+                href="/forgot-password"
+                className="text-sm text-secondary-foreground hover:text-foreground hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
           </form>
         </div>
       </div>
