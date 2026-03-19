@@ -55,17 +55,9 @@ export default function LoginPage() {
             </div>
 
             <div className="flex flex-col">
-              <div className="mb-2 flex items-center justify-between">
-                <label htmlFor="password" className="text-sm font-bold text-foreground">
-                  Password
-                </label>
-                <Link
-                  href="/forgot-password"
-                  className="text-xs font-medium text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
+              <label htmlFor="password" className="mb-2 text-sm font-bold text-foreground">
+                Password
+              </label>
               <PasswordInput
                 id="password"
                 name="password"
@@ -82,6 +74,15 @@ export default function LoginPage() {
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
+
+            <div className="text-center">
+              <Link
+                href="/forgot-password"
+                className="text-sm text-secondary-foreground hover:text-foreground hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
           </form>
         </div>
       </div>

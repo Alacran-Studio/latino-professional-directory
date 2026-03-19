@@ -199,6 +199,7 @@ export const directoryServices = [
   { name: "Professional Cohorts" },
   { name: "Conferences" },
   { name: "Summits" },
+  { name: "Webinars" },
   { name: "Educational Events" },
   { name: "Job Board" },
 ];
