@@ -27,22 +27,22 @@ export default function FeaturedOrgCard({
     <Link
       href={`/organizations/${slug}`}
       onClick={() => trackFeaturedOrgClick(id, name)}
-      className="group flex w-full flex-col overflow-hidden rounded-xl border-2 border-accent bg-card shadow-xl transition-shadow hover:shadow-2xl sm:w-52 md:w-56"
+      className="group flex w-full flex-col overflow-hidden rounded-xl border-2 border-accent bg-card shadow-xl transition-all duration-300 ease-in-out hover:bg-cardHover hover:shadow-2xl sm:w-56 md:w-64"
     >
         {/* Logo */}
-        <div className="flex h-36 w-full items-center justify-center p-4 transition-colors group-hover:bg-muted/40 sm:h-40">
+        <div className="flex h-28 w-full items-center justify-center p-4 transition-colors group-hover:bg-muted/40">
           <Image
             src={logoUrl}
             alt={`${name} logo`}
             width={200}
             height={200}
-            className="max-h-28 w-auto object-contain sm:max-h-32"
+            className="max-h-20 w-auto object-contain"
           />
         </div>
 
         {/* Text inside card — grows to fill remaining card height */}
         <div className="flex flex-1 flex-col items-center justify-start px-4 py-3 text-center">
-          <p className="font-lexend text-sm font-bold sm:text-base">
+          <p className="font-lexend text-base font-bold">
             {name}
           </p>
           {industries.length > 0 && (
@@ -53,7 +53,7 @@ export default function FeaturedOrgCard({
             </div>
           )}
           {shortDescription && (
-            <p className="mt-auto pt-3 text-base text-secondary-foreground sm:text-sm">{shortDescription}</p>
+            <p className="mt-2 text-xs text-secondary-foreground">{shortDescription}</p>
           )}
         </div>
     </Link>

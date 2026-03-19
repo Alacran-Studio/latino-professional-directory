@@ -34,7 +34,7 @@ export default async function FeaturedOrgs({ className = "" }: { className?: str
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-6">
         <Header2 className="text-center">Featured Organizations</Header2>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-8 sm:gap-6 md:gap-10">
+        <div className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-4 md:gap-6">
           {orgs.map((org) => (
             <FeaturedOrgCard
               key={org.id}

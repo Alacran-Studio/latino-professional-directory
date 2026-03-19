@@ -43,21 +43,21 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
 
   return (
     <div className="relative w-full">
-      <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-secondary-foreground" />
+      <MagnifyingGlassIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-secondary-foreground" />
       <input
         type="text"
         value={value}
         onChange={handleChange}
         placeholder="Search organizations..."
-        className="w-full rounded-lg border border-border bg-background py-2 pl-9 pr-9 text-sm text-foreground placeholder:text-secondary-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+        className="font-lexend text-label w-full rounded-lg border border-border bg-background px-4 py-2 pl-11 pr-11 text-foreground placeholder:text-secondary-foreground focus:outline-none md:h-12"
       />
       {value && (
         <button
           onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-foreground hover:text-foreground"
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary-foreground hover:text-foreground"
           aria-label="Clear search"
         >
-          <XMarkIcon className="h-4 w-4" />
+          <XMarkIcon className="h-5 w-5" />
         </button>
       )}
     </div>
