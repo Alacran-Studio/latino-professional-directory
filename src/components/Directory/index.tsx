@@ -17,6 +17,7 @@ import { trackFilterApplied, trackFilterRemoved } from "@/lib/analytics";
 import NoResults from "./NoResults";
 import SearchBar from "./SearchBar";
 import Header1 from "../common/Header1";
+import { Suspense } from "react";
 import type { FilterConfig } from "@/types/filters";
 
 // Keys listed here are hidden from the directory filter UI.
@@ -149,7 +150,9 @@ export default function Directory({
       <Header1 className="pb-8 text-center">The Directory</Header1>
       <div className="min-h-96 w-full rounded-lg border border-border bg-background p-4 shadow-lg sm:min-h-[520px] lg:w-[896px] dark:shadow-gray-800">
         <div className="mb-4">
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+          <Suspense fallback={<div className="h-9 w-full rounded-lg border border-border bg-background" />}>
+            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+          </Suspense>
         </div>
 
         <div className="mb-6 flex flex-col gap-2 md:flex-row">
