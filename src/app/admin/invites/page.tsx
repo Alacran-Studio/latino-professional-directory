@@ -25,7 +25,7 @@ export default async function ManageAdminsPage() {
 
       <div>
         <h2 className="font-lexend mb-4 text-lg font-semibold text-foreground">
-          Org Admins
+          Org Admins (Active)
         </h2>
         <OrgAdminsTable admins={orgAdmins} />
       </div>

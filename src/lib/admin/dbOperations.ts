@@ -41,6 +41,7 @@ export async function fetchOrgAdmins(): Promise<OrgAdmin[]> {
     .from(UserOrganizationsTable)
     .innerJoin(UsersTable, eq(UserOrganizationsTable.user_id, UsersTable.id))
     .innerJoin(OrganizationsTable, eq(UserOrganizationsTable.organization_id, OrganizationsTable.id))
+    .where(eq(OrganizationsTable.is_active, "true"))
     .orderBy(OrganizationsTable.name, UsersTable.last_name);
   return rows;
 }
