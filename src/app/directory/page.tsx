@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Directory from "@/components/Directory";
 import FeaturedOrgs from "@/components/Home/FeaturedOrgs";
 import type { Metadata } from "next";
