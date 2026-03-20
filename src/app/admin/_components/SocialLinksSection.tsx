@@ -30,7 +30,7 @@ function DisplayRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function SocialLinksSection({ org }: { org: AdminOrg }) {
+export function SocialLinksSection({ org, isOnboarding = false }: { org: AdminOrg; isOnboarding?: boolean }) {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState({
@@ -72,6 +72,22 @@ export function SocialLinksSection({ org }: { org: AdminOrg }) {
           </button>
         )}
       </div>
+
+      {isOnboarding && (
+        <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
+          {[
+            { label: "LinkedIn", value: saved.linkedin_url },
+            { label: "Instagram", value: saved.instagram_url },
+            { label: "Facebook", value: saved.facebook_url },
+            { label: "X (Twitter)", value: saved.x_url },
+          ].map(({ label, value }) => (
+            <div key={label} className="flex items-center gap-2 text-sm text-secondary-foreground">
+              <span>{value?.trim() ? "✅" : "⬜"}</span>
+              <span>{label} <span className="italic">(optional)</span></span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {editing ? (
         <form action={handleSubmit} className="space-y-5">

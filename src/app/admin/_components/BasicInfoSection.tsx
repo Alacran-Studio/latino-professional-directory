@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateBasicInfo } from "../organizations/[id]/_actions/updateBasicInfo";
+import { useCompletion } from "./CompletionContext";
 import type { AdminOrg } from "@/types/admin";
 
 
@@ -71,15 +72,8 @@ function DisplayRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-interface BasicInfoCompletion {
-  name: boolean;
-  website_url: boolean;
-  short_description: boolean;
-  description: boolean;
-  complete: boolean;
-}
-
-export function BasicInfoSection({ org, isOnboarding = false, sectionCompletion }: { org: AdminOrg; isOnboarding?: boolean; sectionCompletion?: BasicInfoCompletion }) {
+export function BasicInfoSection({ org, isOnboarding = false }: { org: AdminOrg; isOnboarding?: boolean }) {
+  const { updateBasicInfo: updateBasicInfoContext } = useCompletion();
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState({
@@ -100,12 +94,19 @@ export function BasicInfoSection({ org, isOnboarding = false, sectionCompletion 
       toast.error(result.error);
     } else {
       const newVideoUrl = (formData.get("video_url") as string) ?? "";
-      setSaved({
+      const newSaved = {
         name: (formData.get("name") as string) ?? saved.name,
         website_url: (formData.get("website_url") as string) ?? saved.website_url,
         short_description: (formData.get("short_description") as string) ?? "",
         description: (formData.get("description") as string) ?? "",
         video_url: newVideoUrl,
+      };
+      setSaved(newSaved);
+      updateBasicInfoContext({
+        name: !!newSaved.name?.trim(),
+        website_url: !!newSaved.website_url?.trim(),
+        short_description: !!newSaved.short_description?.trim(),
+        description: !!newSaved.description?.trim(),
       });
       setVideoUrlDraft(newVideoUrl);
       setEditing(false);
@@ -127,13 +128,13 @@ export function BasicInfoSection({ org, isOnboarding = false, sectionCompletion 
         )}
       </div>
 
-      {isOnboarding && sectionCompletion && (
+      {isOnboarding && (
         <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
           {[
-            { label: "Name", met: sectionCompletion.name },
-            { label: "Website URL", met: sectionCompletion.website_url },
-            { label: "Short Description", met: sectionCompletion.short_description },
-            { label: "Description", met: sectionCompletion.description },
+            { label: "Name", met: !!saved.name?.trim() },
+            { label: "Website URL", met: !!saved.website_url?.trim() },
+            { label: "Short Description", met: !!saved.short_description?.trim() },
+            { label: "Description", met: !!saved.description?.trim() },
           ].map(({ label, met }) => (
             <div key={label} className="flex items-center gap-2 text-sm">
               <span>{met ? "✅" : "⬜"}</span>
@@ -141,7 +142,7 @@ export function BasicInfoSection({ org, isOnboarding = false, sectionCompletion 
             </div>
           ))}
           <div className="flex items-center gap-2 text-sm text-secondary-foreground">
-            <span>☑️</span>
+            <span>{saved.video_url?.trim() ? "✅" : "⬜"}</span>
             <span>Video URL <span className="italic">(optional)</span></span>
           </div>
         </div>

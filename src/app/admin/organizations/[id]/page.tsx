@@ -12,6 +12,7 @@ import { StatusBadge } from "../../_components/StatusBadge";
 import { ActiveToggle } from "../../_components/ActiveToggle";
 import { DeleteOrgButton } from "../../_components/DeleteOrgButton";
 import { OnboardingFooter } from "../../_components/OnboardingFooter";
+import { CompletionProvider } from "../../_components/CompletionContext";
 import { notFound, redirect } from "next/navigation";
 import type { UserRole } from "@/types/admin";
 import { computeCompletion } from "@/lib/admin/computeCompletion";
@@ -51,6 +52,7 @@ export default async function EditOrganizationPage({
   const showOnboardingFooter = role === "org_admin" && isOnboarding && org.ready_for_review !== "true";
 
   return (
+    <CompletionProvider initialCompletion={completion}>
     <div className="flex h-full flex-col">
       {/* Scrollable content area */}
       <div className="min-h-0 flex-1 overflow-y-auto">
@@ -110,7 +112,6 @@ export default async function EditOrganizationPage({
           allCities={allCities}
           allCommunities={allCommunities}
           isOnboarding={isOnboarding}
-          completion={completion}
         />
 
         {/* Bottom breathing room above footer */}
@@ -118,9 +119,8 @@ export default async function EditOrganizationPage({
       </div>
 
       {/* Sticky footer — pinned to bottom of main content area */}
-      {showOnboardingFooter && (
-        <OnboardingFooter orgId={org.id} completion={completion} />
-      )}
+      {showOnboardingFooter && <OnboardingFooter orgId={org.id} />}
     </div>
+    </CompletionProvider>
   );
 }

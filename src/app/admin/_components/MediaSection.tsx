@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { CloudinaryUpload } from "@/components/admin/CloudinaryUpload";
 import { GalleryUpload } from "@/components/admin/GalleryUpload";
@@ -11,41 +10,51 @@ import {
   updateBannerPositionAction,
   updateGalleryAction,
 } from "../organizations/[id]/_actions/updateMedia";
+import { useCompletion } from "./CompletionContext";
 import type { AdminOrg } from "@/types/admin";
 
-interface MediaCompletion { logo: boolean; banner: boolean; complete: boolean; }
-
-export function MediaSection({ org, isOnboarding = false, sectionCompletion }: { org: AdminOrg; isOnboarding?: boolean; sectionCompletion?: MediaCompletion }) {
-  const router = useRouter();
+export function MediaSection({ org, isOnboarding = false }: { org: AdminOrg; isOnboarding?: boolean }) {
+  const { updateMedia } = useCompletion();
   const [bannerUrl, setBannerUrl] = useState(org.photo_url ?? "");
   const bannerUrlRef = useRef(org.photo_url ?? "");
+  const [hasLogo, setHasLogo] = useState(!!org.logo_url);
+  const [hasBanner, setHasBanner] = useState(!!org.photo_url);
+  const [hasGallery, setHasGallery] = useState((org.gallery_photos?.length ?? 0) > 0);
 
   async function handleLogoUpload(url: string) {
+    setHasLogo(true);
+    updateMedia({ logo: true, banner: hasBanner });
     const result = await updateLogoAction(org.id, url);
-    if (result?.error) toast.error(result.error);
-    else { toast.success("Logo saved."); router.refresh(); }
+    if (result?.error) { toast.error(result.error); setHasLogo(false); updateMedia({ logo: false, banner: hasBanner }); }
+    else { toast.success("Logo saved."); }
   }
 
   async function handleLogoDelete() {
+    setHasLogo(false);
+    updateMedia({ logo: false, banner: hasBanner });
     const result = await updateLogoAction(org.id, "");
-    if (result?.error) toast.error(result.error);
-    else { toast.success("Logo removed."); router.refresh(); }
+    if (result?.error) { toast.error(result.error); setHasLogo(true); updateMedia({ logo: true, banner: hasBanner }); }
+    else { toast.success("Logo removed."); }
   }
 
   async function handleBannerUpload(url: string) {
     setBannerUrl(url);
     bannerUrlRef.current = url;
+    setHasBanner(true);
+    updateMedia({ logo: hasLogo, banner: true });
     const result = await updateBannerAction(org.id, url, "50% 50%");
-    if (result?.error) toast.error(result.error);
-    else { toast.success("Banner saved."); router.refresh(); }
+    if (result?.error) { toast.error(result.error); setHasBanner(false); updateMedia({ logo: hasLogo, banner: false }); }
+    else { toast.success("Banner saved."); }
   }
 
   async function handleBannerDelete() {
     setBannerUrl("");
     bannerUrlRef.current = "";
+    setHasBanner(false);
+    updateMedia({ logo: hasLogo, banner: false });
     const result = await updateBannerAction(org.id, "", "50% 50%");
-    if (result?.error) toast.error(result.error);
-    else { toast.success("Banner removed."); router.refresh(); }
+    if (result?.error) { toast.error(result.error); setHasBanner(true); updateMedia({ logo: hasLogo, banner: true }); }
+    else { toast.success("Banner removed."); }
   }
 
   async function handlePositionSave(position: string) {
@@ -55,6 +64,7 @@ export function MediaSection({ org, isOnboarding = false, sectionCompletion }: {
   }
 
   async function handlePhotosChange(urls: string[]) {
+    setHasGallery(urls.length > 0);
     const result = await updateGalleryAction(org.id, urls);
     if (result?.error) toast.error(result.error);
     else toast.success("Gallery saved.");
@@ -66,17 +76,21 @@ export function MediaSection({ org, isOnboarding = false, sectionCompletion }: {
         Media
       </h2>
 
-      {isOnboarding && sectionCompletion && (
+      {isOnboarding && (
         <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
           {[
-            { label: "Logo", met: sectionCompletion.logo },
-            { label: "Banner Image", met: sectionCompletion.banner },
+            { label: "Logo", met: hasLogo },
+            { label: "Banner Image", met: hasBanner },
           ].map(({ label, met }) => (
             <div key={label} className="flex items-center gap-2 text-sm">
               <span>{met ? "✅" : "⬜"}</span>
               <span className={met ? "text-foreground" : "text-secondary-foreground"}>{label}</span>
             </div>
           ))}
+          <div className="flex items-center gap-2 text-sm text-secondary-foreground">
+            <span>{hasGallery ? "✅" : "⬜"}</span>
+            <span>Photo Gallery <span className="italic">(optional)</span></span>
+          </div>
         </div>
       )}
 
@@ -101,7 +115,7 @@ export function MediaSection({ org, isOnboarding = false, sectionCompletion }: {
         aspectRatio="banner"
       />
       <p className="-mt-1 text-xs text-secondary-foreground">
-        Recommended 1200×400px or wider. Drag to reposition — releases auto-save.
+        Recommended 1200×400px or wider. Drag to reposition — auto-saves on release.
       </p>
 
       <GalleryUpload

@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useCompletion } from "./CompletionContext";
 import { MultiSelect } from "@/components/admin/MultiSelect";
 import { RequestOptionModal } from "@/components/admin/RequestOptionModal";
 import { updateClassificationAction } from "../organizations/[id]/_actions/updateClassification";
 import type { AdminOrg, AdminOrgRelated } from "@/types/admin";
 
 type Category = "industries" | "services" | "cities" | "communities";
-
-interface ClassificationCompletion { industry: boolean; service: boolean; city: boolean; complete: boolean; }
 
 interface ClassificationSectionProps {
   org: AdminOrg;
@@ -19,7 +18,6 @@ interface ClassificationSectionProps {
   allCities: AdminOrgRelated[];
   allCommunities: AdminOrgRelated[];
   isOnboarding?: boolean;
-  sectionCompletion?: ClassificationCompletion;
 }
 
 export function ClassificationSection({
@@ -29,13 +27,21 @@ export function ClassificationSection({
   allCities,
   allCommunities,
   isOnboarding = false,
-  sectionCompletion,
 }: ClassificationSectionProps) {
   const router = useRouter();
+  const { updateClassification } = useCompletion();
   const [industries, setIndustries] = useState<AdminOrgRelated[]>(org.industries ?? []);
   const [services, setServices] = useState<AdminOrgRelated[]>(org.services ?? []);
   const [cities, setCities] = useState<AdminOrgRelated[]>(org.cities ?? []);
   const [communities, setCommunities] = useState<AdminOrgRelated[]>(org.communities ?? []);
+
+  useEffect(() => {
+    updateClassification({
+      industry: industries.length > 0,
+      service: services.length > 0,
+      city: cities.length > 0,
+    });
+  }, [industries, services, cities]);
 
   const timers = useRef<Partial<Record<Category, ReturnType<typeof setTimeout>>>>({});
 
@@ -61,12 +67,12 @@ export function ClassificationSection({
         Classification
       </h2>
 
-      {isOnboarding && sectionCompletion && (
+      {isOnboarding && (
         <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
           {[
-            { label: "Focus Industry", met: sectionCompletion.industry },
-            { label: "Key Service", met: sectionCompletion.service },
-            { label: "Location", met: sectionCompletion.city },
+            { label: "Focus Industry", met: industries.length > 0 },
+            { label: "Key Service", met: services.length > 0 },
+            { label: "Location", met: cities.length > 0 },
           ].map(({ label, met }) => (
             <div key={label} className="flex items-center gap-2 text-sm">
               <span>{met ? "✅" : "⬜"}</span>
@@ -74,7 +80,7 @@ export function ClassificationSection({
             </div>
           ))}
           <div className="flex items-center gap-2 text-sm text-secondary-foreground">
-            <span>☑️</span>
+            <span>{communities.length > 0 ? "✅" : "⬜"}</span>
             <span>Communities <span className="italic">(optional)</span></span>
           </div>
         </div>

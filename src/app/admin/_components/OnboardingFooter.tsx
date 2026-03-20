@@ -1,12 +1,7 @@
 "use client";
 
 import { SubmitForReviewButton } from "./SubmitForReviewButton";
-import type { OrgCompletion } from "@/lib/admin/computeCompletion";
-
-interface OnboardingFooterProps {
-  orgId: number;
-  completion: OrgCompletion;
-}
+import { useCompletion } from "./CompletionContext";
 
 const sections = [
   { key: "basicInfo" as const, label: "Basic Info" },
@@ -14,7 +9,9 @@ const sections = [
   { key: "classification" as const, label: "Classification" },
 ] as const;
 
-export function OnboardingFooter({ orgId, completion }: OnboardingFooterProps) {
+export function OnboardingFooter({ orgId }: { orgId: number }) {
+  const { completion } = useCompletion();
+
   return (
     <div className="-mx-6 -mb-6 shrink-0 border-t border-border bg-background shadow-[0_-2px_10px_rgba(0,0,0,0.07)]">
       <div className="flex items-center justify-between gap-6 px-6 py-3">
