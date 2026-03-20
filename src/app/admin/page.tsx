@@ -2,29 +2,24 @@ import Link from "next/link";
 import { requireAuth } from "@/lib/auth/requireAuth";
 import { db } from "@/lib/drizzleClient";
 import { OrganizationsTable, UserOrganizationsTable } from "@drizzle/schema";
-import { eq, sql, inArray } from "drizzle-orm";
+import { eq, sql, inArray, and } from "drizzle-orm";
 import { DashboardStats } from "./_components/DashboardStats";
 import { SubmittedBanner } from "./_components/SubmittedBanner";
 import type { UserRole } from "@/types/admin";
 
 async function getOrgCounts() {
-  const rows = await db
-    .select({
-      status: OrganizationsTable.status,
-      count: sql<number>`count(*)::int`,
-    })
-    .from(OrganizationsTable)
-    .groupBy(OrganizationsTable.status);
-
-  const counts = { total: 0, approved: 0, pending: 0, rejected: 0 };
-  for (const row of rows) {
-    const c = row.count;
-    counts.total += c;
-    if (row.status === "approved") counts.approved = c;
-    if (row.status === "pending") counts.pending = c;
-    if (row.status === "rejected") counts.rejected = c;
-  }
-  return counts;
+  const [totalRow, activeRow, readyRow] = await Promise.all([
+    db.select({ count: sql<number>`count(*)::int` }).from(OrganizationsTable),
+    db.select({ count: sql<number>`count(*)::int` }).from(OrganizationsTable).where(eq(OrganizationsTable.is_active, "true")),
+    db.select({ count: sql<number>`count(*)::int` }).from(OrganizationsTable).where(
+      and(eq(OrganizationsTable.ready_for_review, "true"), eq(OrganizationsTable.is_active, "false"))
+    ),
+  ]);
+  return {
+    total: totalRow[0]?.count ?? 0,
+    active: activeRow[0]?.count ?? 0,
+    readyForReview: readyRow[0]?.count ?? 0,
+  };
 }
 
 async function getUserOrg(userId: number) {
@@ -58,11 +53,10 @@ export default async function AdminDashboard({
     return {
       stats: [
         { label: "Total Organizations", value: counts.total, href: "/admin/organizations" },
-        { label: "Approved", value: counts.approved, href: "/admin/organizations" },
-        { label: "Pending Review", value: counts.pending, href: "/admin/queue" },
-        { label: "Rejected", value: counts.rejected },
+        { label: "Active", value: counts.active, href: "/admin/organizations" },
+        { label: "Ready for Review", value: counts.readyForReview, href: "/admin/queue" },
       ],
-      pendingCount: counts.pending,
+      pendingCount: counts.readyForReview,
     };
   };
 
