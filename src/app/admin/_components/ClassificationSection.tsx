@@ -10,6 +10,8 @@ import type { AdminOrg, AdminOrgRelated } from "@/types/admin";
 
 type Category = "industries" | "services" | "cities" | "communities";
 
+interface ClassificationCompletion { industry: boolean; service: boolean; city: boolean; complete: boolean; }
+
 interface ClassificationSectionProps {
   org: AdminOrg;
   allIndustries: AdminOrgRelated[];
@@ -17,7 +19,7 @@ interface ClassificationSectionProps {
   allCities: AdminOrgRelated[];
   allCommunities: AdminOrgRelated[];
   isOnboarding?: boolean;
-  sectionComplete?: boolean;
+  sectionCompletion?: ClassificationCompletion;
 }
 
 export function ClassificationSection({
@@ -27,7 +29,7 @@ export function ClassificationSection({
   allCities,
   allCommunities,
   isOnboarding = false,
-  sectionComplete,
+  sectionCompletion,
 }: ClassificationSectionProps) {
   const router = useRouter();
   const [industries, setIndustries] = useState<AdminOrgRelated[]>(org.industries ?? []);
@@ -55,10 +57,28 @@ export function ClassificationSection({
 
   return (
     <section className="space-y-5">
-      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground flex items-center gap-2">
+      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
         Classification
-        {isOnboarding && (sectionComplete ? <span title="Section complete">✅</span> : <span title="Industry, Key Service, and Location required">⚠️</span>)}
       </h2>
+
+      {isOnboarding && sectionCompletion && (
+        <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
+          {[
+            { label: "Focus Industry", met: sectionCompletion.industry },
+            { label: "Key Service", met: sectionCompletion.service },
+            { label: "Location", met: sectionCompletion.city },
+          ].map(({ label, met }) => (
+            <div key={label} className="flex items-center gap-2 text-sm">
+              <span>{met ? "✅" : "⬜"}</span>
+              <span className={met ? "text-foreground" : "text-secondary-foreground"}>{label}</span>
+            </div>
+          ))}
+          <div className="flex items-center gap-2 text-sm text-secondary-foreground">
+            <span>☑️</span>
+            <span>Communities <span className="italic">(optional)</span></span>
+          </div>
+        </div>
+      )}
 
       <div className="space-y-1.5">
         <MultiSelect label="Focus Industries" name="industry_ids" options={allIndustries}

@@ -71,7 +71,15 @@ function DisplayRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function BasicInfoSection({ org, isOnboarding = false, sectionComplete }: { org: AdminOrg; isOnboarding?: boolean; sectionComplete?: boolean }) {
+interface BasicInfoCompletion {
+  name: boolean;
+  website_url: boolean;
+  short_description: boolean;
+  description: boolean;
+  complete: boolean;
+}
+
+export function BasicInfoSection({ org, isOnboarding = false, sectionCompletion }: { org: AdminOrg; isOnboarding?: boolean; sectionCompletion?: BasicInfoCompletion }) {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState({
@@ -108,17 +116,36 @@ export function BasicInfoSection({ org, isOnboarding = false, sectionComplete }:
   return (
     <section className="space-y-5">
       <div className="flex items-center justify-between">
-        <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground flex items-center gap-2">
+        <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
           Basic Info
-          {isOnboarding && (sectionComplete ? <span title="Section complete">✅</span> : <span title="Required fields missing">⚠️</span>)}
         </h2>
         {!editing && (
           <button type="button" onClick={() => setEditing(true)}
-            className="text-sm text-primary hover:underline">
+            className="rounded-md border border-primary px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/5">
             Edit
           </button>
         )}
       </div>
+
+      {isOnboarding && sectionCompletion && (
+        <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
+          {[
+            { label: "Name", met: sectionCompletion.name },
+            { label: "Website URL", met: sectionCompletion.website_url },
+            { label: "Short Description", met: sectionCompletion.short_description },
+            { label: "Description", met: sectionCompletion.description },
+          ].map(({ label, met }) => (
+            <div key={label} className="flex items-center gap-2 text-sm">
+              <span>{met ? "✅" : "⬜"}</span>
+              <span className={met ? "text-foreground" : "text-secondary-foreground"}>{label}</span>
+            </div>
+          ))}
+          <div className="flex items-center gap-2 text-sm text-secondary-foreground">
+            <span>☑️</span>
+            <span>Video URL <span className="italic">(optional)</span></span>
+          </div>
+        </div>
+      )}
 
       {editing ? (
         <form action={handleSubmit} className="space-y-5">

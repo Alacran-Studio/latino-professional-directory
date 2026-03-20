@@ -18,9 +18,9 @@ interface OrgFormProps {
 export function OrgForm({ org, allIndustries, allServices, allCities, allCommunities, isOnboarding = false, completion }: OrgFormProps) {
   return (
     <div className="max-w-2xl space-y-10">
-      <BasicInfoSection org={org} isOnboarding={isOnboarding} sectionComplete={completion?.basicInfo.complete} />
+      <BasicInfoSection org={org} isOnboarding={isOnboarding} sectionCompletion={completion?.basicInfo} />
       <hr className="border-border" />
-      <MediaSection org={org} isOnboarding={isOnboarding} sectionComplete={completion?.media.complete} />
+      <MediaSection org={org} isOnboarding={isOnboarding} sectionCompletion={completion?.media} />
       <hr className="border-border" />
       <ClassificationSection
         org={org}
@@ -29,7 +29,7 @@ export function OrgForm({ org, allIndustries, allServices, allCities, allCommuni
         allCities={allCities}
         allCommunities={allCommunities}
         isOnboarding={isOnboarding}
-        sectionComplete={completion?.classification.complete}
+        sectionCompletion={completion?.classification}
       />
       <hr className="border-border" />
       <SocialLinksSection org={org} />

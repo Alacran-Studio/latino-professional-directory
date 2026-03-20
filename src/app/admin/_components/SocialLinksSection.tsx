@@ -67,7 +67,7 @@ export function SocialLinksSection({ org }: { org: AdminOrg }) {
         </h2>
         {!editing && (
           <button type="button" onClick={() => setEditing(true)}
-            className="text-sm text-primary hover:underline">
+            className="rounded-md border border-primary px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/5">
             Edit
           </button>
         )}

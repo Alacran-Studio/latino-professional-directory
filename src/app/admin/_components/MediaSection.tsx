@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { CloudinaryUpload } from "@/components/admin/CloudinaryUpload";
 import { GalleryUpload } from "@/components/admin/GalleryUpload";
@@ -12,14 +13,23 @@ import {
 } from "../organizations/[id]/_actions/updateMedia";
 import type { AdminOrg } from "@/types/admin";
 
-export function MediaSection({ org, isOnboarding = false, sectionComplete }: { org: AdminOrg; isOnboarding?: boolean; sectionComplete?: boolean }) {
+interface MediaCompletion { logo: boolean; banner: boolean; complete: boolean; }
+
+export function MediaSection({ org, isOnboarding = false, sectionCompletion }: { org: AdminOrg; isOnboarding?: boolean; sectionCompletion?: MediaCompletion }) {
+  const router = useRouter();
   const [bannerUrl, setBannerUrl] = useState(org.photo_url ?? "");
   const bannerUrlRef = useRef(org.photo_url ?? "");
 
   async function handleLogoUpload(url: string) {
     const result = await updateLogoAction(org.id, url);
     if (result?.error) toast.error(result.error);
-    else toast.success("Logo saved.");
+    else { toast.success("Logo saved."); router.refresh(); }
+  }
+
+  async function handleLogoDelete() {
+    const result = await updateLogoAction(org.id, "");
+    if (result?.error) toast.error(result.error);
+    else { toast.success("Logo removed."); router.refresh(); }
   }
 
   async function handleBannerUpload(url: string) {
@@ -27,7 +37,15 @@ export function MediaSection({ org, isOnboarding = false, sectionComplete }: { o
     bannerUrlRef.current = url;
     const result = await updateBannerAction(org.id, url, "50% 50%");
     if (result?.error) toast.error(result.error);
-    else toast.success("Banner saved.");
+    else { toast.success("Banner saved."); router.refresh(); }
+  }
+
+  async function handleBannerDelete() {
+    setBannerUrl("");
+    bannerUrlRef.current = "";
+    const result = await updateBannerAction(org.id, "", "50% 50%");
+    if (result?.error) toast.error(result.error);
+    else { toast.success("Banner removed."); router.refresh(); }
   }
 
   async function handlePositionSave(position: string) {
@@ -44,16 +62,30 @@ export function MediaSection({ org, isOnboarding = false, sectionComplete }: { o
 
   return (
     <section className="space-y-5">
-      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground flex items-center gap-2">
+      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
         Media
-        {isOnboarding && (sectionComplete ? <span title="Section complete">✅</span> : <span title="Logo and banner required">⚠️</span>)}
       </h2>
+
+      {isOnboarding && sectionCompletion && (
+        <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
+          {[
+            { label: "Logo", met: sectionCompletion.logo },
+            { label: "Banner Image", met: sectionCompletion.banner },
+          ].map(({ label, met }) => (
+            <div key={label} className="flex items-center gap-2 text-sm">
+              <span>{met ? "✅" : "⬜"}</span>
+              <span className={met ? "text-foreground" : "text-secondary-foreground"}>{label}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <CloudinaryUpload
         folder="lpdd/logos"
         label="Organization Logo"
         currentUrl={org.logo_url}
         onUpload={handleLogoUpload}
+        onDelete={handleLogoDelete}
         aspectRatio="square"
       />
 
@@ -63,6 +95,7 @@ export function MediaSection({ org, isOnboarding = false, sectionComplete }: { o
         currentUrl={bannerUrl}
         currentPosition={org.banner_position}
         onUpload={handleBannerUpload}
+        onDelete={handleBannerDelete}
         onPositionChange={() => {}}
         onPositionSave={handlePositionSave}
         aspectRatio="banner"
