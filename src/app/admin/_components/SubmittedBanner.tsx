@@ -11,7 +11,7 @@ export function SubmittedBanner() {
     <div className="mb-6 flex items-center justify-between rounded-lg border border-green-300 bg-green-50 p-4 dark:border-green-800 dark:bg-green-950/30">
       <p className="text-sm text-green-700 dark:text-green-400">
         {
-          "Your organization has been submitted for review. We'll notify you once it's approved."
+          "Thanks for submitting! Complete your organization profile below to get listed in the directory."
         }
       </p>
       <button
