@@ -1,7 +1,7 @@
 "use server";
 
 import { requireRole } from "@/lib/auth/requireAuth";
-import { fetchInviteById } from "@/lib/admin/inviteOperations";
+import { fetchInviteById, refreshInviteExpiry } from "@/lib/admin/inviteOperations";
 import { sendEmail } from "@/lib/email/resend";
 import { orgAdminInviteEmail } from "@/lib/email/templates/orgAdminInvite";
 import { APP_URL } from "@/lib/constants";
@@ -24,6 +24,8 @@ export async function resendInvite(formData: FormData) {
   if (new Date(invite.expires_at) < new Date()) {
     return { error: "This invite has expired. Revoke it and create a new one." };
   }
+
+  await refreshInviteExpiry(invite.id);
 
   const inviteUrl = `${APP_URL}/invite/accept?token=${invite.token}`;
   const { subject, html } = orgAdminInviteEmail({

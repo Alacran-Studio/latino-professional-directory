@@ -15,6 +15,7 @@ export async function sendInvite(formData: FormData) {
   const lastName = (formData.get("last_name") as string)?.trim();
   const email = (formData.get("email") as string)?.trim().toLowerCase();
   const organizationId = Number(formData.get("organization_id"));
+  const mode = (formData.get("mode") as string) === "link" ? "link" : "email";
 
   if (!firstName || !lastName || !email || !organizationId) {
     return { error: "All fields are required." };
@@ -51,9 +52,11 @@ export async function sendInvite(formData: FormData) {
   const inviteUrl = `${APP_URL}/invite/accept?token=${token}`;
   const { subject, html } = orgAdminInviteEmail({ firstName, orgName: org.name, inviteUrl });
 
-  // Fire-and-forget
-  sendEmail({ to: email, subject, html });
+  if (mode === "email") {
+    // Fire-and-forget
+    sendEmail({ to: email, subject, html });
+  }
 
   revalidatePath("/admin/invites");
-  return { success: true, inviteUrl };
+  return { success: true, inviteUrl, mode };
 }

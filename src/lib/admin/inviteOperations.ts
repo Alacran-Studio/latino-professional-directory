@@ -81,6 +81,14 @@ export async function expireInvite(id: number): Promise<void> {
     .where(eq(InvitesTable.id, id));
 }
 
+export async function refreshInviteExpiry(id: number): Promise<void> {
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+  await db
+    .update(InvitesTable)
+    .set({ expires_at: expiresAt })
+    .where(eq(InvitesTable.id, id));
+}
+
 export async function fetchInviteById(id: number): Promise<AdminInvite | null> {
   const rows = await db
     .select({
