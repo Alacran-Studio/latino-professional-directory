@@ -14,6 +14,7 @@ import { DeleteOrgButton } from "../../_components/DeleteOrgButton";
 import { SubmitForReviewButton } from "../../_components/SubmitForReviewButton";
 import { notFound, redirect } from "next/navigation";
 import type { UserRole } from "@/types/admin";
+import { computeCompletion } from "@/lib/admin/computeCompletion";
 import Link from "next/link";
 
 export default async function EditOrganizationPage({
@@ -43,6 +44,9 @@ export default async function EditOrganizationPage({
     ]);
 
   if (!org) notFound();
+
+  const isOnboarding = org.is_active === "false";
+  const completion = computeCompletion(org);
 
   return (
     <div>
@@ -90,7 +94,7 @@ export default async function EditOrganizationPage({
                   Add your logo, photos, description, and other details below — then submit for final review.
                 </p>
               </div>
-              <SubmitForReviewButton orgId={org.id} />
+              <SubmitForReviewButton orgId={org.id} allComplete={completion.allComplete} metCount={completion.metCount} total={completion.total} />
             </div>
           )}
         </div>
@@ -109,6 +113,8 @@ export default async function EditOrganizationPage({
         allServices={allServices}
         allCities={allCities}
         allCommunities={allCommunities}
+        isOnboarding={isOnboarding}
+        completion={completion}
       />
     </div>
   );

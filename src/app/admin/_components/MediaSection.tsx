@@ -12,7 +12,7 @@ import {
 } from "../organizations/[id]/_actions/updateMedia";
 import type { AdminOrg } from "@/types/admin";
 
-export function MediaSection({ org }: { org: AdminOrg }) {
+export function MediaSection({ org, isOnboarding = false, sectionComplete }: { org: AdminOrg; isOnboarding?: boolean; sectionComplete?: boolean }) {
   const [bannerUrl, setBannerUrl] = useState(org.photo_url ?? "");
   const bannerUrlRef = useRef(org.photo_url ?? "");
 
@@ -44,8 +44,9 @@ export function MediaSection({ org }: { org: AdminOrg }) {
 
   return (
     <section className="space-y-5">
-      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
+      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground flex items-center gap-2">
         Media
+        {isOnboarding && (sectionComplete ? <span title="Section complete">✅</span> : <span title="Logo and banner required">⚠️</span>)}
       </h2>
 
       <CloudinaryUpload
