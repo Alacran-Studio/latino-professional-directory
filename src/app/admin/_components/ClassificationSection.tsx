@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCompletion } from "./CompletionContext";
+import { SectionHeading } from "@/components/admin/SectionHeading";
+import { OnboardingChecklist } from "@/components/admin/OnboardingChecklist";
 import { MultiSelect } from "@/components/admin/MultiSelect";
 import { RequestOptionModal } from "@/components/admin/RequestOptionModal";
 import { updateClassificationAction } from "../organizations/[id]/_actions/updateClassification";
@@ -63,27 +65,15 @@ export function ClassificationSection({
 
   return (
     <section className="space-y-5">
-      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
-        Classification
-      </h2>
+      <SectionHeading>Classification</SectionHeading>
 
       {isOnboarding && (
-        <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
-          {[
-            { label: "Focus Industry", met: industries.length > 0 },
-            { label: "Key Service", met: services.length > 0 },
-            { label: "Location", met: cities.length > 0 },
-          ].map(({ label, met }) => (
-            <div key={label} className="flex items-center gap-2 text-sm">
-              <span>{met ? "✅" : "⬜"}</span>
-              <span className={met ? "text-foreground" : "text-secondary-foreground"}>{label}</span>
-            </div>
-          ))}
-          <div className="flex items-center gap-2 text-sm text-secondary-foreground">
-            <span>{communities.length > 0 ? "✅" : "⬜"}</span>
-            <span>Communities <span className="italic">(optional)</span></span>
-          </div>
-        </div>
+        <OnboardingChecklist items={[
+          { label: "Focus Industry", met: industries.length > 0 },
+          { label: "Key Service", met: services.length > 0 },
+          { label: "Location", met: cities.length > 0 },
+          { label: "Communities", met: communities.length > 0, optional: true },
+        ]} />
       )}
 
       <div className="space-y-1.5">

@@ -21,10 +21,6 @@ function buildCompletion(
   media: MediaSlice,
   classification: ClassificationSlice
 ): OrgCompletion {
-  const basicInfoComplete = basicInfo.name && basicInfo.website_url && basicInfo.short_description && basicInfo.description;
-  const mediaComplete = media.logo && media.banner;
-  const classificationComplete = classification.industry && classification.service && classification.city;
-
   const requirements = [
     basicInfo.name, basicInfo.website_url, basicInfo.short_description, basicInfo.description,
     media.logo, media.banner,
@@ -33,9 +29,9 @@ function buildCompletion(
   const metCount = requirements.filter(Boolean).length;
 
   return {
-    basicInfo: { ...basicInfo, complete: basicInfoComplete },
-    media: { ...media, complete: mediaComplete },
-    classification: { ...classification, complete: classificationComplete },
+    basicInfo: { ...basicInfo, complete: requirements.slice(0, 4).every(Boolean) },
+    media: { ...media, complete: requirements.slice(4, 6).every(Boolean) },
+    classification: { ...classification, complete: requirements.slice(6).every(Boolean) },
     metCount,
     total: requirements.length,
     allComplete: metCount === requirements.length,

@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/16/solid";
 import { SubmitForReviewButton } from "./SubmitForReviewButton";
 import { useCompletion } from "./CompletionContext";
 
@@ -17,8 +18,7 @@ export function OnboardingFooter({ orgId }: { orgId: number }) {
       <div className="flex items-center justify-between gap-6 px-6 py-3">
         <div className="flex flex-col gap-1.5">
           <p className="pb-1 text-sm font-medium text-foreground">
-            Add your logo, photos, description, and other details and submit for
-            review.
+            Add your logo, photos, description, and other details and submit for review.
           </p>
           <div className="flex items-center gap-2">
             {sections.map(({ key, label }) => {
@@ -32,7 +32,10 @@ export function OnboardingFooter({ orgId }: { orgId: number }) {
                       : "border border-yellow-200 bg-yellow-50 text-yellow-700"
                   }`}
                 >
-                  <span>{met ? "✅" : "⚠️"}</span>
+                  {met
+                    ? <CheckCircleIcon className="h-3.5 w-3.5" />
+                    : <ExclamationTriangleIcon className="h-3.5 w-3.5" />
+                  }
                   {label}
                 </span>
               );

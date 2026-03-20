@@ -11,6 +11,8 @@ import {
   updateGalleryAction,
 } from "../organizations/[id]/_actions/updateMedia";
 import { useCompletion } from "./CompletionContext";
+import { SectionHeading } from "@/components/admin/SectionHeading";
+import { OnboardingChecklist } from "@/components/admin/OnboardingChecklist";
 import type { AdminOrg } from "@/types/admin";
 
 export function MediaSection({ org, isOnboarding = false }: { org: AdminOrg; isOnboarding?: boolean }) {
@@ -72,26 +74,14 @@ export function MediaSection({ org, isOnboarding = false }: { org: AdminOrg; isO
 
   return (
     <section className="space-y-5">
-      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
-        Media
-      </h2>
+      <SectionHeading>Media</SectionHeading>
 
       {isOnboarding && (
-        <div className="rounded-lg border border-border bg-gray-50 p-3 space-y-1.5">
-          {[
-            { label: "Logo", met: hasLogo },
-            { label: "Banner Image", met: hasBanner },
-          ].map(({ label, met }) => (
-            <div key={label} className="flex items-center gap-2 text-sm">
-              <span>{met ? "✅" : "⬜"}</span>
-              <span className={met ? "text-foreground" : "text-secondary-foreground"}>{label}</span>
-            </div>
-          ))}
-          <div className="flex items-center gap-2 text-sm text-secondary-foreground">
-            <span>{hasGallery ? "✅" : "⬜"}</span>
-            <span>Photo Gallery <span className="italic">(optional)</span></span>
-          </div>
-        </div>
+        <OnboardingChecklist items={[
+          { label: "Logo", met: hasLogo },
+          { label: "Banner Image", met: hasBanner },
+          { label: "Photo Gallery", met: hasGallery, optional: true },
+        ]} />
       )}
 
       <CloudinaryUpload
@@ -110,7 +100,6 @@ export function MediaSection({ org, isOnboarding = false }: { org: AdminOrg; isO
         currentPosition={org.banner_position}
         onUpload={handleBannerUpload}
         onDelete={handleBannerDelete}
-        onPositionChange={() => {}}
         onPositionSave={handlePositionSave}
         aspectRatio="banner"
       />

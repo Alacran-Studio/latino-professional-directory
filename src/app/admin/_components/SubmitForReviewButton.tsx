@@ -27,6 +27,14 @@ export function SubmitForReviewButton({ orgId, allComplete, metCount, total }: S
 
       if (buttonRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
+        const style = getComputedStyle(document.documentElement);
+        const colors = [
+          style.getPropertyValue("--primary").trim(),
+          style.getPropertyValue("--accent").trim(),
+          style.getPropertyValue("--secondary").trim(),
+          style.getPropertyValue("--brand").trim(),
+          "white",
+        ];
         confetti({
           particleCount: 120,
           spread: 70,
@@ -34,7 +42,7 @@ export function SubmitForReviewButton({ orgId, allComplete, metCount, total }: S
             x: (rect.left + rect.width / 2) / window.innerWidth,
             y: (rect.top + rect.height / 2) / window.innerHeight,
           },
-          colors: ["#2D56B2", "#F0D07D", "#8FB8DE", "#12263A", "#ffffff"],
+          colors,
         });
       }
     }
