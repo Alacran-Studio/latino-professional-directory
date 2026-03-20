@@ -109,6 +109,6 @@ export default function RootLayout({
 const Providers = ({ children }: React.PropsWithChildren) => (
   <AppSidebarProvider>
     {children}
-    <Toaster position="bottom-center" richColors />
+    <Toaster position="top-right" richColors />
   </AppSidebarProvider>
 );

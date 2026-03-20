@@ -2,12 +2,14 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
 interface CloudinaryUploadProps {
   folder: string;
   currentUrl?: string | null;
   currentPosition?: string | null;
   onUpload: (url: string) => void;
+  onDelete?: () => void;
   onPositionChange?: (position: string) => void;
   onPositionSave?: (position: string) => void;
   label: string;
@@ -19,6 +21,7 @@ export function CloudinaryUpload({
   currentUrl,
   currentPosition,
   onUpload,
+  onDelete,
   onPositionChange,
   onPositionSave,
   label,
@@ -221,7 +224,7 @@ export function CloudinaryUpload({
         )}
       </div>
 
-      {/* Replace + reposition controls for banner */}
+      {/* Replace + reposition + delete controls for banner */}
       {isBanner && preview && (
         <div className="flex items-center gap-3">
           <button
@@ -231,19 +234,41 @@ export function CloudinaryUpload({
           >
             Replace image
           </button>
+          {onDelete && (
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 text-xs text-red-500 hover:text-red-700"
+              onClick={() => { setPreview(null); onDelete(); }}
+            >
+              <TrashIcon className="h-3.5 w-3.5" />
+              Delete image
+            </button>
+          )}
           <span className="text-xs text-secondary-foreground">· Drag the image above to reposition</span>
         </div>
       )}
 
-      {/* Replace button for non-banner */}
+      {/* Replace + delete controls for non-banner */}
       {!isBanner && preview && (
-        <button
-          type="button"
-          className="self-start text-xs text-secondary-foreground underline"
-          onClick={() => inputRef.current?.click()}
-        >
-          Replace image
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            className="text-xs text-secondary-foreground underline"
+            onClick={() => inputRef.current?.click()}
+          >
+            Replace image
+          </button>
+          {onDelete && (
+            <button
+              type="button"
+              className="inline-flex items-center gap-1 text-xs text-red-500 hover:text-red-700"
+              onClick={() => { setPreview(null); onDelete(); }}
+            >
+              <TrashIcon className="h-3.5 w-3.5" />
+              Delete image
+            </button>
+          )}
+        </div>
       )}
 
       {error && <p className="text-xs text-red-500">{error}</p>}

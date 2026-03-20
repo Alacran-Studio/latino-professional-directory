@@ -3,34 +3,13 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { updateSocialLinks } from "../organizations/[id]/_actions/updateSocialLinks";
+import { FormField, DisplayRow } from "@/components/admin/FormField";
+import { SectionHeading } from "@/components/admin/SectionHeading";
+import { EditButton, FormButtons } from "@/components/admin/FormControls";
+import { OnboardingChecklist } from "@/components/admin/OnboardingChecklist";
 import type { AdminOrg } from "@/types/admin";
 
-function Field({
-  label, name, defaultValue, placeholder,
-}: {
-  label: string; name: string; defaultValue: string; placeholder?: string;
-}) {
-  return (
-    <div className="flex flex-col">
-      <label htmlFor={name} className="mb-1.5 text-sm font-bold text-foreground">{label}</label>
-      <input id={name} name={name} type="text" defaultValue={defaultValue} placeholder={placeholder}
-        className="w-full rounded-md border-2 border-border bg-background px-3 py-2 text-sm text-foreground" />
-    </div>
-  );
-}
-
-function DisplayRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex flex-col gap-0.5">
-      <dt className="text-sm font-bold text-foreground">{label}</dt>
-      <dd className="text-sm text-secondary-foreground">
-        {value || <span className="italic opacity-50">Not set</span>}
-      </dd>
-    </div>
-  );
-}
-
-export function SocialLinksSection({ org }: { org: AdminOrg }) {
+export function SocialLinksSection({ org, isOnboarding = false }: { org: AdminOrg; isOnboarding?: boolean }) {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState({
@@ -61,34 +40,26 @@ export function SocialLinksSection({ org }: { org: AdminOrg }) {
 
   return (
     <section className="space-y-5">
-      <div className="flex items-center justify-between">
-        <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
-          Social Links
-        </h2>
-        {!editing && (
-          <button type="button" onClick={() => setEditing(true)}
-            className="text-sm text-primary hover:underline">
-            Edit
-          </button>
-        )}
-      </div>
+      <SectionHeading action={!editing && <EditButton onClick={() => setEditing(true)} />}>
+        Social Links
+      </SectionHeading>
+
+      {isOnboarding && (
+        <OnboardingChecklist items={[
+          { label: "LinkedIn", met: !!saved.linkedin_url?.trim(), optional: true },
+          { label: "Instagram", met: !!saved.instagram_url?.trim(), optional: true },
+          { label: "Facebook", met: !!saved.facebook_url?.trim(), optional: true },
+          { label: "X (Twitter)", met: !!saved.x_url?.trim(), optional: true },
+        ]} />
+      )}
 
       {editing ? (
         <form action={handleSubmit} className="space-y-5">
-          <Field label="LinkedIn" name="linkedin_url" defaultValue={saved.linkedin_url} placeholder="https://linkedin.com/company/..." />
-          <Field label="Instagram" name="instagram_url" defaultValue={saved.instagram_url} placeholder="https://instagram.com/..." />
-          <Field label="Facebook" name="facebook_url" defaultValue={saved.facebook_url} placeholder="https://facebook.com/..." />
-          <Field label="X (Twitter)" name="x_url" defaultValue={saved.x_url} placeholder="https://x.com/..." />
-          <div className="flex gap-3">
-            <button type="submit" disabled={saving}
-              className="rounded-xl bg-primary px-5 py-2 text-sm font-medium text-neutralLight hover:bg-primary-hover disabled:opacity-50">
-              {saving ? "Saving..." : "Save"}
-            </button>
-            <button type="button" onClick={() => setEditing(false)}
-              className="rounded-xl border border-border px-5 py-2 text-sm text-secondary-foreground hover:text-foreground">
-              Cancel
-            </button>
-          </div>
+          <FormField label="LinkedIn" name="linkedin_url" defaultValue={saved.linkedin_url} placeholder="https://linkedin.com/company/..." />
+          <FormField label="Instagram" name="instagram_url" defaultValue={saved.instagram_url} placeholder="https://instagram.com/..." />
+          <FormField label="Facebook" name="facebook_url" defaultValue={saved.facebook_url} placeholder="https://facebook.com/..." />
+          <FormField label="X (Twitter)" name="x_url" defaultValue={saved.x_url} placeholder="https://x.com/..." />
+          <FormButtons saving={saving} onCancel={() => setEditing(false)} />
         </form>
       ) : (
         <dl className="space-y-3">

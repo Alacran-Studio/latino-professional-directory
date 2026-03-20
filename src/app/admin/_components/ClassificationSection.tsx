@@ -1,8 +1,11 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useCompletion } from "./CompletionContext";
+import { SectionHeading } from "@/components/admin/SectionHeading";
+import { OnboardingChecklist } from "@/components/admin/OnboardingChecklist";
 import { MultiSelect } from "@/components/admin/MultiSelect";
 import { RequestOptionModal } from "@/components/admin/RequestOptionModal";
 import { updateClassificationAction } from "../organizations/[id]/_actions/updateClassification";
@@ -17,7 +20,6 @@ interface ClassificationSectionProps {
   allCities: AdminOrgRelated[];
   allCommunities: AdminOrgRelated[];
   isOnboarding?: boolean;
-  sectionComplete?: boolean;
 }
 
 export function ClassificationSection({
@@ -27,13 +29,21 @@ export function ClassificationSection({
   allCities,
   allCommunities,
   isOnboarding = false,
-  sectionComplete,
 }: ClassificationSectionProps) {
   const router = useRouter();
+  const { updateClassification } = useCompletion();
   const [industries, setIndustries] = useState<AdminOrgRelated[]>(org.industries ?? []);
   const [services, setServices] = useState<AdminOrgRelated[]>(org.services ?? []);
   const [cities, setCities] = useState<AdminOrgRelated[]>(org.cities ?? []);
   const [communities, setCommunities] = useState<AdminOrgRelated[]>(org.communities ?? []);
+
+  useEffect(() => {
+    updateClassification({
+      industry: industries.length > 0,
+      service: services.length > 0,
+      city: cities.length > 0,
+    });
+  }, [industries, services, cities]);
 
   const timers = useRef<Partial<Record<Category, ReturnType<typeof setTimeout>>>>({});
 
@@ -55,10 +65,16 @@ export function ClassificationSection({
 
   return (
     <section className="space-y-5">
-      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground flex items-center gap-2">
-        Classification
-        {isOnboarding && (sectionComplete ? <span title="Section complete">✅</span> : <span title="Industry, Key Service, and Location required">⚠️</span>)}
-      </h2>
+      <SectionHeading>Classification</SectionHeading>
+
+      {isOnboarding && (
+        <OnboardingChecklist items={[
+          { label: "Focus Industry", met: industries.length > 0 },
+          { label: "Key Service", met: services.length > 0 },
+          { label: "Location", met: cities.length > 0 },
+          { label: "Communities", met: communities.length > 0, optional: true },
+        ]} />
+      )}
 
       <div className="space-y-1.5">
         <MultiSelect label="Focus Industries" name="industry_ids" options={allIndustries}
