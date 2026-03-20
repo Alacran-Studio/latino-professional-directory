@@ -66,7 +66,6 @@ export function trackEventRegisterClick(
   });
 }
 
-/** Stub — wire up once the directory search bar (issue #84) ships. */
 export function trackDirectorySearch(searchTerm: string) {
   sendGAEvent("event", "directory_search", { search_term: searchTerm });
 }
