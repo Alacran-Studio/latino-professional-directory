@@ -1,5 +1,5 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import { CheckCircleIcon as CheckCircleOutlineIcon } from "@heroicons/react/20/outline";
+import { CheckCircleIcon as CheckCircleOutlineIcon } from "@heroicons/react/24/outline";
 
 export interface ChecklistItem {
   label: string;
@@ -15,7 +15,7 @@ export function OnboardingChecklist({ items }: { items: ChecklistItem[] }) {
           {met ? (
             <CheckCircleIcon className="h-4 w-4 shrink-0 text-green-600" />
           ) : (
-            <CheckCircleOutlineIcon className="h-4 w-4 shrink-0 text-border" />
+            <CheckCircleOutlineIcon className="h-4 w-4 shrink-0 text-secondary-foreground" />
           )}
           <span className={met ? "text-foreground" : "text-secondary-foreground"}>
             {label}{optional && <span className="italic"> (optional)</span>}

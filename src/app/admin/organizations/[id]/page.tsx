@@ -67,20 +67,20 @@ export default async function EditOrganizationPage({
 
         <div className="mb-6 flex flex-wrap items-start gap-3">
           <div className="flex-1">
-            <h1 className="font-lexend text-2xl font-semibold text-foreground">
-              {org.name}
-            </h1>
+            <div className="flex items-center gap-2">
+              <h1 className="font-lexend text-2xl font-semibold text-foreground">
+                {org.name}
+              </h1>
+              <StatusBadge isActive={org.is_active !== "false"} />
+            </div>
             <p className="mt-0.5 text-sm text-secondary-foreground">Organization Profile</p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <StatusBadge isActive={org.is_active !== "false"} />
-            {role === "system_admin" && (
+          {role === "system_admin" && (
+            <div className="flex flex-wrap items-center gap-3">
               <ActiveToggle orgId={org.id} isActive={org.is_active !== "false"} />
-            )}
-            {role === "system_admin" && (
               <DeleteOrgButton orgId={org.id} orgName={org.name} />
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Org admin: profile completion prompt */}

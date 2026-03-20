@@ -31,7 +31,7 @@ async function getUserOrg(userId: number) {
   if (links.length === 0) return null;
 
   const rows = await db
-    .select({ id: OrganizationsTable.id, is_active: OrganizationsTable.is_active })
+    .select({ id: OrganizationsTable.id, name: OrganizationsTable.name, is_active: OrganizationsTable.is_active })
     .from(OrganizationsTable)
     .where(inArray(OrganizationsTable.id, links.map((l) => l.organization_id)));
 
@@ -89,9 +89,12 @@ export default async function AdminDashboard({
               className="block rounded-lg border border-border bg-card p-6 shadow-lg shadow-gray-300 transition duration-300 ease-in-out hover:bg-cardHover"
             >
               <p className="text-sm text-secondary-foreground">Your Organization</p>
-              <p className={`font-lexend mt-1 text-3xl font-semibold ${isActive ? "text-green-600" : "text-gray-500"}`}>
-                {isActive ? "Active" : "Inactive"}
+              <p className="font-lexend mt-1 text-3xl font-semibold text-foreground">
+                {org?.name ?? "—"}
               </p>
+              <span className={`mt-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${isActive ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+                {isActive ? "Active" : "Inactive"}
+              </span>
             </Link>
           );
         })()

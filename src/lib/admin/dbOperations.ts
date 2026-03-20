@@ -265,10 +265,15 @@ export async function userOwnsOrg(
   const rows = await db
     .select()
     .from(UserOrganizationsTable)
-    .where(eq(UserOrganizationsTable.user_id, userId))
+    .where(
+      and(
+        eq(UserOrganizationsTable.user_id, userId),
+        eq(UserOrganizationsTable.organization_id, orgId)
+      )
+    )
     .limit(1);
 
-  return rows.some((r) => r.organization_id === orgId);
+  return rows.length > 0;
 }
 
 export async function fetchFeaturedOrgs(): Promise<FeaturedOrg[]> {
