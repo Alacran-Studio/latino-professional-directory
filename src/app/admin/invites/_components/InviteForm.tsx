@@ -13,25 +13,39 @@ export function InviteForm({ orgs }: InviteFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [inviteResult, setInviteResult] = useState<{ name: string; email: string; org: string; url: string } | null>(null);
+  const [copied, setCopied] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setSuccess(false);
+    setInviteResult(null);
 
     const formData = new FormData(e.currentTarget);
+    const firstName = formData.get("first_name") as string;
+    const lastName = formData.get("last_name") as string;
+    const email = formData.get("email") as string;
+    const orgId = formData.get("organization_id") as string;
+    const orgName = orgs.find((o) => String(o.id) === orgId)?.name ?? "";
+
     const result = await sendInvite(formData);
 
     if (result?.error) {
       setError(result.error);
     } else {
-      setSuccess(true);
+      setInviteResult({ name: `${firstName} ${lastName}`, email, org: orgName, url: result.inviteUrl! });
       (e.target as HTMLFormElement).reset();
       router.refresh();
     }
     setLoading(false);
+  }
+
+  async function handleCopy() {
+    if (!inviteResult) return;
+    await navigator.clipboard.writeText(inviteResult.url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   }
 
   return (
@@ -46,9 +60,27 @@ export function InviteForm({ orgs }: InviteFormProps) {
         </div>
       )}
 
-      {success && (
-        <div className="mb-4 rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-950/30 dark:text-green-400">
-          Invite sent successfully.
+      {inviteResult && (
+        <div className="mb-4 rounded-lg border border-green-300 bg-green-50 p-4 dark:border-green-800 dark:bg-green-950/30">
+          <p className="text-sm font-medium text-green-800 dark:text-green-300">
+            Invite created for {inviteResult.name} ({inviteResult.email}) — {inviteResult.org}
+          </p>
+          <p className="mt-1 text-xs text-green-700 dark:text-green-400">
+            Copy the link below to send manually, or it was emailed automatically.
+          </p>
+          <div className="mt-3 flex items-center gap-2">
+            <input
+              readOnly
+              value={inviteResult.url}
+              className="min-w-0 flex-1 rounded-md border border-green-300 bg-white px-3 py-1.5 text-xs text-foreground dark:border-green-700 dark:bg-background"
+            />
+            <button
+              onClick={handleCopy}
+              className="shrink-0 rounded-md border border-green-300 px-3 py-1.5 text-xs font-medium text-green-800 transition-colors hover:bg-green-100 dark:border-green-700 dark:text-green-300 dark:hover:bg-green-900/30"
+            >
+              {copied ? "Copied!" : "Copy"}
+            </button>
+          </div>
         </div>
       )}
 

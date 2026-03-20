@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { AdminInvite, InviteStatus } from "@/types/admin";
 import { revokeInvite } from "../_actions/revokeInvite";
+import { resendInvite } from "../_actions/resendInvite";
 
 interface InvitesTableProps {
   invites: AdminInvite[];
@@ -21,6 +22,7 @@ export function InvitesTable({ invites }: InvitesTableProps) {
   const router = useRouter();
   const [loading, setLoading] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [resendSuccess, setResendSuccess] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<TabStatus>("pending");
 
   async function handleRevoke(inviteId: number) {
@@ -33,6 +35,22 @@ export function InvitesTable({ invites }: InvitesTableProps) {
       setError(result.error);
     } else {
       router.refresh();
+    }
+    setLoading(null);
+  }
+
+  async function handleResend(inviteId: number) {
+    setLoading(inviteId);
+    setError(null);
+    setResendSuccess(null);
+    const formData = new FormData();
+    formData.set("invite_id", String(inviteId));
+    const result = await resendInvite(formData);
+    if (result?.error) {
+      setError(result.error);
+    } else {
+      setResendSuccess(inviteId);
+      setTimeout(() => setResendSuccess(null), 3000);
     }
     setLoading(null);
   }
@@ -70,6 +88,12 @@ export function InvitesTable({ invites }: InvitesTableProps) {
         </div>
       )}
 
+      {resendSuccess && (
+        <div className="rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-950/30 dark:text-green-400">
+          Invite email resent.
+        </div>
+      )}
+
       {filtered.length === 0 ? (
         <div className="rounded-lg border border-border bg-card p-8 text-center">
           <p className="text-secondary-foreground">No {activeTab} invites.</p>
@@ -98,13 +122,22 @@ export function InvitesTable({ invites }: InvitesTableProps) {
                   </span>
                 </div>
                 {invite.status === "pending" && (
-                  <button
-                    onClick={() => handleRevoke(invite.id)}
-                    disabled={loading !== null}
-                    className="mt-3 rounded-md border border-red-300 px-3 py-1.5 text-sm text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/30"
-                  >
-                    {loading === invite.id ? "Revoking..." : "Revoke"}
-                  </button>
+                  <div className="mt-3 flex gap-2">
+                    <button
+                      onClick={() => handleResend(invite.id)}
+                      disabled={loading !== null}
+                      className="rounded-md border border-border px-3 py-1.5 text-sm text-secondary-foreground transition-colors hover:bg-card-hover disabled:opacity-50"
+                    >
+                      {loading === invite.id ? "..." : resendSuccess === invite.id ? "Sent!" : "Resend"}
+                    </button>
+                    <button
+                      onClick={() => handleRevoke(invite.id)}
+                      disabled={loading !== null}
+                      className="rounded-md border border-red-300 px-3 py-1.5 text-sm text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/30"
+                    >
+                      {loading === invite.id ? "..." : "Revoke"}
+                    </button>
+                  </div>
                 )}
               </div>
             ))}
@@ -142,13 +175,22 @@ export function InvitesTable({ invites }: InvitesTableProps) {
                     </td>
                     <td className="px-4 py-3 text-right">
                       {invite.status === "pending" && (
-                        <button
-                          onClick={() => handleRevoke(invite.id)}
-                          disabled={loading !== null}
-                          className="text-sm font-medium text-red-600 hover:underline disabled:opacity-50 dark:text-red-400"
-                        >
-                          {loading === invite.id ? "Revoking..." : "Revoke"}
-                        </button>
+                        <div className="flex items-center justify-end gap-4">
+                          <button
+                            onClick={() => handleResend(invite.id)}
+                            disabled={loading !== null}
+                            className="text-sm font-medium text-secondary-foreground hover:underline disabled:opacity-50"
+                          >
+                            {loading === invite.id ? "..." : resendSuccess === invite.id ? "Sent!" : "Resend"}
+                          </button>
+                          <button
+                            onClick={() => handleRevoke(invite.id)}
+                            disabled={loading !== null}
+                            className="text-sm font-medium text-red-600 hover:underline disabled:opacity-50 dark:text-red-400"
+                          >
+                            {loading === invite.id ? "..." : "Revoke"}
+                          </button>
+                        </div>
                       )}
                     </td>
                   </tr>

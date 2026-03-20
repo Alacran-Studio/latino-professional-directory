@@ -55,5 +55,5 @@ export async function sendInvite(formData: FormData) {
   sendEmail({ to: email, subject, html });
 
   revalidatePath("/admin/invites");
-  return { success: true };
+  return { success: true, inviteUrl };
 }
