@@ -16,7 +16,7 @@ import {
   CitiesTable,
   CommunitiesTable,
 } from "@drizzle/schema";
-import { eq, inArray, sql } from "drizzle-orm";
+import { eq, inArray, sql, and } from "drizzle-orm";
 import type { AdminOrg, AdminOrgPhoto, AdminOrgRelated, OrgAdmin, OrgStatus } from "@/types/admin";
 import { generateSlug } from "@/lib/slugify";
 
@@ -248,7 +248,12 @@ export async function fetchPendingOrgs(): Promise<AdminOrg[]> {
   const rows = await db
     .select()
     .from(OrganizationsTable)
-    .where(eq(OrganizationsTable.status, "pending"))
+    .where(
+      and(
+        eq(OrganizationsTable.ready_for_review, "true"),
+        eq(OrganizationsTable.is_active, "false")
+      )
+    )
     .orderBy(OrganizationsTable.created_at);
   return rows as AdminOrg[];
 }

@@ -30,7 +30,7 @@ export function OrgTable({ organizations, role }: OrgTableProps) {
             <div className="flex items-start justify-between gap-2">
               <p className="text-sm font-medium text-foreground">{org.name}</p>
               <div className="flex flex-wrap items-center justify-end gap-1">
-                <StatusBadge status={org.status as OrgStatus} isActive={org.is_active !== "false"} />
+                <StatusBadge isActive={org.is_active !== "false"} />
                 {role === "system_admin" && org.ready_for_review === "true" && org.is_active === "false" && (
                   <span className="inline-block rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">
                     Review Requested
@@ -77,7 +77,7 @@ export function OrgTable({ organizations, role }: OrgTableProps) {
                 </td>
                 <td className="px-4 py-3 text-sm">
                   <div className="flex flex-wrap items-center gap-1">
-                    <StatusBadge status={org.status as OrgStatus} isActive={org.is_active !== "false"} />
+                    <StatusBadge isActive={org.is_active !== "false"} />
                     {role === "system_admin" && org.ready_for_review === "true" && org.is_active === "false" && (
                       <span className="inline-block rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">
                         Review Requested

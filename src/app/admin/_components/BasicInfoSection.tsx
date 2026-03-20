@@ -71,7 +71,7 @@ function DisplayRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function BasicInfoSection({ org }: { org: AdminOrg }) {
+export function BasicInfoSection({ org, isOnboarding = false, sectionComplete }: { org: AdminOrg; isOnboarding?: boolean; sectionComplete?: boolean }) {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState({
@@ -108,8 +108,9 @@ export function BasicInfoSection({ org }: { org: AdminOrg }) {
   return (
     <section className="space-y-5">
       <div className="flex items-center justify-between">
-        <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
+        <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground flex items-center gap-2">
           Basic Info
+          {isOnboarding && (sectionComplete ? <span title="Section complete">✅</span> : <span title="Required fields missing">⚠️</span>)}
         </h2>
         {!editing && (
           <button type="button" onClick={() => setEditing(true)}

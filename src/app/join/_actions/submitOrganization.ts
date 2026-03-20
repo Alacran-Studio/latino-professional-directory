@@ -71,7 +71,7 @@ export async function submitOrganization(data: SubmitData) {
         description: description || null,
         short_description: short_description || null,
         website_url,
-        status: "pending",
+        status: "approved",
         is_active: "false",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),

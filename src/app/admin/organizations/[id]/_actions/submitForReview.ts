@@ -17,7 +17,6 @@ export async function submitForReview(orgId: number) {
 
   const org = await fetchOrgById(orgId);
   if (!org) return { error: "Organization not found." };
-  if (org.status !== "approved") return { error: "Only approved organizations can submit for review." };
   if (org.is_active === "true") return { error: "Organization is already active." };
 
   await setOrgReadyForReview(orgId, true);

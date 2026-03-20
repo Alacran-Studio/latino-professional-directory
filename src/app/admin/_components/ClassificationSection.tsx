@@ -16,6 +16,8 @@ interface ClassificationSectionProps {
   allServices: AdminOrgRelated[];
   allCities: AdminOrgRelated[];
   allCommunities: AdminOrgRelated[];
+  isOnboarding?: boolean;
+  sectionComplete?: boolean;
 }
 
 export function ClassificationSection({
@@ -24,6 +26,8 @@ export function ClassificationSection({
   allServices,
   allCities,
   allCommunities,
+  isOnboarding = false,
+  sectionComplete,
 }: ClassificationSectionProps) {
   const router = useRouter();
   const [industries, setIndustries] = useState<AdminOrgRelated[]>(org.industries ?? []);
@@ -51,8 +55,9 @@ export function ClassificationSection({
 
   return (
     <section className="space-y-5">
-      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground">
+      <h2 className="font-lexend text-base font-semibold uppercase tracking-wide text-foreground flex items-center gap-2">
         Classification
+        {isOnboarding && (sectionComplete ? <span title="Section complete">✅</span> : <span title="Industry, Key Service, and Location required">⚠️</span>)}
       </h2>
 
       <div className="space-y-1.5">
