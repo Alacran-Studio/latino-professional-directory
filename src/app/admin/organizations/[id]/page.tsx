@@ -20,12 +20,15 @@ import Link from "next/link";
 
 export default async function EditOrganizationPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ viewAs?: string }>;
 }) {
   const user = await requireAuth();
   const role = user.role as UserRole;
   const { id } = await params;
+  const { viewAs } = await searchParams;
   const orgId = parseInt(id, 10);
 
   if (isNaN(orgId)) notFound();
@@ -46,24 +49,41 @@ export default async function EditOrganizationPage({
 
   if (!org) notFound();
 
+  const previewingAsOrgAdmin = role === "system_admin" && viewAs === "org_admin";
+  const effectiveRole: UserRole = previewingAsOrgAdmin ? "org_admin" : role;
+
   const isOnboarding = org.is_active === "false";
   const completion = computeCompletion(org);
 
-  const showOnboardingFooter = role === "org_admin" && isOnboarding && org.ready_for_review !== "true";
+  const showOnboardingFooter = effectiveRole === "org_admin" && isOnboarding && org.ready_for_review !== "true";
 
   return (
     <CompletionProvider initialCompletion={completion}>
     <div className="flex h-full flex-col">
       {/* Scrollable content area */}
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="mb-6">
+        <div className="mb-6 flex items-center justify-between">
           <Link
             href="/admin/organizations"
             className="text-sm text-secondary-foreground hover:text-foreground"
           >
             &larr; Back to organizations
           </Link>
+          {role === "system_admin" && (
+            <Link
+              href={previewingAsOrgAdmin ? `/admin/organizations/${orgId}` : `/admin/organizations/${orgId}?viewAs=org_admin`}
+              className="text-xs text-secondary-foreground underline hover:text-foreground"
+            >
+              {previewingAsOrgAdmin ? "Exit org admin preview" : "Preview as org admin"}
+            </Link>
+          )}
         </div>
+
+        {previewingAsOrgAdmin && (
+          <div className="mb-6 rounded-md border border-purple-200 bg-purple-50 px-4 py-2 text-xs text-purple-700">
+            Previewing as org admin — edits are still saved normally.
+          </div>
+        )}
 
         <div className="mb-6 flex flex-wrap items-start gap-3">
           <div className="flex-1">
@@ -75,7 +95,7 @@ export default async function EditOrganizationPage({
             </div>
             <p className="mt-0.5 text-sm text-secondary-foreground">Organization Profile</p>
           </div>
-          {role === "system_admin" && (
+          {role === "system_admin" && !previewingAsOrgAdmin && (
             <div className="flex flex-wrap items-center gap-3">
               <ActiveToggle orgId={org.id} isActive={org.is_active !== "false"} />
               <DeleteOrgButton orgId={org.id} orgName={org.name} />
@@ -84,7 +104,7 @@ export default async function EditOrganizationPage({
         </div>
 
         {/* Org admin: profile completion prompt */}
-        {role === "org_admin" && org.is_active === "false" && (
+        {effectiveRole === "org_admin" && org.is_active === "false" && (
           <div className="mb-6 rounded-md border border-blue-200 bg-blue-50 px-4 py-4">
             {org.ready_for_review === "true" ? (
               <p className="text-sm font-medium text-blue-700">
@@ -99,7 +119,7 @@ export default async function EditOrganizationPage({
         )}
 
         {/* System admin: review request badge */}
-        {role === "system_admin" && org.ready_for_review === "true" && org.is_active === "false" && (
+        {role === "system_admin" && !previewingAsOrgAdmin && org.ready_for_review === "true" && org.is_active === "false" && (
           <div className="mb-6 rounded-md border border-yellow-200 bg-yellow-50 px-4 py-3 text-sm text-yellow-800">
             This organization has submitted their profile for final review. Toggle <strong>Active</strong> above to publish their listing.
           </div>

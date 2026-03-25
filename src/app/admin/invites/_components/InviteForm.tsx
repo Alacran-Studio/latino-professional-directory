@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { AdminOrg } from "@/types/admin";
 import { sendInvite } from "../_actions/sendInvite";
 
@@ -9,35 +9,65 @@ interface InviteFormProps {
   orgs: AdminOrg[];
 }
 
+type InviteResult = {
+  name: string;
+  email: string;
+  org: string;
+  url: string;
+  mode: "email" | "link";
+};
+
 export function InviteForm({ orgs }: InviteFormProps) {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [inviteResult, setInviteResult] = useState<InviteResult | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  async function handleSubmit(mode: "email" | "link") {
+    if (!formRef.current) return;
     setLoading(true);
     setError(null);
-    setSuccess(false);
+    setInviteResult(null);
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(formRef.current);
+    const firstName = formData.get("first_name") as string;
+    const lastName = formData.get("last_name") as string;
+    const email = formData.get("email") as string;
+    const orgId = formData.get("organization_id") as string;
+    const orgName = orgs.find((o) => String(o.id) === orgId)?.name ?? "";
+
+    formData.set("mode", mode);
     const result = await sendInvite(formData);
 
     if (result?.error) {
       setError(result.error);
     } else {
-      setSuccess(true);
-      (e.target as HTMLFormElement).reset();
+      setInviteResult({
+        name: `${firstName} ${lastName}`,
+        email,
+        org: orgName,
+        url: result.inviteUrl!,
+        mode,
+      });
+      formRef.current.reset();
       router.refresh();
     }
     setLoading(false);
   }
 
+  async function handleCopy() {
+    if (!inviteResult) return;
+    await navigator.clipboard.writeText(inviteResult.url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   return (
     <div className="rounded-lg border border-border bg-card p-6">
       <h2 className="font-lexend mb-4 text-lg font-semibold text-foreground">
-        Send Admin Invite
+        Create Admin Invite
       </h2>
 
       {error && (
@@ -46,13 +76,29 @@ export function InviteForm({ orgs }: InviteFormProps) {
         </div>
       )}
 
-      {success && (
-        <div className="mb-4 rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-700 dark:border-green-800 dark:bg-green-950/30 dark:text-green-400">
-          Invite sent successfully.
+      {inviteResult && (
+        <div className="mb-4 rounded-lg border border-green-300 bg-green-50 p-4 dark:border-green-800 dark:bg-green-950/30">
+          <p className="text-sm font-medium text-green-800 dark:text-green-300">
+            {inviteResult.mode === "email" ? "Invite sent to" : "Invite link for"}{" "}
+            {inviteResult.name} &middot; {inviteResult.email} &middot; {inviteResult.org}
+          </p>
+          <div className="mt-3 flex items-center gap-2">
+            <input
+              readOnly
+              value={inviteResult.url}
+              className="min-w-0 flex-1 rounded-md border border-green-300 bg-white px-3 py-1.5 text-xs text-foreground dark:border-green-700 dark:bg-background"
+            />
+            <button
+              onClick={handleCopy}
+              className="shrink-0 rounded-md border border-green-300 px-3 py-1.5 text-xs font-medium text-green-800 transition-colors hover:bg-green-100 dark:border-green-700 dark:text-green-300 dark:hover:bg-green-900/30"
+            >
+              {copied ? "Copied!" : "Copy Link"}
+            </button>
+          </div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form ref={formRef} onSubmit={(e) => e.preventDefault()} className="space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label className="mb-1 block text-sm font-medium text-foreground">
@@ -114,13 +160,24 @@ export function InviteForm({ orgs }: InviteFormProps) {
           </select>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90 disabled:opacity-50"
-        >
-          {loading ? "Sending..." : "Send Invite"}
-        </button>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => handleSubmit("email")}
+            disabled={loading}
+            className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90 disabled:opacity-50"
+          >
+            {loading ? "Creating..." : "Send Invite via Email"}
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSubmit("link")}
+            disabled={loading}
+            className="rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-card-hover disabled:opacity-50"
+          >
+            {loading ? "Creating..." : "Generate Invite Link"}
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -81,6 +81,39 @@ export async function expireInvite(id: number): Promise<void> {
     .where(eq(InvitesTable.id, id));
 }
 
+export async function refreshInviteExpiry(id: number): Promise<void> {
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+  await db
+    .update(InvitesTable)
+    .set({ expires_at: expiresAt })
+    .where(eq(InvitesTable.id, id));
+}
+
+export async function fetchInviteById(id: number): Promise<AdminInvite | null> {
+  const rows = await db
+    .select({
+      id: InvitesTable.id,
+      token: InvitesTable.token,
+      email: InvitesTable.email,
+      first_name: InvitesTable.first_name,
+      last_name: InvitesTable.last_name,
+      organization_id: InvitesTable.organization_id,
+      organization_name: OrganizationsTable.name,
+      invited_by: InvitesTable.invited_by,
+      status: InvitesTable.status,
+      expires_at: InvitesTable.expires_at,
+      accepted_at: InvitesTable.accepted_at,
+      created_at: InvitesTable.created_at,
+    })
+    .from(InvitesTable)
+    .innerJoin(OrganizationsTable, eq(InvitesTable.organization_id, OrganizationsTable.id))
+    .where(eq(InvitesTable.id, id))
+    .limit(1);
+
+  if (rows.length === 0) return null;
+  return rows[0] as AdminInvite;
+}
+
 export async function hasPendingInvite(email: string, organizationId: number): Promise<boolean> {
   const rows = await db
     .select({ id: InvitesTable.id })
