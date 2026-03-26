@@ -43,36 +43,6 @@ export default function Home() {
       {/* Divider */}
       <div className="h-px w-full max-w-5xl bg-border" />
 
-      {/* Events Preview Section */}
-      <section className="flex w-full max-w-6xl flex-col-reverse items-center px-6 py-16 md:flex-row md:gap-12 md:py-24">
-        <div className="mt-8 flex-1 md:mt-0">
-          <div className="overflow-hidden rounded-xl border border-border shadow-lg">
-            <Image
-              src="/skyline.jpg"
-              width={600}
-              height={400}
-              className="h-auto w-full object-cover"
-              alt="Preview of upcoming events for Latino professionals."
-            />
-          </div>
-        </div>
-        <div className="flex flex-1 flex-col items-center text-center md:items-start md:text-left">
-          <Header2>Upcoming Events</Header2>
-          <Paragraph className="mt-4 max-w-md text-secondary-foreground">
-            Discover networking events, workshops, and conferences designed to
-            connect and empower Latino professionals.
-          </Paragraph>
-          <LinkButton
-            href="/events"
-            title="View Events"
-            className="mt-6"
-          />
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="h-px w-full max-w-5xl bg-border" />
-
       {/* Our Story Section */}
       <section className="flex w-full max-w-6xl flex-col items-center px-6 py-16 text-center md:py-24">
         <Header2>Our Story</Header2>
