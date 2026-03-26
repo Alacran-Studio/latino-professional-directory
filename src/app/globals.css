@@ -42,6 +42,7 @@
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 
   --icon-fg: hsl(0 0% 100% / 1);
+  --muted-foreground: hsl(210 8% 56% / 1);
 }
 
 html.dark {
@@ -66,6 +67,7 @@ html.dark {
 
   --neutral: hsl(0 0% 70% / 1);
   --logo-line-mobile: hsl(0deg 0% 100%);
+  --muted-foreground: hsl(210 8% 65% / 1);
 
   /* shadcn */
   --sidebar-background: hsl(240 5.9% 10%);
