@@ -10,11 +10,12 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(formData: FormData) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setError(null);
     setLoading(true);
 
-    const result = await login(formData);
+    const result = await login(new FormData(e.currentTarget));
     if (result?.error) {
       setError(result.error);
       setLoading(false);
@@ -39,7 +40,7 @@ export default function LoginPage() {
             </div>
           )}
 
-          <form action={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col">
               <label htmlFor="email" className="mb-2 text-sm font-bold text-foreground">
                 Email
@@ -70,8 +71,30 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-primary px-4 py-3 text-lg text-neutralLight transition-all duration-200 hover:bg-primary-hover disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-lg text-neutralLight transition-all duration-200 hover:bg-primary-hover disabled:opacity-50"
             >
+              {loading && (
+                <svg
+                  className="h-5 w-5 animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  />
+                </svg>
+              )}
               {loading ? "Signing in..." : "Sign In"}
             </button>
 
