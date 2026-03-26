@@ -10,8 +10,6 @@ export default async function FeaturedOrgsPage() {
     fetchAllOrgs(),
   ]);
 
-  const approvedOrgs = allOrgs.filter((org) => org.status === "approved");
-
   return (
     <div>
       <h1 className="font-lexend mb-6 text-2xl font-semibold text-foreground">
@@ -19,7 +17,7 @@ export default async function FeaturedOrgsPage() {
       </h1>
       <FeaturedOrgsManager
         featuredOrgs={featuredOrgs}
-        allOrgs={approvedOrgs}
+        allOrgs={allOrgs}
       />
     </div>
   );

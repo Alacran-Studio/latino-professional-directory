@@ -171,7 +171,6 @@ export async function fetchOrganizationBySlug(
       .where(
         and(
           eq(OrganizationsTable.slug, slug),
-          eq(OrganizationsTable.status, "approved"),
           eq(OrganizationsTable.is_active, "true")
         )
       );
@@ -268,7 +267,7 @@ async function fetchOrganizationsData(offset: number, limit: number) {
   const organizations = await db
     .select()
     .from(OrganizationsTable)
-    .where(and(eq(OrganizationsTable.status, "approved"), eq(OrganizationsTable.is_active, "true")))
+    .where(eq(OrganizationsTable.is_active, "true"))
     .offset(offset)
     .limit(limit);
   return organizations;
@@ -278,7 +277,7 @@ async function fetchOrganizationData(id: number) {
   return await db
     .select()
     .from(OrganizationsTable)
-    .where(and(eq(OrganizationsTable.id, id), eq(OrganizationsTable.status, "approved"), eq(OrganizationsTable.is_active, "true")));
+    .where(and(eq(OrganizationsTable.id, id), eq(OrganizationsTable.is_active, "true")));
 }
 
 async function fetchOrgIndustryMappings(organizations: any[]) {

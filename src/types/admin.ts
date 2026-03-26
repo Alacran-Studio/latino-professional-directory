@@ -1,5 +1,3 @@
-export type OrgStatus = "pending" | "approved" | "rejected";
-
 export type UserRole = "system_admin" | "org_admin";
 
 export interface AdminOrgPhoto {
@@ -28,7 +26,6 @@ export interface AdminOrg {
   instagram_url: string | null;
   facebook_url: string | null;
   x_url: string | null;
-  status: OrgStatus;
   is_active: string;
   ready_for_review: string;
   created_at: string;
