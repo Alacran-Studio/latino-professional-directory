@@ -48,10 +48,6 @@ const internalLinks: InternalNavigationLinks = [
     href: "/directory",
   },
   {
-    name: "Events",
-    href: "/events",
-  },
-  {
     name: "About",
     href: "/about",
   },

@@ -9,14 +9,12 @@ import Paragraph from "@/components/common/Paragraph";
 import BackButton from "@/components/common/BackButton";
 import CoverImage from "@/components/common/CoverImage";
 import { isValidString } from "@/lib/utils";
-import EventCard from "@/components/Events/EventCard";
 import { MapPinIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 import OrgWebsiteLink from "./_components/OrgWebsiteLink";
 import SocialLinks from "./_components/SocialLinks";
 import {
   fetchOrganizationBySlug,
   fetchOrgSlugById,
-  fetchEventsForOrganization,
 } from "@/lib/dbOperations";
 import { APP_NAME } from "@/lib/constants";
 
@@ -87,8 +85,6 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
     }
     notFound();
   }
-
-  const events = await fetchEventsForOrganization(org.id);
 
   const {
     id,
@@ -292,18 +288,6 @@ export default async function Page({ params }: { params: Promise<PageProps> }) {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
                 allowFullScreen
               />
-            </div>
-          </section>
-        )}
-
-        {/* Events */}
-        {events.length > 0 && (
-          <section>
-            <Header1 className="mb-6">Events from {name}</Header1>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {events.map((event) => (
-                <EventCard key={event.id} {...event} />
-              ))}
             </div>
           </section>
         )}
