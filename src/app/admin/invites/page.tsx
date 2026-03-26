@@ -14,7 +14,6 @@ export default async function ManageAdminsPage() {
     fetchOrgAdmins(),
   ]);
 
-  const approvedOrgs = allOrgs.filter((org) => org.status === "approved");
   const nonAcceptedInvites = invites.filter((i) => i.status !== "accepted");
 
   return (
@@ -30,7 +29,7 @@ export default async function ManageAdminsPage() {
         <OrgAdminsTable admins={orgAdmins} />
       </div>
 
-      <InviteForm orgs={approvedOrgs} />
+      <InviteForm orgs={allOrgs} />
 
       <div>
         <h2 className="font-lexend mb-4 text-lg font-semibold text-foreground">

@@ -183,6 +183,20 @@
       "when": 1773350400000,
       "tag": "20260313000000_rename_service_tags_conferences_summits",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1774471806329,
+      "tag": "20260325205006_fix_created_at_sql_default",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1774483540447,
+      "tag": "20260326000540_drop_status_from_organizations",
+      "breakpoints": true
     }
   ]
 }

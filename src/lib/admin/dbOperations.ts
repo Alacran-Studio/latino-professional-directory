@@ -17,7 +17,7 @@ import {
   CommunitiesTable,
 } from "@drizzle/schema";
 import { eq, inArray, sql, and } from "drizzle-orm";
-import type { AdminOrg, AdminOrgPhoto, AdminOrgRelated, OrgAdmin, OrgStatus } from "@/types/admin";
+import type { AdminOrg, AdminOrgPhoto, AdminOrgRelated, OrgAdmin } from "@/types/admin";
 import { generateSlug } from "@/lib/slugify";
 
 export interface FeaturedOrg {
@@ -189,7 +189,7 @@ export async function updateOrgGalleryPhotos(orgId: number, urls: string[]) {
   await db.delete(OrganizationPhotosTable).where(eq(OrganizationPhotosTable.organization_id, orgId));
   if (urls.length > 0) {
     await db.insert(OrganizationPhotosTable).values(
-      urls.map((url, i) => ({ organization_id: orgId, url, display_order: i }))
+      urls.map((url, i) => ({ organization_id: orgId, url, display_order: i, created_at: new Date().toISOString() }))
     );
   }
 }
@@ -208,13 +208,6 @@ export async function fetchAllCities(): Promise<AdminOrgRelated[]> {
 
 export async function fetchAllCommunities(): Promise<AdminOrgRelated[]> {
   return db.select({ id: CommunitiesTable.id, name: CommunitiesTable.name }).from(CommunitiesTable).orderBy(CommunitiesTable.name);
-}
-
-export async function updateOrgStatus(id: number, status: OrgStatus) {
-  await db
-    .update(OrganizationsTable)
-    .set({ status, updated_at: new Date().toISOString() })
-    .where(eq(OrganizationsTable.id, id));
 }
 
 export async function setOrgReadyForReview(id: number, ready: boolean) {

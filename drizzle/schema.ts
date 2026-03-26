@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { integer, pgSchema, serial, text } from "drizzle-orm/pg-core";
 
 export const lpddSchema = pgSchema("lpdd");
@@ -17,11 +18,10 @@ export const OrganizationsTable = lpddSchema.table("organizations", {
   instagram_url: text("instagram_url"),
   facebook_url: text("facebook_url"),
   x_url: text("x_url"),
-  status: text("status").notNull().default("approved"),
   is_active: text("is_active").notNull().default("false"),
   ready_for_review: text("ready_for_review").notNull().default("false"),
-  created_at: text("created_at").notNull().default("now()"),
-  updated_at: text("updated_at").notNull().default("now()"),
+  created_at: text("created_at").notNull().default(sql`now()`),
+  updated_at: text("updated_at").notNull().default(sql`now()`),
 });
 
 export const OrganizationContacts = lpddSchema.table("organization_contacts", {
@@ -116,8 +116,8 @@ export const UsersTable = lpddSchema.table("users", {
   first_name: text("first_name").notNull(),
   last_name: text("last_name").notNull(),
   role: text("role").notNull().default("org_admin"),
-  created_at: text("created_at").notNull().default("now()"),
-  updated_at: text("updated_at").notNull().default("now()"),
+  created_at: text("created_at").notNull().default(sql`now()`),
+  updated_at: text("updated_at").notNull().default(sql`now()`),
 });
 
 export const UserOrganizationsTable = lpddSchema.table(
@@ -130,7 +130,7 @@ export const UserOrganizationsTable = lpddSchema.table(
     organization_id: integer("organization_id")
       .notNull()
       .references(() => OrganizationsTable.id),
-    created_at: text("created_at").notNull().default("now()"),
+    created_at: text("created_at").notNull().default(sql`now()`),
   }
 );
 
@@ -156,7 +156,7 @@ export const OrganizationPhotosTable = lpddSchema.table("organization_photos", {
   organization_id: integer("organization_id").notNull().references(() => OrganizationsTable.id),
   url: text("url").notNull(),
   display_order: integer("display_order").notNull().default(0),
-  created_at: text("created_at").notNull().default("now()"),
+  created_at: text("created_at").notNull().default(sql`now()`),
 });
 
 export const InvitesTable = lpddSchema.table("invites", {
@@ -170,5 +170,5 @@ export const InvitesTable = lpddSchema.table("invites", {
   status: text("status").notNull().default("pending"),
   expires_at: text("expires_at").notNull(),
   accepted_at: text("accepted_at"),
-  created_at: text("created_at").notNull().default("now()"),
+  created_at: text("created_at").notNull().default(sql`now()`),
 });

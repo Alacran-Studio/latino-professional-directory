@@ -1,0 +1,1 @@
+ALTER TABLE "lpdd"."organizations" DROP COLUMN IF EXISTS "status";

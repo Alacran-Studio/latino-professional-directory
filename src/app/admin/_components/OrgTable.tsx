@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { StatusBadge } from "./StatusBadge";
 import { DeleteOrgButton } from "./DeleteOrgButton";
-import type { AdminOrg, OrgStatus, UserRole } from "@/types/admin";
+import type { AdminOrg, UserRole } from "@/types/admin";
 
 interface OrgTableProps {
   organizations: AdminOrg[];
@@ -90,7 +90,7 @@ export function OrgTable({ organizations, role }: OrgTableProps) {
                 </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex items-center justify-end gap-2">
-                    {role === "system_admin" && (org.status === "rejected" || org.is_active === "false") && (
+                    {role === "system_admin" && org.is_active === "false" && (
                       <DeleteOrgButton orgId={org.id} orgName={org.name} iconOnly />
                     )}
                     <Link

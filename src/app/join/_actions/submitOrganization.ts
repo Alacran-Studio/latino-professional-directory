@@ -62,7 +62,7 @@ export async function submitOrganization(data: SubmitData) {
   const supabaseId = authData.user.id;
 
   try {
-    // 2. Insert organization with status="pending"
+    // 2. Insert organization
     const [org] = await db
       .insert(OrganizationsTable)
       .values({
@@ -71,7 +71,6 @@ export async function submitOrganization(data: SubmitData) {
         description: description || null,
         short_description: short_description || null,
         website_url,
-        status: "approved",
         is_active: "false",
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
